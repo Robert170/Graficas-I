@@ -180,14 +180,14 @@ int CCamera::Move(WPARAM Traslation)
 {
 	if (Traslation == 'w' || Traslation == 'W')
 	{
-		if (GodC == true)
-		{
+		//if (GodC == true)
+		//{
 			Data.Posicion += Data.Front;
-		}
-		else
-		{
-			Data.Posicion += Front;
-		}
+		//}
+		//else
+		//{
+		//	Data.Posicion += Front;
+		//}
 	}
 	else if (Traslation == 'a' || Traslation == 'A')
 	{
@@ -195,14 +195,14 @@ int CCamera::Move(WPARAM Traslation)
 	}
 	else if (Traslation == 's' || Traslation == 'S')
 	{
-		if (GodC == true)
-		{
+		//if (GodC == true)
+		//{
 			Data.Posicion -= Data.Front;
-		}
-		else
-		{
-			Data.Posicion -= Front;
-		}
+		//}
+		//else
+		//{
+		//	Data.Posicion -= Front;
+		//}
 	}
 	else if (Traslation == 'd' || Traslation == 'D')
 	{
