@@ -202,7 +202,7 @@ int CCamera::Move(WPARAM Traslation)
 		//else
 		//{
 		//	Data.Posicion -= Front;
-		//}
+		//z}
 	}
 	else if (Traslation == 'd' || Traslation == 'D')
 	{
