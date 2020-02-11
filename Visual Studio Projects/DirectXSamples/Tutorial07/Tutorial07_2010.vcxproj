@@ -374,16 +374,31 @@
   </ItemDefinitionGroup>
   <ItemGroup />
   <ItemGroup>
+    <ClCompile Include="CBuffer.cpp" />
     <ClCompile Include="CCamera.cpp" />
     <ClCompile Include="CCamFirst.cpp" />
+    <ClCompile Include="CDevice.cpp" />
+    <ClCompile Include="CDeviceContext.cpp" />
+    <ClCompile Include="CRenderTarget.cpp" />
+    <ClCompile Include="CSwapChain.cpp" />
+    <ClCompile Include="CTargetView.cpp" />
+    <ClCompile Include="CVertexBuffer.cpp" />
     <ClCompile Include="Tutorial07.cpp" />
   </ItemGroup>
   <ItemGroup>
     <None Include="Tutorial07.fx" />
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="CBuffer.h" />
     <ClInclude Include="CCamera.h" />
     <ClInclude Include="CCamFirst.h" />
+    <ClInclude Include="CDevice.h" />
+    <ClInclude Include="CDeviceContext.h" />
+    <ClInclude Include="CRenderTarget.h" />
+    <ClInclude Include="CSwapChain.h" />
+    <ClInclude Include="CTargetView.h" />
+    <ClInclude Include="CVertexBuffer.h" />
+    <ClInclude Include="Define.h" />
     <CLInclude Include="resource.h" />
     <ResourceCompile Include="Tutorial07.rc" />
   </ItemGroup>

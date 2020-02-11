@@ -1,0 +1,10 @@
+#pragma once
+
+#define D3D11
+
+typedef enum C_USAGE {
+	C_USAGE_DEFAULT,
+	C_USAGE_IMMUTABLE,
+	C_USAGE_DYNAMIC,
+	C_USAGE_STAGING
+};	

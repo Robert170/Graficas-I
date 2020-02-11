@@ -16,6 +16,13 @@
   <ItemGroup>
     <ClCompile Include="CCamera.cpp" />
     <ClCompile Include="CCamFirst.cpp" />
+    <ClCompile Include="CDevice.cpp" />
+    <ClCompile Include="CDeviceContext.cpp" />
+    <ClCompile Include="CSwapChain.cpp" />
+    <ClCompile Include="CBuffer.cpp" />
+    <ClCompile Include="CVertexBuffer.cpp" />
+    <ClCompile Include="CTargetView.cpp" />
+    <ClCompile Include="CRenderTarget.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Tutorial07.cpp" />
@@ -34,6 +41,14 @@
     </ResourceCompile>
     <ClInclude Include="CCamera.h" />
     <ClInclude Include="CCamFirst.h" />
+    <ClInclude Include="CDevice.h" />
+    <ClInclude Include="CDeviceContext.h" />
+    <ClInclude Include="CSwapChain.h" />
+    <ClInclude Include="Define.h" />
+    <ClInclude Include="CBuffer.h" />
+    <ClInclude Include="CVertexBuffer.h" />
+    <ClInclude Include="CTargetView.h" />
+    <ClInclude Include="CRenderTarget.h" />
   </ItemGroup>
   <ItemGroup>
   </ItemGroup>
