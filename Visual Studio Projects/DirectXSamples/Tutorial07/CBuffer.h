@@ -31,6 +31,7 @@ struct C_Buffer_DESC
 	unsigned int  MiscFlags;
 	unsigned int  StructureByteStride;
 };
+
 class CBuffer
 {
 public:

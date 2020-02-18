@@ -23,6 +23,14 @@
     <ClCompile Include="CVertexBuffer.cpp" />
     <ClCompile Include="CTargetView.cpp" />
     <ClCompile Include="CRenderTarget.cpp" />
+    <ClCompile Include="CDepthStencil.cpp" />
+    <ClCompile Include="CDepthStencilVoew.cpp" />
+    <ClCompile Include="CSampleState.cpp" />
+    <ClCompile Include="CTexture2D.cpp" />
+    <ClCompile Include="CViewport.cpp" />
+    <ClCompile Include="CVertexShader.cpp" />
+    <ClCompile Include="CInputLayer.cpp" />
+    <ClCompile Include="CPixelShader.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Tutorial07.cpp" />
@@ -49,6 +57,14 @@
     <ClInclude Include="CVertexBuffer.h" />
     <ClInclude Include="CTargetView.h" />
     <ClInclude Include="CRenderTarget.h" />
+    <ClInclude Include="CDepthStencil.h" />
+    <ClInclude Include="CDepthStencilVoew.h" />
+    <ClInclude Include="CSampleState.h" />
+    <ClInclude Include="CTexture2D.h" />
+    <ClInclude Include="CViewport.h" />
+    <ClInclude Include="CVertexShader.h" />
+    <ClInclude Include="CInputLayer.h" />
+    <ClInclude Include="CPixelShader.h" />
   </ItemGroup>
   <ItemGroup>
   </ItemGroup>

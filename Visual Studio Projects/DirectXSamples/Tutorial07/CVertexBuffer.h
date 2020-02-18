@@ -24,11 +24,11 @@
 struct C_Vertex_Buffer_DESC
 {
 	const void* pSystem;
-	UINT SystemMemoryPitch;
-	UINT SysMemSlicePitch;
+	unsigned int  SystemMemoryPitch;
+	unsigned int SysMemSlicePitch;
 
 #if defined(D3D11)
-	ID3D11Buffer*    g_pVertexBuffer = NULL;
+	
 	
 #endif
 };
@@ -41,7 +41,11 @@ public:
 	void detroy();
 	void render();
 	C_Vertex_Buffer_DESC  m_VertexBuffer;
-	D3D11_SUBRESOURCE_DATA InitData;
+	
 	CBuffer BVertex;
+#if defined(D3D11)
+	ID3D11Buffer*    g_pVertexBuffer = NULL;
+	D3D11_SUBRESOURCE_DATA InitData;
+#endif
 };
 

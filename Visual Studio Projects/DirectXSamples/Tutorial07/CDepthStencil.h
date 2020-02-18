@@ -1,13 +1,12 @@
-//*****************************************************************************/
+/*****************************************************************************/
 /**
 * @File CDevice.h
 * @Author Roberto Ramírez Ontiveros (xc1700@hotmail.com)
-* @date  10/02/2020
-* @brief abstraccion de render target
+* @date  05/02/2020
+* @brief recrear el device context en singelton
 * @Bug No kown bug
 **/
-//****************************************************************************/
-
+/****************************************************************************/
 #include "Define.h"
 
 #ifdef D3D11
@@ -20,8 +19,10 @@
 #include <windows.h>
 #pragma once
 
-struct MyStruC_Render_Target_DESCct
+
+struct C_DepthStencil_DESC
 {
+	
 	UINT Width;
 	UINT Height;
 	UINT MipLevels;
@@ -33,18 +34,19 @@ struct MyStruC_Render_Target_DESCct
 	DXGI_FORMAT Format;
 	DXGI_SAMPLE_DESC SampleDesc;
 	D3D11_USAGE Usage;
-	ID3D11Texture2D* pBackBuffer = NULL;
+	D3D11_TEXTURE2D_DESC descDepth;
+	ID3D11Texture2D* g_pDepthStencil = NULL;
 #endif
-
 };
 
-class CRenderTarget
+class CDepthStencil
 {
 public:
-	int init(MyStruC_Render_Target_DESCct& _C_DEVICE_DESC);
+	// abstraer
+	int init(C_DepthStencil_DESC& _C_DEVICE_DESC);
 	void update();
 	void detroy();
 	void render();
-	MyStruC_Render_Target_DESCct  m_RenderTarget;
+	C_DepthStencil_DESC  m_DepthStencil;
 };
 
