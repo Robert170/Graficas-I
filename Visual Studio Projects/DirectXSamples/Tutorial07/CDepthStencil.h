@@ -23,19 +23,18 @@
 struct C_DepthStencil_DESC
 {
 	
-	UINT Width;
-	UINT Height;
-	UINT MipLevels;
-	UINT ArraySize;
-	UINT BindFlags;
-	UINT CPUAccessFlags;
-	UINT MiscFlags;
+	unsigned int Width;
+	unsigned int Height;
+	unsigned int MipLevels;
+	unsigned int ArraySize;
+	unsigned int BindFlags;
+	unsigned int CPUAccessFlags;
+	unsigned int MiscFlags;
 #if defined(D3D11)
-	DXGI_FORMAT Format;
-	DXGI_SAMPLE_DESC SampleDesc;
-	D3D11_USAGE Usage;
-	D3D11_TEXTURE2D_DESC descDepth;
-	ID3D11Texture2D* g_pDepthStencil = NULL;
+	FORMAT Format;
+	C_USAGE Usage;
+	SAMPLE_DESC SampleDesc;
+	
 #endif
 };
 
@@ -48,5 +47,10 @@ public:
 	void detroy();
 	void render();
 	C_DepthStencil_DESC  m_DepthStencil;
+#if defined(D3D11)
+
+	D3D11_TEXTURE2D_DESC descDepth;
+	ID3D11Texture2D* g_pDepthStencil = NULL;
+#endif
 };
 

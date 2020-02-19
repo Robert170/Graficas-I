@@ -5,17 +5,18 @@ int CDepthStencil::init(C_DepthStencil_DESC & _C_DEVICE_DESC)
 #if defined(D3D11)
 
 	m_DepthStencil = _C_DEVICE_DESC;
-	ZeroMemory(&m_DepthStencil.descDepth, sizeof(m_DepthStencil.descDepth));
-	m_DepthStencil.descDepth.Width = m_DepthStencil.Width;
-	m_DepthStencil.descDepth.Height = m_DepthStencil.Height;
-	m_DepthStencil.descDepth.MipLevels = m_DepthStencil.MipLevels;
-	m_DepthStencil.descDepth.ArraySize = m_DepthStencil.ArraySize;
-	m_DepthStencil.descDepth.BindFlags = m_DepthStencil.BindFlags;
-	m_DepthStencil.descDepth.CPUAccessFlags = m_DepthStencil.CPUAccessFlags;
-	m_DepthStencil.descDepth.MiscFlags = m_DepthStencil.MiscFlags;
-	m_DepthStencil.descDepth.Format = m_DepthStencil.Format;
-	m_DepthStencil.descDepth.SampleDesc = m_DepthStencil.SampleDesc;
-	m_DepthStencil.descDepth.Usage = m_DepthStencil.Usage;
+	ZeroMemory(&descDepth, sizeof(descDepth));
+	descDepth.Width = m_DepthStencil.Width;
+	descDepth.Height = m_DepthStencil.Height;
+	descDepth.MipLevels = m_DepthStencil.MipLevels;
+	descDepth.ArraySize = m_DepthStencil.ArraySize;
+	descDepth.BindFlags = m_DepthStencil.BindFlags;
+	descDepth.CPUAccessFlags = m_DepthStencil.CPUAccessFlags;
+	descDepth.MiscFlags = m_DepthStencil.MiscFlags;
+	descDepth.Format =(DXGI_FORMAT) m_DepthStencil.Format;
+	descDepth.SampleDesc.Count = m_DepthStencil.SampleDesc.Count;
+	descDepth.SampleDesc.Quality = m_DepthStencil.SampleDesc.Quality;
+	descDepth.Usage =(D3D11_USAGE) m_DepthStencil.Usage;
 #else 
 
 #endif

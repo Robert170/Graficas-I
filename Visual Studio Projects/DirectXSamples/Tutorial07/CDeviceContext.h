@@ -23,7 +23,7 @@ struct C_DEVICE_CONTEXT_DESC
 {
 	
 #if defined(D3D11)
-	ID3D11DeviceContext*   g_pImmediateContext = NULL;
+	
 
 #endif
 };
@@ -41,6 +41,10 @@ public:
 	void detroy();
 	void render();
 	C_DEVICE_CONTEXT_DESC  m_DeviceContDesc;
+#if defined(D3D11)
+	ID3D11DeviceContext*   g_pImmediateContext = NULL;
+
+#endif
 
 private:
 	static CDeviceContext *DeviceInstanceCo;

@@ -28,6 +28,7 @@
 #include "CViewport.h"
 #include "CVertexShader.h"
 #include "CInputLayer.h"
+#include "CPixelShader.h"
 CDevice *CDevice::DeviceInstance = NULL;
 CDeviceContext* CDeviceContext::DeviceInstanceCo = NULL;
 CSwapChain* CSwapChain::SwapChainInstance = NULL;
@@ -81,7 +82,8 @@ CDepthStencilView					G_PDepthStencilView;
 //ID3D11DepthStencilView*             g_pDepthStencilView = NULL;
 CVertexShader						G_PVertexShader;
 //ID3D11VertexShader*                 g_pVertexShader = NULL;
-ID3D11PixelShader*                  g_pPixelShader = NULL;
+CPixelShader						G_PPixelShader;
+//ID3D11PixelShader*                  g_pPixelShader = NULL;
 CInputLayer*						G_PInputLayer = new CInputLayer();
 //ID3D11InputLayout*                  g_pVertexLayout = NULL;
 CVertexBuffer*						g_VertexBuffer = new CVertexBuffer();
@@ -303,7 +305,7 @@ HRESULT InitDevice()
 
 	C_DEVICE_DESC DC;
 	DC.createDeviceFlags = 2;
-	DC.DriverTypeDe = D3D_DRIVER_TYPE_NULL;
+	DC.DriverTypeDe =(DRIVER_TYPE) D3D_DRIVER_TYPE_NULL;
 	DC.numFeatureLevels = 3;
 	DeviceChido->init(DC);
 	
@@ -336,9 +338,9 @@ HRESULT InitDevice()
 
     for( UINT driverTypeIndex = 0; driverTypeIndex < numDriverTypes; driverTypeIndex++ )
     {
-        DeviceChido->m_DeviceDesc.DriverTypeDe = driverTypes[driverTypeIndex];
-		hr = D3D11CreateDeviceAndSwapChain(NULL, DeviceChido->m_DeviceDesc.DriverTypeDe, NULL, DeviceChido->m_DeviceDesc.createDeviceFlags, featureLevels, DeviceChido->m_DeviceDesc.numFeatureLevels,
-			D3D11_SDK_VERSION, &SwapChainChido->GetSD(), &SwapChainChido->g_pSwapChain, &DeviceChido->m_DeviceDesc.g_pd3dDevice, &g_featureLevel, &DeviceContextChido->m_DeviceContDesc.g_pImmediateContext);
+        DeviceChido->m_DeviceDesc.DriverTypeDe = (DRIVER_TYPE)driverTypes[driverTypeIndex];
+		hr = D3D11CreateDeviceAndSwapChain(NULL, (D3D_DRIVER_TYPE) DeviceChido->m_DeviceDesc.DriverTypeDe, NULL, DeviceChido->m_DeviceDesc.createDeviceFlags, featureLevels, DeviceChido->m_DeviceDesc.numFeatureLevels,
+			D3D11_SDK_VERSION, &SwapChainChido->GetSD(), &SwapChainChido->g_pSwapChain, &DeviceChido->g_pd3dDevice, &g_featureLevel, &DeviceContextChido->g_pImmediateContext);
         /*hr = D3D11CreateDeviceAndSwapChain( NULL, g_driverType, NULL, createDeviceFlags, featureLevels, numFeatureLevels,
                                             D3D11_SDK_VERSION, &sd, &g_pSwapChain, &g_pd3dDevice, &g_featureLevel, &g_pImmediateContext );*/
         if( SUCCEEDED( hr ) )
@@ -350,15 +352,15 @@ HRESULT InitDevice()
     // Create a render target view
 	
     //ID3D11Texture2D* pBackBuffer = NULL;
-	hr = SwapChainChido->g_pSwapChain->GetBuffer(0, __uuidof(ID3D11Texture2D), (LPVOID*)&BackBuffer.m_RenderTarget.pBackBuffer);
+	hr = SwapChainChido->g_pSwapChain->GetBuffer(0, __uuidof(ID3D11Texture2D), (LPVOID*)&BackBuffer.pBackBuffer);
    /* hr = g_pSwapChain->GetBuffer( 0, __uuidof( ID3D11Texture2D ), ( LPVOID* )&pBackBuffer );*/
     if( FAILED( hr ) )
         return hr;
 
-	hr = DeviceChido->m_DeviceDesc.g_pd3dDevice->CreateRenderTargetView(BackBuffer.m_RenderTarget.pBackBuffer, NULL, &G_PRenderTargetView.g_pRenderTargetView);
+	hr = DeviceChido->g_pd3dDevice->CreateRenderTargetView(BackBuffer.pBackBuffer, NULL, &G_PRenderTargetView.g_pRenderTargetView);
 	
     /*hr = g_pd3dDevice->CreateRenderTargetView( pBackBuffer, NULL, &g_pRenderTargetView );*/
-	BackBuffer.m_RenderTarget.pBackBuffer->Release();
+	BackBuffer.pBackBuffer->Release();
    /* pBackBuffer->Release();*/
     if( FAILED( hr ) )
         return hr;
@@ -369,10 +371,10 @@ HRESULT InitDevice()
 	DSD.Height = height;
 	DSD.MipLevels = 1;
 	DSD.ArraySize = 1;
-	DSD.Format = DXGI_FORMAT_D24_UNORM_S8_UINT;
+	DSD.Format =(FORMAT) DXGI_FORMAT_D24_UNORM_S8_UINT;
 	DSD.SampleDesc.Count = 1;
 	DSD.SampleDesc.Quality = 0;
-	DSD.Usage = D3D11_USAGE_DEFAULT;
+	DSD.Usage =(C_USAGE) D3D11_USAGE_DEFAULT;
 	DSD.BindFlags = D3D11_BIND_DEPTH_STENCIL;
 	DSD.CPUAccessFlags = 0;
 	DSD.MiscFlags = 0;
@@ -391,15 +393,15 @@ HRESULT InitDevice()
     descDepth.BindFlags = D3D11_BIND_DEPTH_STENCIL;
     descDepth.CPUAccessFlags = 0;
     descDepth.MiscFlags = 0;*/
-	hr = DeviceChido->m_DeviceDesc.g_pd3dDevice->CreateTexture2D(&G_PDepthStencil.m_DepthStencil.descDepth, NULL, &G_PDepthStencil.m_DepthStencil.g_pDepthStencil);
+	hr = DeviceChido->g_pd3dDevice->CreateTexture2D(&G_PDepthStencil.descDepth, NULL, &G_PDepthStencil.g_pDepthStencil);
     /*hr = g_pd3dDevice->CreateTexture2D( &descDepth, NULL, &g_pDepthStencil );*/
     if( FAILED( hr ) )
         return hr;
 
     // Create the depth stencil view
 	C_DepthStencilView_DESC DSVD;
-	DSVD.Format = G_PDepthStencil.m_DepthStencil.descDepth.Format;
-	DSVD.ViewDimension = D3D11_DSV_DIMENSION_TEXTURE2D;
+	DSVD.Format = (FORMAT)G_PDepthStencil.descDepth.Format;
+	DSVD.ViewDimension =(DSV_DIMENSION) D3D11_DSV_DIMENSION_TEXTURE2D;
 	DSVD.MipSlice = 0;
 
 	G_PDepthStencilView.init(DSVD);
@@ -410,11 +412,11 @@ HRESULT InitDevice()
     descDSV.ViewDimension = D3D11_DSV_DIMENSION_TEXTURE2D;
     descDSV.Texture2D.MipSlice = 0;*/
 
-	hr = DeviceChido->m_DeviceDesc.g_pd3dDevice->CreateDepthStencilView(G_PDepthStencil.m_DepthStencil.g_pDepthStencil, &G_PDepthStencilView.m_DepthStencilView.descDSV, &G_PDepthStencilView.m_DepthStencilView.g_pDepthStencilView);
+	hr = DeviceChido->g_pd3dDevice->CreateDepthStencilView(G_PDepthStencil.g_pDepthStencil, &G_PDepthStencilView.descDSV, &G_PDepthStencilView.g_pDepthStencilView);
    /* hr = g_pd3dDevice->CreateDepthStencilView( g_pDepthStencil, &descDSV, &g_pDepthStencilView );*/
     if( FAILED( hr ) )
         return hr;
-	DeviceContextChido->m_DeviceContDesc.g_pImmediateContext->OMSetRenderTargets(1, &G_PRenderTargetView.g_pRenderTargetView, G_PDepthStencilView.m_DepthStencilView.g_pDepthStencilView);
+	DeviceContextChido->g_pImmediateContext->OMSetRenderTargets(1, &G_PRenderTargetView.g_pRenderTargetView, G_PDepthStencilView.g_pDepthStencilView);
 	
    /* g_pImmediateContext->OMSetRenderTargets( 1, &g_pRenderTargetView, g_pDepthStencilView );*/
 
@@ -436,7 +438,7 @@ HRESULT InitDevice()
     vp.MaxDepth = 1.0f;
     vp.TopLeftX = 0;
     vp.TopLeftY = 0;*/
-	DeviceContextChido->m_DeviceContDesc.g_pImmediateContext->RSSetViewports(1, &ViewPort.data);
+	DeviceContextChido->g_pImmediateContext->RSSetViewports(1, &ViewPort.data);
     /*g_pImmediateContext->RSSetViewports( 1, &vp );*/
 
     // Compile the vertex shader
@@ -451,7 +453,7 @@ HRESULT InitDevice()
     }
 
     // Create the vertex shader
-	hr = DeviceChido->m_DeviceDesc.g_pd3dDevice->CreateVertexShader(G_PVertexShader.pVSBlob->GetBufferPointer(), G_PVertexShader.pVSBlob->GetBufferSize(), NULL, &G_PVertexShader.g_pVertexShader);
+	hr = DeviceChido->g_pd3dDevice->CreateVertexShader(G_PVertexShader.pVSBlob->GetBufferPointer(), G_PVertexShader.pVSBlob->GetBufferSize(), NULL, &G_PVertexShader.g_pVertexShader);
     /*hr = g_pd3dDevice->CreateVertexShader( pVSBlob->GetBufferPointer(), pVSBlob->GetBufferSize(), NULL, &g_pVertexShader );*/
     if( FAILED( hr ) )
     {    
@@ -471,8 +473,8 @@ HRESULT InitDevice()
 	
 
     // Create the input layout
-	hr = DeviceChido->m_DeviceDesc.g_pd3dDevice->CreateInputLayout(layout, numElements, G_PVertexShader.pVSBlob->GetBufferPointer(),
-		G_PVertexShader.pVSBlob->GetBufferSize(), &G_PInputLayer->m_InputLayer.g_pVertexLayout);
+	hr = DeviceChido->g_pd3dDevice->CreateInputLayout(layout, numElements, G_PVertexShader.pVSBlob->GetBufferPointer(),
+		G_PVertexShader.pVSBlob->GetBufferSize(), &G_PInputLayer->g_pVertexLayout);
   /*  hr = g_pd3dDevice->CreateInputLayout( layout, numElements, pVSBlob->GetBufferPointer(),
                                           pVSBlob->GetBufferSize(), &g_pVertexLayout );*/
 	G_PVertexShader.pVSBlob->Release();
@@ -480,12 +482,12 @@ HRESULT InitDevice()
         return hr;
 
     // Set the input layout
-	DeviceContextChido->m_DeviceContDesc.g_pImmediateContext->IASetInputLayout(G_PInputLayer->m_InputLayer.g_pVertexLayout);
+	DeviceContextChido->g_pImmediateContext->IASetInputLayout(G_PInputLayer->g_pVertexLayout);
    /* g_pImmediateContext->IASetInputLayout( g_pVertexLayout );*/
 
     // Compile the pixel shader
-    ID3DBlob* pPSBlob = NULL;
-    hr = CompileShaderFromFile( L"Tutorial07.fx", "PS", "ps_4_0", &pPSBlob );
+    //ID3DBlob* pPSBlob = NULL;
+    hr = CompileShaderFromFile( L"Tutorial07.fx", "PS", "ps_4_0", &G_PPixelShader.pPSBlob );
     if( FAILED( hr ) )
     {
         MessageBox( NULL,
@@ -494,9 +496,9 @@ HRESULT InitDevice()
     }
 
     // Create the pixel shader
-	hr = DeviceChido->m_DeviceDesc.g_pd3dDevice->CreatePixelShader(pPSBlob->GetBufferPointer(), pPSBlob->GetBufferSize(), NULL, &g_pPixelShader);
+	hr = DeviceChido->g_pd3dDevice->CreatePixelShader(G_PPixelShader.pPSBlob->GetBufferPointer(), G_PPixelShader.pPSBlob->GetBufferSize(), NULL, &G_PPixelShader.g_pPixelShader);
     /*hr = g_pd3dDevice->CreatePixelShader( pPSBlob->GetBufferPointer(), pPSBlob->GetBufferSize(), NULL, &g_pPixelShader );*/
-    pPSBlob->Release();
+	G_PPixelShader.pPSBlob->Release();
     if( FAILED( hr ) )
         return hr;
 
@@ -557,7 +559,7 @@ HRESULT InitDevice()
     ZeroMemory( &InitData, sizeof(InitData) );
     InitData.pSysMem = vertices;*/
 
-	hr = DeviceChido->m_DeviceDesc.g_pd3dDevice->CreateBuffer(&Buf.bd, &g_VertexBuffer->InitData, &g_VertexBuffer->g_pVertexBuffer);
+	hr = DeviceChido->g_pd3dDevice->CreateBuffer(&Buf.bd, &g_VertexBuffer->InitData, &g_VertexBuffer->g_pVertexBuffer);
    /* hr = g_pd3dDevice->CreateBuffer( &bd, &InitData, &g_pVertexBuffer );*/
     if( FAILED( hr ) )
         return hr;
@@ -565,7 +567,7 @@ HRESULT InitDevice()
     // Set vertex buffer
     UINT stride = sizeof( SimpleVertex );
     UINT offset = 0;
-	DeviceContextChido->m_DeviceContDesc.g_pImmediateContext->IASetVertexBuffers(0, 1, &g_VertexBuffer->g_pVertexBuffer, &stride, &offset);
+	DeviceContextChido->g_pImmediateContext->IASetVertexBuffers(0, 1, &g_VertexBuffer->g_pVertexBuffer, &stride, &offset);
    /* g_pImmediateContext->IASetVertexBuffers( 0, 1, &g_pVertexBuffer, &stride, &offset );*/
 
     // Create index buffer
@@ -604,17 +606,17 @@ HRESULT InitDevice()
 	INITDATA.pSystem = indices;
 	g_VertexBuffer->init(INITDATA);
     //InitData.pSysMem = indices;
-	hr = DeviceChido->m_DeviceDesc.g_pd3dDevice->CreateBuffer(&Buf.bd, &g_VertexBuffer->InitData, &g_pIndexBuffer);
+	hr = DeviceChido->g_pd3dDevice->CreateBuffer(&Buf.bd, &g_VertexBuffer->InitData, &g_pIndexBuffer);
   /*  hr = g_pd3dDevice->CreateBuffer( &bd, &InitData, &g_pIndexBuffer );*/
     if( FAILED( hr ) )
         return hr;
 
     // Set index buffer
-	DeviceContextChido->m_DeviceContDesc.g_pImmediateContext->IASetIndexBuffer(g_pIndexBuffer, DXGI_FORMAT_R16_UINT, 0);
+	DeviceContextChido->g_pImmediateContext->IASetIndexBuffer(g_pIndexBuffer, DXGI_FORMAT_R16_UINT, 0);
    /* g_pImmediateContext->IASetIndexBuffer( g_pIndexBuffer, DXGI_FORMAT_R16_UINT, 0 );*/
 
     // Set primitive topology
-	DeviceContextChido->m_DeviceContDesc.g_pImmediateContext->IASetPrimitiveTopology(D3D11_PRIMITIVE_TOPOLOGY_TRIANGLELIST);
+	DeviceContextChido->g_pImmediateContext->IASetPrimitiveTopology(D3D11_PRIMITIVE_TOPOLOGY_TRIANGLELIST);
     /*g_pImmediateContext->IASetPrimitiveTopology( D3D11_PRIMITIVE_TOPOLOGY_TRIANGLELIST );*/
 
     // Create the constant buffers
@@ -628,11 +630,11 @@ HRESULT InitDevice()
     bd.ByteWidth = sizeof(CBNeverChanges);
     bd.BindFlags = D3D11_BIND_CONSTANT_BUFFER;
     bd.CPUAccessFlags = 0;*/
-	hr = DeviceChido->m_DeviceDesc.g_pd3dDevice->CreateBuffer(&Buf.bd, NULL, &g_pCBNeverChanges);
+	hr = DeviceChido->g_pd3dDevice->CreateBuffer(&Buf.bd, NULL, &g_pCBNeverChanges);
    /* hr = g_pd3dDevice->CreateBuffer( &bd, NULL, &g_pCBNeverChanges );*/
     if( FAILED( hr ) )
         return hr;
-	hr = DeviceChido->m_DeviceDesc.g_pd3dDevice->CreateBuffer(&Buf.bd, NULL, &g_pCBNeverChangesGOD);
+	hr = DeviceChido->g_pd3dDevice->CreateBuffer(&Buf.bd, NULL, &g_pCBNeverChangesGOD);
     /*hr = g_pd3dDevice->CreateBuffer( &bd, NULL, &g_pCBNeverChangesGOD );*/
     if( FAILED( hr ) )
         return hr;
@@ -643,11 +645,11 @@ HRESULT InitDevice()
 
 	Buf.init(BD);
     //bd.ByteWidth = sizeof(CBChangeOnResize);
-	hr = DeviceChido->m_DeviceDesc.g_pd3dDevice->CreateBuffer(&Buf.bd, NULL, &g_pCBChangeOnResize);
+	hr = DeviceChido->g_pd3dDevice->CreateBuffer(&Buf.bd, NULL, &g_pCBChangeOnResize);
    /* hr = g_pd3dDevice->CreateBuffer( &bd, NULL, &g_pCBChangeOnResize );*/
     if( FAILED( hr ) )
         return hr;
-	hr = DeviceChido->m_DeviceDesc.g_pd3dDevice->CreateBuffer(&Buf.bd, NULL, &g_pCBChangeOnResizeGOD);
+	hr = DeviceChido->g_pd3dDevice->CreateBuffer(&Buf.bd, NULL, &g_pCBChangeOnResizeGOD);
    /* hr = g_pd3dDevice->CreateBuffer( &bd, NULL, &g_pCBChangeOnResizeGOD );*/
     if( FAILED( hr ) )
         return hr;
@@ -658,13 +660,13 @@ HRESULT InitDevice()
 
 	Buf.init(BD);
     //bd.ByteWidth = sizeof(CBChangesEveryFrame);
-	hr = DeviceChido->m_DeviceDesc.g_pd3dDevice->CreateBuffer(&Buf.bd, NULL, &g_pCBChangesEveryFrame);
+	hr = DeviceChido->g_pd3dDevice->CreateBuffer(&Buf.bd, NULL, &g_pCBChangesEveryFrame);
    /* hr = g_pd3dDevice->CreateBuffer( &bd, NULL, &g_pCBChangesEveryFrame );*/
     if( FAILED( hr ) )
         return hr;
 
     // Load the Texture
-	hr = D3DX11CreateShaderResourceViewFromFile(DeviceChido->m_DeviceDesc.g_pd3dDevice, L"seafloor.dds", NULL, NULL, &g_pTextureRV, NULL);
+	hr = D3DX11CreateShaderResourceViewFromFile(DeviceChido->g_pd3dDevice, L"seafloor.dds", NULL, NULL, &g_pTextureRV, NULL);
     /*hr = D3DX11CreateShaderResourceViewFromFile( g_pd3dDevice, L"seafloor.dds", NULL, NULL, &g_pTextureRV, NULL );*/
     if( FAILED( hr ) )
         return hr;
@@ -690,7 +692,7 @@ HRESULT InitDevice()
     sampDesc.MinLOD = 0;
     sampDesc.MaxLOD = D3D11_FLOAT32_MAX;*/
 
-	hr = DeviceChido->m_DeviceDesc.g_pd3dDevice->CreateSamplerState(&SampleState.sampDesc, &SampleState.g_pSamplerLinear);
+	hr = DeviceChido->g_pd3dDevice->CreateSamplerState(&SampleState.sampDesc, &SampleState.g_pSamplerLinear);
     /*hr = g_pd3dDevice->CreateSamplerState( &sampDesc, &g_pSamplerLinear );*/
     if( FAILED( hr ) )
         return hr;
@@ -733,7 +735,7 @@ HRESULT InitDevice()
 
     CBNeverChanges cbNeverChanges;
 	cbNeverChanges.mView = CAM.GetView();//XMMatrixTranspose( g_View );
-	DeviceContextChido->m_DeviceContDesc.g_pImmediateContext->UpdateSubresource(g_pCBNeverChanges, 0, NULL, &cbNeverChanges, 0, 0);
+	DeviceContextChido->g_pImmediateContext->UpdateSubresource(g_pCBNeverChanges, 0, NULL, &cbNeverChanges, 0, 0);
     /*g_pImmediateContext->UpdateSubresource( g_pCBNeverChanges, 0, NULL, &cbNeverChanges, 0, 0 );*/
 	CURRENTNEVERCHANGE = g_pCBNeverChanges;
     // Initialize the projection matrix
@@ -741,7 +743,7 @@ HRESULT InitDevice()
     
     CBChangeOnResize cbChangesOnResize;
 	cbChangesOnResize.mProjection = CAM.GetProyeccion();//XMMatrixTranspose( g_Projection );
-	DeviceContextChido->m_DeviceContDesc.g_pImmediateContext->UpdateSubresource(g_pCBChangeOnResize, 0, NULL, &cbChangesOnResize, 0, 0);
+	DeviceContextChido->g_pImmediateContext->UpdateSubresource(g_pCBChangeOnResize, 0, NULL, &cbChangesOnResize, 0, 0);
     /*g_pImmediateContext->UpdateSubresource( g_pCBChangeOnResize, 0, NULL, &cbChangesOnResize, 0, 0 );*/
 
 	CURRENTCHANGEONRESIZE = g_pCBChangeOnResize;
@@ -754,7 +756,7 @@ HRESULT InitDevice()
 //--------------------------------------------------------------------------------------
 void CleanupDevice()
 {
-	if (DeviceContextChido->m_DeviceContDesc.g_pImmediateContext) DeviceContextChido->m_DeviceContDesc.g_pImmediateContext->ClearState();
+	if (DeviceContextChido->g_pImmediateContext) DeviceContextChido->g_pImmediateContext->ClearState();
    /* if( g_pImmediateContext ) g_pImmediateContext->ClearState();*/
 
 	if (SampleState.g_pSamplerLinear) SampleState.g_pSamplerLinear->Release();
@@ -768,16 +770,17 @@ void CleanupDevice()
    /* if( g_pVertexBuffer ) g_pVertexBuffer->Release();*/
     if( g_pIndexBuffer ) g_pIndexBuffer->Release();
 	
-		if (G_PInputLayer->m_InputLayer.g_pVertexLayout) G_PInputLayer->m_InputLayer.g_pVertexLayout->Release();
+		if (G_PInputLayer->g_pVertexLayout) G_PInputLayer->g_pVertexLayout->Release();
   /*  if( g_pVertexLayout ) g_pVertexLayout->Release();*/
 	if (G_PVertexShader.g_pVertexShader) G_PVertexShader.g_pVertexShader->Release();
     /*if( g_pVertexShader ) g_pVertexShader->Release();*/
-    if( g_pPixelShader ) g_pPixelShader->Release();
+	if (G_PPixelShader.g_pPixelShader) G_PPixelShader.g_pPixelShader->Release();
+   /* if( g_pPixelShader ) g_pPixelShader->Release();*/
 	
-	if (G_PDepthStencil.m_DepthStencil.g_pDepthStencil) G_PDepthStencil.m_DepthStencil.g_pDepthStencil->Release();
+	if (G_PDepthStencil.g_pDepthStencil) G_PDepthStencil.g_pDepthStencil->Release();
    /* if( g_pDepthStencil ) g_pDepthStencil->Release();*/
 	
-	if (G_PDepthStencilView.m_DepthStencilView.g_pDepthStencilView) G_PDepthStencilView.m_DepthStencilView.g_pDepthStencilView->Release();
+	if (G_PDepthStencilView.g_pDepthStencilView) G_PDepthStencilView.g_pDepthStencilView->Release();
    /* if( g_pDepthStencilView ) g_pDepthStencilView->Release();*/
 	
 	if (G_PRenderTargetView.g_pRenderTargetView) G_PRenderTargetView.g_pRenderTargetView->Release();
@@ -787,9 +790,9 @@ void CleanupDevice()
 	if (SwapChainChido->g_pSwapChain) SwapChainChido->g_pSwapChain->Release();
    /* if( g_pSwapChain ) g_pSwapChain->Release();*/
 	
-	if (DeviceContextChido->m_DeviceContDesc.g_pImmediateContext) DeviceContextChido->m_DeviceContDesc.g_pImmediateContext->Release();
+	if (DeviceContextChido->g_pImmediateContext) DeviceContextChido->g_pImmediateContext->Release();
     /*if( g_pImmediateContext ) g_pImmediateContext->Release();*/
-	if (DeviceChido->m_DeviceDesc.g_pd3dDevice) DeviceChido->m_DeviceDesc.g_pd3dDevice->Release();
+	if (DeviceChido->g_pd3dDevice) DeviceChido->g_pd3dDevice->Release();
     /*if( g_pd3dDevice ) g_pd3dDevice->Release();*/
 }
 
@@ -824,11 +827,11 @@ LRESULT CALLBACK WndProc( HWND hWnd, UINT message, WPARAM wParam, LPARAM lParam 
 			CAM.UpdateProyeccion();
 			CBChangeOnResize cbChangesOnResize;
 			cbChangesOnResize.mProjection = CAM.GetProyeccion();//XMMatrixTranspose( g_Projection );
-			DeviceContextChido->m_DeviceContDesc.g_pImmediateContext->UpdateSubresource(g_pCBChangeOnResize, 0, NULL, &cbChangesOnResize, 0, 0);
+			DeviceContextChido->g_pImmediateContext->UpdateSubresource(g_pCBChangeOnResize, 0, NULL, &cbChangesOnResize, 0, 0);
 			/*g_pImmediateContext->UpdateSubresource(g_pCBChangeOnResize, 0, NULL, &cbChangesOnResize, 0, 0);*/
 			if (SwapChainChido->g_pSwapChain)
 			{
-				DeviceContextChido->m_DeviceContDesc.g_pImmediateContext->OMSetRenderTargets(0, 0, 0);
+				DeviceContextChido->g_pImmediateContext->OMSetRenderTargets(0, 0, 0);
 				//g_pd3dDeviceContext->OMSetRenderTargets(0, 0, 0);
 
 				// Release all outstanding references to the swap chain's buffers.
@@ -850,13 +853,13 @@ LRESULT CALLBACK WndProc( HWND hWnd, UINT message, WPARAM wParam, LPARAM lParam 
 				/*hr = g_pSwapChain->GetBuffer(0, __uuidof(ID3D11Texture2D),
 					(void**)&pBuffer);*/
 				// Perform error handling here!
-				hr= DeviceChido->m_DeviceDesc.g_pd3dDevice->CreateRenderTargetView(pBuffer, NULL,
+				hr= DeviceChido->g_pd3dDevice->CreateRenderTargetView(pBuffer, NULL,
 					&G_PRenderTargetView.g_pRenderTargetView);
 				/*hr = g_pd3dDevice->CreateRenderTargetView(pBuffer, NULL,
 					&g_pRenderTargetView);*/
 				// Perform error handling here!
 				pBuffer->Release();
-				DeviceContextChido->m_DeviceContDesc.g_pImmediateContext->OMSetRenderTargets(1, &G_PRenderTargetView.g_pRenderTargetView, NULL);
+				DeviceContextChido->g_pImmediateContext->OMSetRenderTargets(1, &G_PRenderTargetView.g_pRenderTargetView, NULL);
 				//g_pd3dDeviceContext->OMSetRenderTargets(1, &g_pRenderTargetView, NULL);
 
 				// Set up the viewport.
@@ -876,7 +879,7 @@ LRESULT CALLBACK WndProc( HWND hWnd, UINT message, WPARAM wParam, LPARAM lParam 
 				vp.MaxDepth = 1.0f;
 				vp.TopLeftX = 0;
 				vp.TopLeftY = 0;*/
-				DeviceContextChido->m_DeviceContDesc.g_pImmediateContext->RSSetViewports(1, &ViewPort.data);
+				DeviceContextChido->g_pImmediateContext->RSSetViewports(1, &ViewPort.data);
 				//g_pd3dDeviceContext->RSSetViewports(1, &vp);
 			}
 		}
@@ -891,7 +894,7 @@ LRESULT CALLBACK WndProc( HWND hWnd, UINT message, WPARAM wParam, LPARAM lParam 
 					GODCAM.GodC = true;
 					CBNeverChanges cbNeverChanges;
 					cbNeverChanges.mView = GODCAM.GetView();//XMMatrixTranspose( g_View );
-					DeviceContextChido->m_DeviceContDesc.g_pImmediateContext->UpdateSubresource(g_pCBNeverChangesGOD, 0, NULL, &cbNeverChanges, 0, 0);
+					DeviceContextChido->g_pImmediateContext->UpdateSubresource(g_pCBNeverChangesGOD, 0, NULL, &cbNeverChanges, 0, 0);
 					/*g_pImmediateContext->UpdateSubresource(g_pCBNeverChangesGOD, 0, NULL, &cbNeverChanges, 0, 0);*/
 					CURRENTNEVERCHANGE = g_pCBNeverChangesGOD;
 
@@ -900,7 +903,7 @@ LRESULT CALLBACK WndProc( HWND hWnd, UINT message, WPARAM wParam, LPARAM lParam 
 
 					CBChangeOnResize cbChangesOnResize;
 					cbChangesOnResize.mProjection = GODCAM.GetProyeccion();//XMMatrixTranspose( g_Projection );
-					DeviceContextChido->m_DeviceContDesc.g_pImmediateContext->UpdateSubresource(g_pCBChangeOnResizeGOD, 0, NULL, &cbChangesOnResize, 0, 0);
+					DeviceContextChido->g_pImmediateContext->UpdateSubresource(g_pCBChangeOnResizeGOD, 0, NULL, &cbChangesOnResize, 0, 0);
 					/*g_pImmediateContext->UpdateSubresource(g_pCBChangeOnResizeGOD, 0, NULL, &cbChangesOnResize, 0, 0);*/
 
 					CURRENTCHANGEONRESIZE = g_pCBChangeOnResizeGOD;
@@ -919,7 +922,7 @@ LRESULT CALLBACK WndProc( HWND hWnd, UINT message, WPARAM wParam, LPARAM lParam 
 				CAM.Input(wParam);
 				CBNeverChanges cbNeverChanges;
 				cbNeverChanges.mView = CAM.GetView(); //XMMatrixTranspose( g_View );
-				DeviceContextChido->m_DeviceContDesc.g_pImmediateContext->UpdateSubresource(g_pCBNeverChanges, 0, NULL, &cbNeverChanges, 0, 0);
+				DeviceContextChido->g_pImmediateContext->UpdateSubresource(g_pCBNeverChanges, 0, NULL, &cbNeverChanges, 0, 0);
 				/*g_pImmediateContext->UpdateSubresource(g_pCBNeverChanges, 0, NULL, &cbNeverChanges, 0, 0);*/
 				CURRENTNEVERCHANGE = g_pCBNeverChanges;
 				CURRENTCHANGEONRESIZE = g_pCBChangeOnResize;
@@ -931,7 +934,7 @@ LRESULT CALLBACK WndProc( HWND hWnd, UINT message, WPARAM wParam, LPARAM lParam 
 				GODCAM.Input(wParam);
 				CBNeverChanges cbNeverChanges;
 				cbNeverChanges.mView = GODCAM.GetView();//XMMatrixTranspose( g_View );
-				DeviceContextChido->m_DeviceContDesc.g_pImmediateContext->UpdateSubresource(g_pCBNeverChanges, 0, NULL, &cbNeverChanges, 0, 0);
+				DeviceContextChido->g_pImmediateContext->UpdateSubresource(g_pCBNeverChanges, 0, NULL, &cbNeverChanges, 0, 0);
 				/*g_pImmediateContext->UpdateSubresource(g_pCBNeverChanges, 0, NULL, &cbNeverChanges, 0, 0);*/
 				CURRENTNEVERCHANGE = g_pCBNeverChanges;
 				CURRENTCHANGEONRESIZE = g_pCBChangeOnResize;
@@ -941,7 +944,7 @@ LRESULT CALLBACK WndProc( HWND hWnd, UINT message, WPARAM wParam, LPARAM lParam 
 				CAM.Input(wParam);
 				CBNeverChanges cbNeverChanges;
 				cbNeverChanges.mView = CAM.GetView(); //XMMatrixTranspose( g_View );
-				DeviceContextChido->m_DeviceContDesc.g_pImmediateContext->UpdateSubresource(g_pCBNeverChanges, 0, NULL, &cbNeverChanges, 0, 0);
+				DeviceContextChido->g_pImmediateContext->UpdateSubresource(g_pCBNeverChanges, 0, NULL, &cbNeverChanges, 0, 0);
 				/*g_pImmediateContext->UpdateSubresource(g_pCBNeverChanges, 0, NULL, &cbNeverChanges, 0, 0);*/
 				CURRENTNEVERCHANGE = g_pCBNeverChanges;
 				CURRENTCHANGEONRESIZE = g_pCBChangeOnResize;
@@ -985,7 +988,7 @@ LRESULT CALLBACK WndProc( HWND hWnd, UINT message, WPARAM wParam, LPARAM lParam 
 					CAM.MoveMouse(CAM.Dir);
 					CBNeverChanges cbNeverChanges;
 					cbNeverChanges.mView = CAM.GetView();//XMMatrixTranspose( g_View );
-					DeviceContextChido->m_DeviceContDesc.g_pImmediateContext->UpdateSubresource(g_pCBNeverChanges, 0, NULL, &cbNeverChanges, 0, 0);
+					DeviceContextChido->g_pImmediateContext->UpdateSubresource(g_pCBNeverChanges, 0, NULL, &cbNeverChanges, 0, 0);
 					/*g_pImmediateContext->UpdateSubresource(g_pCBNeverChanges, 0, NULL, &cbNeverChanges, 0, 0);*/
 
 				}
@@ -1005,7 +1008,7 @@ LRESULT CALLBACK WndProc( HWND hWnd, UINT message, WPARAM wParam, LPARAM lParam 
 					GODCAM.MoveMouse(GODCAM.Dir);
 					CBNeverChanges cbNeverChanges;
 					cbNeverChanges.mView = GODCAM.GetView();//XMMatrixTranspose( g_View );
-					DeviceContextChido->m_DeviceContDesc.g_pImmediateContext->UpdateSubresource(g_pCBNeverChanges, 0, NULL, &cbNeverChanges, 0, 0);
+					DeviceContextChido->g_pImmediateContext->UpdateSubresource(g_pCBNeverChanges, 0, NULL, &cbNeverChanges, 0, 0);
 					/*g_pImmediateContext->UpdateSubresource(g_pCBNeverChanges, 0, NULL, &cbNeverChanges, 0, 0);*/
 				}
 			}
@@ -1066,14 +1069,14 @@ void Render()
     // Clear the back buffer
     //
     float ClearColor[4] = { 0.0f, 0.125f, 0.3f, 1.0f }; // red, green, blue, alpha
-	DeviceContextChido->m_DeviceContDesc.g_pImmediateContext->ClearRenderTargetView(G_PRenderTargetView.g_pRenderTargetView, ClearColor);
+	DeviceContextChido->g_pImmediateContext->ClearRenderTargetView(G_PRenderTargetView.g_pRenderTargetView, ClearColor);
 	
    /* g_pImmediateContext->ClearRenderTargetView( g_pRenderTargetView, ClearColor );*/
 
     //
     // Clear the depth buffer to 1.0 (max depth)
     //
-	DeviceContextChido->m_DeviceContDesc.g_pImmediateContext->ClearDepthStencilView(G_PDepthStencilView.m_DepthStencilView.g_pDepthStencilView, D3D11_CLEAR_DEPTH, 1.0f, 0);
+	DeviceContextChido->g_pImmediateContext->ClearDepthStencilView(G_PDepthStencilView.g_pDepthStencilView, D3D11_CLEAR_DEPTH, 1.0f, 0);
     /*g_pImmediateContext->ClearDepthStencilView( g_pDepthStencilView, D3D11_CLEAR_DEPTH, 1.0f, 0 );*/
 
     //
@@ -1082,22 +1085,22 @@ void Render()
     CBChangesEveryFrame cb;
     cb.mWorld = glm::transpose( g_World );
     cb.vMeshColor = g_vMeshColor;
-	DeviceContextChido->m_DeviceContDesc.g_pImmediateContext->UpdateSubresource(g_pCBChangesEveryFrame, 0, NULL, &cb, 0, 0);
+	DeviceContextChido->g_pImmediateContext->UpdateSubresource(g_pCBChangesEveryFrame, 0, NULL, &cb, 0, 0);
     /*g_pImmediateContext->UpdateSubresource( g_pCBChangesEveryFrame, 0, NULL, &cb, 0, 0 );*/
 
 	
     //
     // Render the cube
     //
-	DeviceContextChido->m_DeviceContDesc.g_pImmediateContext->VSSetShader(G_PVertexShader.g_pVertexShader, NULL, 0);
-	DeviceContextChido->m_DeviceContDesc.g_pImmediateContext->VSSetConstantBuffers(0, 1, &CURRENTNEVERCHANGE);
-	DeviceContextChido->m_DeviceContDesc.g_pImmediateContext->VSSetConstantBuffers(1, 1, &CURRENTCHANGEONRESIZE);
-	DeviceContextChido->m_DeviceContDesc.g_pImmediateContext->VSSetConstantBuffers(2, 1, &g_pCBChangesEveryFrame);
-	DeviceContextChido->m_DeviceContDesc.g_pImmediateContext->PSSetShader(g_pPixelShader, NULL, 0);
-	DeviceContextChido->m_DeviceContDesc.g_pImmediateContext->PSSetConstantBuffers(2, 1, &g_pCBChangesEveryFrame);
-	DeviceContextChido->m_DeviceContDesc.g_pImmediateContext->PSSetShaderResources(0, 1, &g_pTextureRV);
-	DeviceContextChido->m_DeviceContDesc.g_pImmediateContext->PSSetSamplers(0, 1, &SampleState.g_pSamplerLinear);
-	DeviceContextChido->m_DeviceContDesc.g_pImmediateContext->DrawIndexed(36, 0, 0);
+	DeviceContextChido->g_pImmediateContext->VSSetShader(G_PVertexShader.g_pVertexShader, NULL, 0);
+	DeviceContextChido->g_pImmediateContext->VSSetConstantBuffers(0, 1, &CURRENTNEVERCHANGE);
+	DeviceContextChido->g_pImmediateContext->VSSetConstantBuffers(1, 1, &CURRENTCHANGEONRESIZE);
+	DeviceContextChido->g_pImmediateContext->VSSetConstantBuffers(2, 1, &g_pCBChangesEveryFrame);
+	DeviceContextChido->g_pImmediateContext->PSSetShader(G_PPixelShader.g_pPixelShader, NULL, 0);
+	DeviceContextChido->g_pImmediateContext->PSSetConstantBuffers(2, 1, &g_pCBChangesEveryFrame);
+	DeviceContextChido->g_pImmediateContext->PSSetShaderResources(0, 1, &g_pTextureRV);
+	DeviceContextChido->g_pImmediateContext->PSSetSamplers(0, 1, &SampleState.g_pSamplerLinear);
+	DeviceContextChido->g_pImmediateContext->DrawIndexed(36, 0, 0);
   /*  g_pImmediateContext->VSSetShader( g_pVertexShader, NULL, 0 );
     g_pImmediateContext->VSSetConstantBuffers( 0, 1, &CURRENTNEVERCHANGE);
     g_pImmediateContext->VSSetConstantBuffers( 1, 1, &CURRENTCHANGEONRESIZE);
@@ -1130,15 +1133,15 @@ void Render()
 			}
 			if (WholeLevel[i][j] != 0)
 			{
-				DeviceContextChido->m_DeviceContDesc.g_pImmediateContext->VSSetShader(G_PVertexShader.g_pVertexShader, NULL, 0);
-				DeviceContextChido->m_DeviceContDesc.g_pImmediateContext->VSSetConstantBuffers(0, 1, &CURRENTNEVERCHANGE);
-				DeviceContextChido->m_DeviceContDesc.g_pImmediateContext->VSSetConstantBuffers(1, 1, &CURRENTCHANGEONRESIZE);
-				DeviceContextChido->m_DeviceContDesc.g_pImmediateContext->VSSetConstantBuffers(2, 1, &g_pCBChangesEveryFrame);
-				DeviceContextChido->m_DeviceContDesc.g_pImmediateContext->PSSetShader(g_pPixelShader, NULL, 0);
-				DeviceContextChido->m_DeviceContDesc.g_pImmediateContext->PSSetConstantBuffers(2, 1, &g_pCBChangesEveryFrame);
-				DeviceContextChido->m_DeviceContDesc.g_pImmediateContext->PSSetShaderResources(0, 1, &g_pTextureRV);
-				DeviceContextChido->m_DeviceContDesc.g_pImmediateContext->PSSetSamplers(0, 1, &SampleState.g_pSamplerLinear);
-				DeviceContextChido->m_DeviceContDesc.g_pImmediateContext->DrawIndexed(36, 0, 0);
+				DeviceContextChido->g_pImmediateContext->VSSetShader(G_PVertexShader.g_pVertexShader, NULL, 0);
+				DeviceContextChido->g_pImmediateContext->VSSetConstantBuffers(0, 1, &CURRENTNEVERCHANGE);
+				DeviceContextChido->g_pImmediateContext->VSSetConstantBuffers(1, 1, &CURRENTCHANGEONRESIZE);
+				DeviceContextChido->g_pImmediateContext->VSSetConstantBuffers(2, 1, &g_pCBChangesEveryFrame);
+				DeviceContextChido->g_pImmediateContext->PSSetShader(G_PPixelShader.g_pPixelShader, NULL, 0);
+				DeviceContextChido->g_pImmediateContext->PSSetConstantBuffers(2, 1, &g_pCBChangesEveryFrame);
+				DeviceContextChido->g_pImmediateContext->PSSetShaderResources(0, 1, &g_pTextureRV);
+				DeviceContextChido->g_pImmediateContext->PSSetSamplers(0, 1, &SampleState.g_pSamplerLinear);
+				DeviceContextChido->g_pImmediateContext->DrawIndexed(36, 0, 0);
 				/*g_pImmediateContext->VSSetShader(g_pVertexShader, NULL, 0);
 				g_pImmediateContext->VSSetConstantBuffers(0, 1, &CURRENTNEVERCHANGE);
 				g_pImmediateContext->VSSetConstantBuffers(1, 1, &CURRENTCHANGEONRESIZE);
@@ -1153,7 +1156,7 @@ void Render()
 			g_World = glm::translate(T);
 			cb.mWorld = glm::transpose(g_World);
 			cb.vMeshColor = g_vMeshColor;
-			DeviceContextChido->m_DeviceContDesc.g_pImmediateContext->UpdateSubresource(g_pCBChangesEveryFrame, 0, NULL, &cb, 0, 0);
+			DeviceContextChido->g_pImmediateContext->UpdateSubresource(g_pCBChangesEveryFrame, 0, NULL, &cb, 0, 0);
 			/*g_pImmediateContext->UpdateSubresource(g_pCBChangesEveryFrame, 0, NULL, &cb, 0, 0);*/
 		}
 		DistanceY += 2.5;

@@ -22,18 +22,18 @@
 
 struct MyStruC_Render_Target_DESCct
 {
-	UINT Width;
-	UINT Height;
-	UINT MipLevels;
-	UINT ArraySize;
-	UINT BindFlags;
-	UINT CPUAccessFlags;
-	UINT MiscFlags;
+	unsigned int Width;
+	unsigned int Height;
+	unsigned int MipLevels;
+	unsigned int ArraySize;
+	unsigned int BindFlags;
+	unsigned int CPUAccessFlags;
+	unsigned int MiscFlags;
 #if defined(D3D11)
-	DXGI_FORMAT Format;
-	DXGI_SAMPLE_DESC SampleDesc;
-	D3D11_USAGE Usage;
-	ID3D11Texture2D* pBackBuffer = NULL;
+	FORMAT Format;
+	
+	C_USAGE Usage;
+	
 #endif
 
 };
@@ -46,5 +46,10 @@ public:
 	void detroy();
 	void render();
 	MyStruC_Render_Target_DESCct  m_RenderTarget;
+#if defined(D3D11)
+
+	DXGI_SAMPLE_DESC SampleDesc;
+	ID3D11Texture2D* pBackBuffer = NULL;
+#endif
 };
 

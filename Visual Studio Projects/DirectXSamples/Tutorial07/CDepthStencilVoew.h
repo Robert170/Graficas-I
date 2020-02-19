@@ -22,14 +22,13 @@
 
 struct C_DepthStencilView_DESC
 {
-	UINT Flags;
-	UINT MipSlice;
+	unsigned int Flags;
+	unsigned int MipSlice;
 #if defined(D3D11)
-	DXGI_FORMAT Format;
-	D3D11_DSV_DIMENSION ViewDimension;
-	D3D11_TEX2D_DSV Texture2D;
-	D3D11_DEPTH_STENCIL_VIEW_DESC descDSV;
-	ID3D11DepthStencilView*  g_pDepthStencilView = NULL;
+	FORMAT Format;
+	DSV_DIMENSION ViewDimension;
+	TEX2D_DSV Texture2D;
+	
 #endif
 };
 class CDepthStencilView
@@ -41,5 +40,9 @@ public:
 	void detroy();
 	void render();
 	C_DepthStencilView_DESC  m_DepthStencilView;
+#if defined(D3D11)
+	D3D11_DEPTH_STENCIL_VIEW_DESC descDSV;
+	ID3D11DepthStencilView*  g_pDepthStencilView = NULL;
+#endif
 };
 

@@ -5,11 +5,11 @@ int CDepthStencilView::init(C_DepthStencilView_DESC & _C_DEVICE_DESC)
 #if defined(D3D11)
 
 	m_DepthStencilView = _C_DEVICE_DESC;
-	ZeroMemory(&m_DepthStencilView.descDSV, sizeof(m_DepthStencilView.descDSV));
+	ZeroMemory(&descDSV, sizeof(descDSV));
 	//m_DepthStencilView.descDSV.Flags = m_DepthStencilView.Flags;
-	m_DepthStencilView.descDSV.Format = m_DepthStencilView.Format;
-	m_DepthStencilView.descDSV.ViewDimension = m_DepthStencilView.ViewDimension;
-	m_DepthStencilView.Texture2D.MipSlice = m_DepthStencilView.MipSlice;
+	descDSV.Format =(DXGI_FORMAT) m_DepthStencilView.Format;
+	descDSV.ViewDimension =(D3D11_DSV_DIMENSION) m_DepthStencilView.ViewDimension;
+	m_DepthStencilView.Texture2D.mipSlice = m_DepthStencilView.MipSlice;
 #else 
 
 #endif

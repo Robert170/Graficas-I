@@ -23,17 +23,17 @@
 struct C_InputLayer_DESC
 {
 	
-	UINT SemanticIndex;
-	UINT InputSlot;
-	UINT AlignedByteOffset;
-	UINT InstanceDataStepRate;
+	unsigned int SemanticIndex;
+	unsigned int InputSlot;
+	unsigned int AlignedByteOffset;
+	unsigned int InstanceDataStepRate;
 	
 #if defined(D3D11)
 	LPCSTR SemanticName;
-	DXGI_FORMAT Format;
-	D3D11_INPUT_CLASSIFICATION InputSlotClass;
-	ID3D11InputLayout*  g_pVertexLayout = NULL;
-	D3D11_INPUT_ELEMENT_DESC layout[];
+	FORMAT Format;
+	INPUT_CLASSIFICATION InputSlotClass;
+
+	
 #endif
 };
 
@@ -46,5 +46,12 @@ public:
 	void detroy();
 	void render();
 	C_InputLayer_DESC  m_InputLayer;
+#if defined(D3D11)
+	LPCSTR SemanticName;
+	FORMAT Format;
+	D3D11_INPUT_CLASSIFICATION InputSlotClass;
+	ID3D11InputLayout*  g_pVertexLayout = NULL;
+	D3D11_INPUT_ELEMENT_DESC layout[];
+#endif
 };
 

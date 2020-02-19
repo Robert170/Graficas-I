@@ -31,7 +31,7 @@ struct C_Texture2D_DESC
 
 #if defined(D3D11)
 	FORMAT Format;
-	SAMPLEDESC SampleDesc;
+	SAMPLE_DESC SampleDesc;
 	C_USAGE Usage;
 	
 #endif

@@ -25,12 +25,12 @@
 struct C_DEVICE_DESC
 {
 	//UINT g_driverType;
-	UINT createDeviceFlags;
-	UINT numFeatureLevels;
+	unsigned int createDeviceFlags;
+	unsigned int numFeatureLevels;
 	
 #if defined(D3D11)
-	D3D_DRIVER_TYPE DriverTypeDe;
-	ID3D11Device*   g_pd3dDevice = NULL;
+	DRIVER_TYPE DriverTypeDe;
+	
 #endif
 };
 
@@ -50,6 +50,9 @@ public:
 	void detroy();
 	void render();
 	C_DEVICE_DESC  m_DeviceDesc;
+#if defined(D3D11)
+	ID3D11Device*   g_pd3dDevice = NULL;
+#endif
 
 
 private:
