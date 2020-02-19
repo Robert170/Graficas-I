@@ -338,7 +338,7 @@ HRESULT InitDevice()
     {
         DeviceChido->m_DeviceDesc.DriverTypeDe = driverTypes[driverTypeIndex];
 		hr = D3D11CreateDeviceAndSwapChain(NULL, DeviceChido->m_DeviceDesc.DriverTypeDe, NULL, DeviceChido->m_DeviceDesc.createDeviceFlags, featureLevels, DeviceChido->m_DeviceDesc.numFeatureLevels,
-			D3D11_SDK_VERSION, &SwapChainChido->GetSD(), &SwapChainChido->m_SwapChain.g_pSwapChain, &DeviceChido->m_DeviceDesc.g_pd3dDevice, &g_featureLevel, &DeviceContextChido->m_DeviceContDesc.g_pImmediateContext);
+			D3D11_SDK_VERSION, &SwapChainChido->GetSD(), &SwapChainChido->g_pSwapChain, &DeviceChido->m_DeviceDesc.g_pd3dDevice, &g_featureLevel, &DeviceContextChido->m_DeviceContDesc.g_pImmediateContext);
         /*hr = D3D11CreateDeviceAndSwapChain( NULL, g_driverType, NULL, createDeviceFlags, featureLevels, numFeatureLevels,
                                             D3D11_SDK_VERSION, &sd, &g_pSwapChain, &g_pd3dDevice, &g_featureLevel, &g_pImmediateContext );*/
         if( SUCCEEDED( hr ) )
@@ -350,12 +350,12 @@ HRESULT InitDevice()
     // Create a render target view
 	
     //ID3D11Texture2D* pBackBuffer = NULL;
-	hr = SwapChainChido->m_SwapChain.g_pSwapChain->GetBuffer(0, __uuidof(ID3D11Texture2D), (LPVOID*)&BackBuffer.m_RenderTarget.pBackBuffer);
+	hr = SwapChainChido->g_pSwapChain->GetBuffer(0, __uuidof(ID3D11Texture2D), (LPVOID*)&BackBuffer.m_RenderTarget.pBackBuffer);
    /* hr = g_pSwapChain->GetBuffer( 0, __uuidof( ID3D11Texture2D ), ( LPVOID* )&pBackBuffer );*/
     if( FAILED( hr ) )
         return hr;
 
-	hr = DeviceChido->m_DeviceDesc.g_pd3dDevice->CreateRenderTargetView(BackBuffer.m_RenderTarget.pBackBuffer, NULL, &G_PRenderTargetView.m_TargetView.g_pRenderTargetView);
+	hr = DeviceChido->m_DeviceDesc.g_pd3dDevice->CreateRenderTargetView(BackBuffer.m_RenderTarget.pBackBuffer, NULL, &G_PRenderTargetView.g_pRenderTargetView);
 	
     /*hr = g_pd3dDevice->CreateRenderTargetView( pBackBuffer, NULL, &g_pRenderTargetView );*/
 	BackBuffer.m_RenderTarget.pBackBuffer->Release();
@@ -414,7 +414,7 @@ HRESULT InitDevice()
    /* hr = g_pd3dDevice->CreateDepthStencilView( g_pDepthStencil, &descDSV, &g_pDepthStencilView );*/
     if( FAILED( hr ) )
         return hr;
-	DeviceContextChido->m_DeviceContDesc.g_pImmediateContext->OMSetRenderTargets(1, &G_PRenderTargetView.m_TargetView.g_pRenderTargetView, G_PDepthStencilView.m_DepthStencilView.g_pDepthStencilView);
+	DeviceContextChido->m_DeviceContDesc.g_pImmediateContext->OMSetRenderTargets(1, &G_PRenderTargetView.g_pRenderTargetView, G_PDepthStencilView.m_DepthStencilView.g_pDepthStencilView);
 	
    /* g_pImmediateContext->OMSetRenderTargets( 1, &g_pRenderTargetView, g_pDepthStencilView );*/
 
@@ -671,11 +671,11 @@ HRESULT InitDevice()
 
     // Create the sample state
 	C_SampleState_DESC STD;
-	STD.Filter = D3D11_FILTER_MIN_MAG_MIP_LINEAR;
-	STD.AddressU = D3D11_TEXTURE_ADDRESS_WRAP;
-	STD.AddressV = D3D11_TEXTURE_ADDRESS_WRAP;
-	STD.AddressW = D3D11_TEXTURE_ADDRESS_WRAP;
-	STD.ComparisonFunc = D3D11_COMPARISON_NEVER;
+	STD.Filter =(FILTER)D3D11_FILTER_MIN_MAG_MIP_LINEAR;
+	STD.AddressU =(TEXTURE_ADDRESS_MODE) D3D11_TEXTURE_ADDRESS_WRAP;
+	STD.AddressV = (TEXTURE_ADDRESS_MODE)D3D11_TEXTURE_ADDRESS_WRAP;
+	STD.AddressW = (TEXTURE_ADDRESS_MODE)D3D11_TEXTURE_ADDRESS_WRAP;
+	STD.ComparisonFunc =(COMPARISON_FUNC) D3D11_COMPARISON_NEVER;
 	STD.MinLOD = 0;
 	STD.MaxLOD = D3D11_FLOAT32_MAX;
 
@@ -690,7 +690,7 @@ HRESULT InitDevice()
     sampDesc.MinLOD = 0;
     sampDesc.MaxLOD = D3D11_FLOAT32_MAX;*/
 
-	hr = DeviceChido->m_DeviceDesc.g_pd3dDevice->CreateSamplerState(&SampleState.m_SampleSate.sampDesc, &SampleState.m_SampleSate.g_pSamplerLinear);
+	hr = DeviceChido->m_DeviceDesc.g_pd3dDevice->CreateSamplerState(&SampleState.sampDesc, &SampleState.g_pSamplerLinear);
     /*hr = g_pd3dDevice->CreateSamplerState( &sampDesc, &g_pSamplerLinear );*/
     if( FAILED( hr ) )
         return hr;
@@ -757,7 +757,7 @@ void CleanupDevice()
 	if (DeviceContextChido->m_DeviceContDesc.g_pImmediateContext) DeviceContextChido->m_DeviceContDesc.g_pImmediateContext->ClearState();
    /* if( g_pImmediateContext ) g_pImmediateContext->ClearState();*/
 
-	if (SampleState.m_SampleSate.g_pSamplerLinear) SampleState.m_SampleSate.g_pSamplerLinear->Release();
+	if (SampleState.g_pSamplerLinear) SampleState.g_pSamplerLinear->Release();
     /*if( g_pSamplerLinear ) g_pSamplerLinear->Release();*/
     if( g_pTextureRV ) g_pTextureRV->Release();
     if( g_pCBNeverChanges ) g_pCBNeverChanges->Release();
@@ -780,11 +780,11 @@ void CleanupDevice()
 	if (G_PDepthStencilView.m_DepthStencilView.g_pDepthStencilView) G_PDepthStencilView.m_DepthStencilView.g_pDepthStencilView->Release();
    /* if( g_pDepthStencilView ) g_pDepthStencilView->Release();*/
 	
-	if (G_PRenderTargetView.m_TargetView.g_pRenderTargetView) G_PRenderTargetView.m_TargetView.g_pRenderTargetView->Release();
+	if (G_PRenderTargetView.g_pRenderTargetView) G_PRenderTargetView.g_pRenderTargetView->Release();
     /*if( g_pRenderTargetView ) g_pRenderTargetView->Release();*/
 	
 	
-	if (SwapChainChido->m_SwapChain.g_pSwapChain) SwapChainChido->m_SwapChain.g_pSwapChain->Release();
+	if (SwapChainChido->g_pSwapChain) SwapChainChido->g_pSwapChain->Release();
    /* if( g_pSwapChain ) g_pSwapChain->Release();*/
 	
 	if (DeviceContextChido->m_DeviceContDesc.g_pImmediateContext) DeviceContextChido->m_DeviceContDesc.g_pImmediateContext->Release();
@@ -826,37 +826,37 @@ LRESULT CALLBACK WndProc( HWND hWnd, UINT message, WPARAM wParam, LPARAM lParam 
 			cbChangesOnResize.mProjection = CAM.GetProyeccion();//XMMatrixTranspose( g_Projection );
 			DeviceContextChido->m_DeviceContDesc.g_pImmediateContext->UpdateSubresource(g_pCBChangeOnResize, 0, NULL, &cbChangesOnResize, 0, 0);
 			/*g_pImmediateContext->UpdateSubresource(g_pCBChangeOnResize, 0, NULL, &cbChangesOnResize, 0, 0);*/
-			if (SwapChainChido->m_SwapChain.g_pSwapChain)
+			if (SwapChainChido->g_pSwapChain)
 			{
 				DeviceContextChido->m_DeviceContDesc.g_pImmediateContext->OMSetRenderTargets(0, 0, 0);
 				//g_pd3dDeviceContext->OMSetRenderTargets(0, 0, 0);
 
 				// Release all outstanding references to the swap chain's buffers.
-				G_PRenderTargetView.m_TargetView.g_pRenderTargetView->Release();
+				G_PRenderTargetView.g_pRenderTargetView->Release();
 				//g_pRenderTargetView->Release();
 
 				HRESULT hr;
 				// Preserve the existing buffer count and format.
 				// Automatically choose the width and height to match the client rect for HWNDs.
-				hr = SwapChainChido->m_SwapChain.g_pSwapChain->ResizeBuffers(0, 0, 0, DXGI_FORMAT_UNKNOWN, 0);
+				hr = SwapChainChido->g_pSwapChain->ResizeBuffers(0, 0, 0, DXGI_FORMAT_UNKNOWN, 0);
 				//hr = g_pSwapChain->ResizeBuffers(0, 0, 0, DXGI_FORMAT_UNKNOWN, 0);
 
 				// Perform error handling here!
 
 				// Get buffer and create a render-target-view.
 				ID3D11Texture2D* pBuffer;
-				hr=SwapChainChido->m_SwapChain.g_pSwapChain->GetBuffer(0, __uuidof(ID3D11Texture2D),
+				hr=SwapChainChido->g_pSwapChain->GetBuffer(0, __uuidof(ID3D11Texture2D),
 					(void**)&pBuffer);
 				/*hr = g_pSwapChain->GetBuffer(0, __uuidof(ID3D11Texture2D),
 					(void**)&pBuffer);*/
 				// Perform error handling here!
 				hr= DeviceChido->m_DeviceDesc.g_pd3dDevice->CreateRenderTargetView(pBuffer, NULL,
-					&G_PRenderTargetView.m_TargetView.g_pRenderTargetView);
+					&G_PRenderTargetView.g_pRenderTargetView);
 				/*hr = g_pd3dDevice->CreateRenderTargetView(pBuffer, NULL,
 					&g_pRenderTargetView);*/
 				// Perform error handling here!
 				pBuffer->Release();
-				DeviceContextChido->m_DeviceContDesc.g_pImmediateContext->OMSetRenderTargets(1, &G_PRenderTargetView.m_TargetView.g_pRenderTargetView, NULL);
+				DeviceContextChido->m_DeviceContDesc.g_pImmediateContext->OMSetRenderTargets(1, &G_PRenderTargetView.g_pRenderTargetView, NULL);
 				//g_pd3dDeviceContext->OMSetRenderTargets(1, &g_pRenderTargetView, NULL);
 
 				// Set up the viewport.
@@ -1066,7 +1066,7 @@ void Render()
     // Clear the back buffer
     //
     float ClearColor[4] = { 0.0f, 0.125f, 0.3f, 1.0f }; // red, green, blue, alpha
-	DeviceContextChido->m_DeviceContDesc.g_pImmediateContext->ClearRenderTargetView(G_PRenderTargetView.m_TargetView.g_pRenderTargetView, ClearColor);
+	DeviceContextChido->m_DeviceContDesc.g_pImmediateContext->ClearRenderTargetView(G_PRenderTargetView.g_pRenderTargetView, ClearColor);
 	
    /* g_pImmediateContext->ClearRenderTargetView( g_pRenderTargetView, ClearColor );*/
 
@@ -1096,7 +1096,7 @@ void Render()
 	DeviceContextChido->m_DeviceContDesc.g_pImmediateContext->PSSetShader(g_pPixelShader, NULL, 0);
 	DeviceContextChido->m_DeviceContDesc.g_pImmediateContext->PSSetConstantBuffers(2, 1, &g_pCBChangesEveryFrame);
 	DeviceContextChido->m_DeviceContDesc.g_pImmediateContext->PSSetShaderResources(0, 1, &g_pTextureRV);
-	DeviceContextChido->m_DeviceContDesc.g_pImmediateContext->PSSetSamplers(0, 1, &SampleState.m_SampleSate.g_pSamplerLinear);
+	DeviceContextChido->m_DeviceContDesc.g_pImmediateContext->PSSetSamplers(0, 1, &SampleState.g_pSamplerLinear);
 	DeviceContextChido->m_DeviceContDesc.g_pImmediateContext->DrawIndexed(36, 0, 0);
   /*  g_pImmediateContext->VSSetShader( g_pVertexShader, NULL, 0 );
     g_pImmediateContext->VSSetConstantBuffers( 0, 1, &CURRENTNEVERCHANGE);
@@ -1137,7 +1137,7 @@ void Render()
 				DeviceContextChido->m_DeviceContDesc.g_pImmediateContext->PSSetShader(g_pPixelShader, NULL, 0);
 				DeviceContextChido->m_DeviceContDesc.g_pImmediateContext->PSSetConstantBuffers(2, 1, &g_pCBChangesEveryFrame);
 				DeviceContextChido->m_DeviceContDesc.g_pImmediateContext->PSSetShaderResources(0, 1, &g_pTextureRV);
-				DeviceContextChido->m_DeviceContDesc.g_pImmediateContext->PSSetSamplers(0, 1, &SampleState.m_SampleSate.g_pSamplerLinear);
+				DeviceContextChido->m_DeviceContDesc.g_pImmediateContext->PSSetSamplers(0, 1, &SampleState.g_pSamplerLinear);
 				DeviceContextChido->m_DeviceContDesc.g_pImmediateContext->DrawIndexed(36, 0, 0);
 				/*g_pImmediateContext->VSSetShader(g_pVertexShader, NULL, 0);
 				g_pImmediateContext->VSSetConstantBuffers(0, 1, &CURRENTNEVERCHANGE);
@@ -1163,6 +1163,6 @@ void Render()
     // Present our back buffer to our front buffer
     //
 	
-	SwapChainChido->m_SwapChain.g_pSwapChain->Present(0, 0);
+	SwapChainChido->g_pSwapChain->Present(0, 0);
   /*  g_pSwapChain->Present( 0, 0 );*/
 }

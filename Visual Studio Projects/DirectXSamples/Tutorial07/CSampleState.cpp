@@ -5,14 +5,14 @@ int CSampleState::init(C_SampleState_DESC & _C_DEVICE_DESC)
 #if defined(D3D11)
 
 	m_SampleSate = _C_DEVICE_DESC;
-	ZeroMemory(&m_SampleSate.sampDesc, sizeof(m_SampleSate.sampDesc));
-	m_SampleSate.sampDesc.Filter = m_SampleSate.Filter;
-	m_SampleSate.sampDesc.AddressU = m_SampleSate.AddressU;
-	m_SampleSate.sampDesc.AddressV = m_SampleSate.AddressV;
-	m_SampleSate.sampDesc.AddressW = m_SampleSate.AddressW;
-	m_SampleSate.sampDesc.ComparisonFunc = m_SampleSate.ComparisonFunc;
-	m_SampleSate.sampDesc.MaxLOD = m_SampleSate.MaxLOD;
-	m_SampleSate.sampDesc.MinLOD = m_SampleSate.MinLOD;
+	ZeroMemory(&sampDesc, sizeof(sampDesc));
+	sampDesc.Filter = (D3D11_FILTER)m_SampleSate.Filter;
+	sampDesc.AddressU = (D3D11_TEXTURE_ADDRESS_MODE)m_SampleSate.AddressU;
+	sampDesc.AddressV = (D3D11_TEXTURE_ADDRESS_MODE)m_SampleSate.AddressV;
+	sampDesc.AddressW = (D3D11_TEXTURE_ADDRESS_MODE)m_SampleSate.AddressW;
+	sampDesc.ComparisonFunc = (D3D11_COMPARISON_FUNC)m_SampleSate.ComparisonFunc;
+	sampDesc.MaxLOD = m_SampleSate.MaxLOD;
+	sampDesc.MinLOD = m_SampleSate.MinLOD;
 	
 #else 
 

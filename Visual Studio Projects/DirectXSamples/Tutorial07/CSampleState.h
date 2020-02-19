@@ -22,16 +22,14 @@
 
 struct C_SampleState_DESC
 {
-	FLOAT MinLOD;
-	FLOAT MaxLOD;
+	float MinLOD;
+	float MaxLOD;
 #if defined(D3D11)
-	D3D11_FILTER Filter;
-	D3D11_TEXTURE_ADDRESS_MODE AddressU;
-	D3D11_TEXTURE_ADDRESS_MODE AddressV;
-	D3D11_TEXTURE_ADDRESS_MODE AddressW;
-	D3D11_COMPARISON_FUNC ComparisonFunc;
-	D3D11_SAMPLER_DESC sampDesc;
-	ID3D11SamplerState*                 g_pSamplerLinear = NULL;
+	FILTER Filter;
+	TEXTURE_ADDRESS_MODE AddressU;
+	TEXTURE_ADDRESS_MODE AddressV;
+	TEXTURE_ADDRESS_MODE AddressW;
+	COMPARISON_FUNC ComparisonFunc;
 #endif
 };
 
@@ -44,5 +42,9 @@ public:
 	void detroy();
 	void render();
 	C_SampleState_DESC  m_SampleSate;
+#if defined(D3D11)
+	D3D11_SAMPLER_DESC sampDesc;
+	ID3D11SamplerState*                 g_pSamplerLinear = NULL;
+#endif
 };
 

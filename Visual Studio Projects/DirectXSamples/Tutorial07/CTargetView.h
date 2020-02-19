@@ -25,8 +25,8 @@ struct C_TargetView_DESC
 {
 #if defined(D3D11)
 	FORMAT Format;
-	D3D11_RTV_DIMENSION ViewDimension;
-	ID3D11RenderTargetView* g_pRenderTargetView = NULL;
+	RTV_DIMENSION ViewDimension;
+	
 #endif
 };
 class CTargetView
@@ -37,5 +37,8 @@ public:
 	void detroy();
 	void render();
 	C_TargetView_DESC  m_TargetView;
+#if defined(D3D11)
+	ID3D11RenderTargetView* g_pRenderTargetView = NULL;
+#endif
 };
 

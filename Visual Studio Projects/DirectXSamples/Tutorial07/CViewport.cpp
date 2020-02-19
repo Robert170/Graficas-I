@@ -5,7 +5,7 @@ int CViewport::init(C_Viewport_DESC & _C_DEVICE_DESC)
 #if defined(D3D11)
 
 	m_Viewport = _C_DEVICE_DESC;
-	ZeroMemory(&m_Viewport.vp, sizeof(m_Viewport.vp));
+	ZeroMemory(&data, sizeof(data));
 	/*m_Viewport.vp.Width = m_Viewport.Width;
 	m_Viewport.vp.Height = m_Viewport.Height;
 	m_Viewport.vp.MinDepth = m_Viewport.MinDepth;

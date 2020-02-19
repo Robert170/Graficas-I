@@ -29,9 +29,6 @@ struct C_Viewport_DESC
 	FLOAT Height;
 	FLOAT MinDepth;
 	FLOAT MaxDepth;
-#if defined(D3D11)
-	VIEWPORT vp;
-#endif
 };
 
 class CViewport

@@ -33,10 +33,9 @@ struct C_SWAP_CHAIN_DESC
 	bool Windowed;
 
 #if defined(D3D11)
-	DXGI_SWAP_CHAIN_DESC BufferUsage;
-	DXGI_SWAP_CHAIN_DESC BufferDes;
-	IDXGISwapChain*      g_pSwapChain = NULL;
-	DXGI_SWAP_CHAIN_DESC sd;
+	SWAP_CHAIN_DESC BufferUsage;
+	SWAP_CHAIN_DESC BufferDes;
+	SWAP_CHAIN_DESC sd;
 #endif
 };
 
@@ -57,6 +56,13 @@ public:
 	void render();
 	C_SWAP_CHAIN_DESC  m_SwapChain;
 	const DXGI_SWAP_CHAIN_DESC GetSD();
+
+#if defined(D3D11)
+	
+	IDXGISwapChain*      g_pSwapChain = NULL;
+	DXGI_SWAP_CHAIN_DESC SCD;
+	
+#endif
 
 private:
 	static CSwapChain *SwapChainInstance;
