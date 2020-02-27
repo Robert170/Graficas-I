@@ -1,11 +1,9 @@
-
-
 //*****************************************************************************/
 /**
 * @File CDevice.h
 * @Author Roberto Ramírez Ontiveros (xc1700@hotmail.com)
 * @date  10/02/2020
-* @brief abstraccion de buffer
+* @brief abstraccion de index buffer
 * @Bug No kown bug
 **/
 //****************************************************************************/
@@ -20,31 +18,34 @@
 
 #include <iostream>
 #include <windows.h>
+#include "CBuffer.h"
 #pragma once
 
-struct C_Buffer_DESC
+struct C_Index_Buffer_DESC
 {
-	unsigned int ByteWidth;
-	C_USAGE		Usage;
-	unsigned int  BindFlags;
-	unsigned int  CPUAccessFlags;
-	unsigned int  MiscFlags;
-	unsigned int  StructureByteStride;
+	const void* pSystem;
+	unsigned int  SystemMemoryPitch;
+	unsigned int SysMemSlicePitch;
+
+#if defined(D3D11)
+
+
+#endif
 };
 
-class CBuffer
+class CIndexBuffer
 {
 public:
-	int init(C_Buffer_DESC& _C_DEVICE_DESC);
+	int init(C_Index_Buffer_DESC& _C_DEVICE_DESC);
 	void update();
 	void detroy();
 	void render();
-	C_Buffer_DESC  m_Buffer;
+	C_Index_Buffer_DESC  m_IndexBuffer;
 
+	CBuffer BIndex;
 #if defined(D3D11)
-	D3D11_BUFFER_DESC bd;
-	ID3D11Buffer*   P_Buffer = NULL;
-#endif
 	
+	D3D11_SUBRESOURCE_DATA InitD;
+#endif
 };
 

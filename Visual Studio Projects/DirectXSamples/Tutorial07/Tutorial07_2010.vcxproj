@@ -381,6 +381,7 @@
     <ClCompile Include="CDepthStencilVoew.cpp" />
     <ClCompile Include="CDevice.cpp" />
     <ClCompile Include="CDeviceContext.cpp" />
+    <ClCompile Include="CIndexBuffer.cpp" />
     <ClCompile Include="CInputLayer.cpp" />
     <ClCompile Include="CPixelShader.cpp" />
     <ClCompile Include="CRenderTarget.cpp" />
@@ -404,6 +405,7 @@
     <ClInclude Include="CDepthStencilVoew.h" />
     <ClInclude Include="CDevice.h" />
     <ClInclude Include="CDeviceContext.h" />
+    <ClInclude Include="CIndexBuffer.h" />
     <ClInclude Include="CInputLayer.h" />
     <ClInclude Include="CPixelShader.h" />
     <ClInclude Include="CRenderTarget.h" />

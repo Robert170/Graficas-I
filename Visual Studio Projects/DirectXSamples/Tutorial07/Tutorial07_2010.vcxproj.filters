@@ -31,6 +31,7 @@
     <ClCompile Include="CVertexShader.cpp" />
     <ClCompile Include="CInputLayer.cpp" />
     <ClCompile Include="CPixelShader.cpp" />
+    <ClCompile Include="CIndexBuffer.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Tutorial07.cpp" />
@@ -65,6 +66,7 @@
     <ClInclude Include="CVertexShader.h" />
     <ClInclude Include="CInputLayer.h" />
     <ClInclude Include="CPixelShader.h" />
+    <ClInclude Include="CIndexBuffer.h" />
   </ItemGroup>
   <ItemGroup>
   </ItemGroup>

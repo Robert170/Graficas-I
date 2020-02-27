@@ -44,7 +44,7 @@ public:
 	
 	CBuffer BVertex;
 #if defined(D3D11)
-	ID3D11Buffer*    g_pVertexBuffer = NULL;
+	//ID3D11Buffer*    g_pVertexBuffer = NULL;
 	D3D11_SUBRESOURCE_DATA InitData;
 #endif
 };
