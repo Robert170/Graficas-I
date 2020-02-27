@@ -35,7 +35,7 @@ class CDepthStencilView
 {
 public:
 	// abstraer
-	int init(C_DepthStencilView_DESC& _C_DEVICE_DESC);
+	int init(C_DepthStencilView_DESC& _C_DEVICE_DESC, DXGI_FORMAT FORMAT);
 	void update();
 	void detroy();
 	void render();

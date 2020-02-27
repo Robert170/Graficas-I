@@ -38,8 +38,10 @@ CSwapChain* CSwapChain::SwapChainInstance = NULL;
 //--------------------------------------------------------------------------------------
 struct SimpleVertex
 {
-    XMFLOAT3 Pos;
-    XMFLOAT2 Tex;
+	glm::vec3 Pos;
+    //XMFLOAT3 Pos;
+	glm::vec2 Tex;
+    //XMFLOAT2 Tex;
 };
 
 struct CBNeverChanges
@@ -57,7 +59,8 @@ struct CBChangeOnResize
 struct CBChangesEveryFrame
 {
 	glm::mat4x4 mWorld;
-    XMFLOAT4 vMeshColor;
+	glm::vec4 vMeshColor;
+    //XMFLOAT4 vMeshColor;
 };
 
 
@@ -102,7 +105,7 @@ ID3D11ShaderResourceView*           g_pTextureRV = NULL;
 glm::mat4x4                            g_World;
 glm::mat4x4                            g_View;
 glm::mat4x4                            g_Projection;
-XMFLOAT4                            g_vMeshColor( 0.7f, 0.7f, 0.7f, 1.0f );
+glm::vec4                            g_vMeshColor( 0.7f, 0.7f, 0.7f, 1.0f );
 CCamera CAM;
 CCamera * other = new CCamFirst();
 CCamera GODCAM;
@@ -405,7 +408,7 @@ HRESULT InitDevice()
 	DSVD.ViewDimension =(DSV_DIMENSION) D3D11_DSV_DIMENSION_TEXTURE2D;
 	DSVD.MipSlice = 0;
 
-	G_PDepthStencilView.init(DSVD);
+	G_PDepthStencilView.init(DSVD, G_PDepthStencil.descDepth.Format);
 
     /*D3D11_DEPTH_STENCIL_VIEW_DESC descDSV;
     ZeroMemory( &descDSV, sizeof(descDSV) );
@@ -506,35 +509,35 @@ HRESULT InitDevice()
     // Create vertex buffer
     SimpleVertex vertices[] =
     {
-        { XMFLOAT3( -1.0f, 1.0f, -1.0f ), XMFLOAT2( 0.0f, 0.0f ) },
-        { XMFLOAT3( 1.0f, 1.0f, -1.0f ), XMFLOAT2( 1.0f, 0.0f ) },
-        { XMFLOAT3( 1.0f, 1.0f, 1.0f ), XMFLOAT2( 1.0f, 1.0f ) },
-        { XMFLOAT3( -1.0f, 1.0f, 1.0f ), XMFLOAT2( 0.0f, 1.0f ) },
+        { glm::vec3( -1.0f, 1.0f, -1.0f ), glm::vec2( 0.0f, 0.0f ) },
+        { glm::vec3( 1.0f, 1.0f, -1.0f ), glm::vec2( 1.0f, 0.0f ) },
+        { glm::vec3( 1.0f, 1.0f, 1.0f ), glm::vec2( 1.0f, 1.0f ) },
+        { glm::vec3( -1.0f, 1.0f, 1.0f ), glm::vec2( 0.0f, 1.0f ) },
 
-        { XMFLOAT3( -1.0f, -1.0f, -1.0f ), XMFLOAT2( 0.0f, 0.0f ) },
-        { XMFLOAT3( 1.0f, -1.0f, -1.0f ), XMFLOAT2( 1.0f, 0.0f ) },
-        { XMFLOAT3( 1.0f, -1.0f, 1.0f ), XMFLOAT2( 1.0f, 1.0f ) },
-        { XMFLOAT3( -1.0f, -1.0f, 1.0f ), XMFLOAT2( 0.0f, 1.0f ) },
+        { glm::vec3( -1.0f, -1.0f, -1.0f ), glm::vec2( 0.0f, 0.0f ) },
+        { glm::vec3( 1.0f, -1.0f, -1.0f ), glm::vec2( 1.0f, 0.0f ) },
+        { glm::vec3( 1.0f, -1.0f, 1.0f ), glm::vec2( 1.0f, 1.0f ) },
+        { glm::vec3( -1.0f, -1.0f, 1.0f ), glm::vec2( 0.0f, 1.0f ) },
 
-        { XMFLOAT3( -1.0f, -1.0f, 1.0f ), XMFLOAT2( 0.0f, 0.0f ) },
-        { XMFLOAT3( -1.0f, -1.0f, -1.0f ), XMFLOAT2( 1.0f, 0.0f ) },
-        { XMFLOAT3( -1.0f, 1.0f, -1.0f ), XMFLOAT2( 1.0f, 1.0f ) },
-        { XMFLOAT3( -1.0f, 1.0f, 1.0f ), XMFLOAT2( 0.0f, 1.0f ) },
+        { glm::vec3( -1.0f, -1.0f, 1.0f ), glm::vec2( 0.0f, 0.0f ) },
+        { glm::vec3( -1.0f, -1.0f, -1.0f ), glm::vec2( 1.0f, 0.0f ) },
+        { glm::vec3( -1.0f, 1.0f, -1.0f ), glm::vec2( 1.0f, 1.0f ) },
+        { glm::vec3( -1.0f, 1.0f, 1.0f ), glm::vec2( 0.0f, 1.0f ) },
 
-        { XMFLOAT3( 1.0f, -1.0f, 1.0f ), XMFLOAT2( 0.0f, 0.0f ) },
-        { XMFLOAT3( 1.0f, -1.0f, -1.0f ), XMFLOAT2( 1.0f, 0.0f ) },
-        { XMFLOAT3( 1.0f, 1.0f, -1.0f ), XMFLOAT2( 1.0f, 1.0f ) },
-        { XMFLOAT3( 1.0f, 1.0f, 1.0f ), XMFLOAT2( 0.0f, 1.0f ) },
+        { glm::vec3( 1.0f, -1.0f, 1.0f ), glm::vec2( 0.0f, 0.0f ) },
+        { glm::vec3( 1.0f, -1.0f, -1.0f ), glm::vec2( 1.0f, 0.0f ) },
+        { glm::vec3( 1.0f, 1.0f, -1.0f ), glm::vec2( 1.0f, 1.0f ) },
+        { glm::vec3( 1.0f, 1.0f, 1.0f ), glm::vec2( 0.0f, 1.0f ) },
 
-        { XMFLOAT3( -1.0f, -1.0f, -1.0f ), XMFLOAT2( 0.0f, 0.0f ) },
-        { XMFLOAT3( 1.0f, -1.0f, -1.0f ), XMFLOAT2( 1.0f, 0.0f ) },
-        { XMFLOAT3( 1.0f, 1.0f, -1.0f ), XMFLOAT2( 1.0f, 1.0f ) },
-        { XMFLOAT3( -1.0f, 1.0f, -1.0f ), XMFLOAT2( 0.0f, 1.0f ) },
+        { glm::vec3( -1.0f, -1.0f, -1.0f ), glm::vec2( 0.0f, 0.0f ) },
+        { glm::vec3( 1.0f, -1.0f, -1.0f ), glm::vec2( 1.0f, 0.0f ) },
+        { glm::vec3( 1.0f, 1.0f, -1.0f ), glm::vec2( 1.0f, 1.0f ) },
+        { glm::vec3( -1.0f, 1.0f, -1.0f ), glm::vec2( 0.0f, 1.0f ) },
 
-        { XMFLOAT3( -1.0f, -1.0f, 1.0f ), XMFLOAT2( 0.0f, 0.0f ) },
-        { XMFLOAT3( 1.0f, -1.0f, 1.0f ), XMFLOAT2( 1.0f, 0.0f ) },
-        { XMFLOAT3( 1.0f, 1.0f, 1.0f ), XMFLOAT2( 1.0f, 1.0f ) },
-        { XMFLOAT3( -1.0f, 1.0f, 1.0f ), XMFLOAT2( 0.0f, 1.0f ) },
+        { glm::vec3( -1.0f, -1.0f, 1.0f ), glm::vec2( 0.0f, 0.0f ) },
+        { glm::vec3( 1.0f, -1.0f, 1.0f ), glm::vec2( 1.0f, 0.0f ) },
+        { glm::vec3( 1.0f, 1.0f, 1.0f ), glm::vec2( 1.0f, 1.0f ) },
+        { glm::vec3( -1.0f, 1.0f, 1.0f ), glm::vec2( 0.0f, 1.0f ) },
     };
 
 	C_Buffer_DESC BD;
@@ -820,71 +823,81 @@ LRESULT CALLBACK WndProc( HWND hWnd, UINT message, WPARAM wParam, LPARAM lParam 
             break;
 		case WM_SIZING:
 		{
-			RECT rc;
-			GetClientRect(g_hWnd, &rc);
-			UINT width = rc.right - rc.left;
-			UINT height = rc.bottom - rc.top;
-			g_World = glm::mat4(1.0f);
-			CAM.setHeight(height);
-			CAM.setWeight(width);
-			CAM.UpdateProyeccion();
-			CBChangeOnResize cbChangesOnResize;
-			cbChangesOnResize.mProjection = CAM.GetProyeccion();//XMMatrixTranspose( g_Projection );
-			DeviceContextChido->g_pImmediateContext->UpdateSubresource(g_pCBChangeOnResize.P_Buffer, 0, NULL, &cbChangesOnResize, 0, 0);
-			/*g_pImmediateContext->UpdateSubresource(g_pCBChangeOnResize, 0, NULL, &cbChangesOnResize, 0, 0);*/
-			if (SwapChainChido->g_pSwapChain)
+			if (DeviceContextChido->g_pImmediateContext != nullptr)
 			{
-				DeviceContextChido->g_pImmediateContext->OMSetRenderTargets(0, 0, 0);
-				//g_pd3dDeviceContext->OMSetRenderTargets(0, 0, 0);
+				//Get new window dimensions
+				RECT rc;
+				GetClientRect(hWnd, &rc);
+				UINT width = rc.right - rc.left;
+				UINT height = rc.bottom - rc.top;
+				//Regenerate world matrix as identity
+				g_World = glm::mat4(1.0f);
+				//Set w and h for camera
+				CAM.setHeight(height);
+				CAM.setWeight(width);
+				//Update projection matrix with new params
+				CAM.UpdateProyeccion();
+				//Update CB
+				CBChangeOnResize cbChangesOnResize;
+				cbChangesOnResize.mProjection = CAM.GetProyeccion();
+				DeviceContextChido->g_pImmediateContext->UpdateSubresource(g_pCBChangeOnResize.P_Buffer, 0, NULL, &cbChangesOnResize, 0, 0);
+				if (SwapChainChido->g_pSwapChain)
+				{
+					DeviceContextChido->g_pImmediateContext->OMSetRenderTargets(0, 0, 0);
+					G_PRenderTargetView.g_pRenderTargetView->Release();
+					HRESULT h;
+					h = SwapChainChido->g_pSwapChain->ResizeBuffers(0, 0, 0, DXGI_FORMAT_UNKNOWN, 0);
 
-				// Release all outstanding references to the swap chain's buffers.
-				G_PRenderTargetView.g_pRenderTargetView->Release();
-				//g_pRenderTargetView->Release();
+					CBuffer tempBack;
+					h = SwapChainChido->g_pSwapChain->GetBuffer(0, __uuidof(ID3D11Texture2D), (void**)&tempBack.P_Buffer);
+					h = DeviceChido->g_pd3dDevice->CreateRenderTargetView(tempBack.P_Buffer, NULL, &G_PRenderTargetView.g_pRenderTargetView);
+					tempBack.P_Buffer->Release();
 
-				HRESULT hr;
-				// Preserve the existing buffer count and format.
-				// Automatically choose the width and height to match the client rect for HWNDs.
-				hr = SwapChainChido->g_pSwapChain->ResizeBuffers(0, 0, 0, DXGI_FORMAT_UNKNOWN, 0);
-				//hr = g_pSwapChain->ResizeBuffers(0, 0, 0, DXGI_FORMAT_UNKNOWN, 0);
+					G_PDepthStencil.g_pDepthStencil->Release();
+					C_DepthStencil_DESC DepthDesc;
+					DepthDesc.Width = width;
+					DepthDesc.Height = height;
+					DepthDesc.MipLevels = 1;
+					DepthDesc.ArraySize = 1;
+					DepthDesc.Format = FORMAT_D24_UNORM_S8_UINT;
+					DepthDesc.SampleDesc.Count = 1;
+					DepthDesc.SampleDesc.Quality = 0;
+					DepthDesc.Usage = C_USAGE_DEFAULT;
+					DepthDesc.BindFlags = D3D11_BIND_DEPTH_STENCIL;
+					DepthDesc.CPUAccessFlags = 0;
+					DepthDesc.MiscFlags = 0;
 
-				// Perform error handling here!
+					G_PDepthStencil.init(DepthDesc);
 
-				// Get buffer and create a render-target-view.
-				ID3D11Texture2D* pBuffer;
-				hr=SwapChainChido->g_pSwapChain->GetBuffer(0, __uuidof(ID3D11Texture2D),
-					(void**)&pBuffer);
-				/*hr = g_pSwapChain->GetBuffer(0, __uuidof(ID3D11Texture2D),
-					(void**)&pBuffer);*/
-				// Perform error handling here!
-				hr= DeviceChido->g_pd3dDevice->CreateRenderTargetView(pBuffer, NULL,
-					&G_PRenderTargetView.g_pRenderTargetView);
-				/*hr = g_pd3dDevice->CreateRenderTargetView(pBuffer, NULL,
-					&g_pRenderTargetView);*/
-				// Perform error handling here!
-				pBuffer->Release();
-				DeviceContextChido->g_pImmediateContext->OMSetRenderTargets(1, &G_PRenderTargetView.g_pRenderTargetView, NULL);
-				//g_pd3dDeviceContext->OMSetRenderTargets(1, &g_pRenderTargetView, NULL);
+					h = DeviceChido->g_pd3dDevice->CreateTexture2D(&G_PDepthStencil.descDepth, NULL, &G_PDepthStencil.g_pDepthStencil);
 
-				// Set up the viewport.
-				C_Viewport_DESC VPD;
-				VPD.Width = (FLOAT)width;
-				VPD.Height = (FLOAT)height;
-				VPD.MinDepth = 0.0f;
-				VPD.MaxDepth = 1.0f;
-				VPD.TopLeftX = 0;
-				VPD.TopLeftY = 0;
+					C_DepthStencilView_DESC DSVD;
+					DSVD.Format = G_PDepthStencil.m_DepthStencil.Format;
+					DSVD.ViewDimension = DSV_DIMENSION_TEXTURE2D;
+					DSVD.Texture2D.mipSlice = 0;
 
-				ViewPort.init(VPD);
-				/*D3D11_VIEWPORT vp;
-				vp.Width = width;
-				vp.Height = height;
-				vp.MinDepth = 0.0f;
-				vp.MaxDepth = 1.0f;
-				vp.TopLeftX = 0;
-				vp.TopLeftY = 0;*/
-				DeviceContextChido->g_pImmediateContext->RSSetViewports(1, &ViewPort.data);
-				//g_pd3dDeviceContext->RSSetViewports(1, &vp);
+					G_PDepthStencilView.g_pDepthStencilView->Release();
+
+					G_PDepthStencilView.init(DSVD, G_PDepthStencil.descDepth.Format);
+
+					h = DeviceChido->g_pd3dDevice->CreateDepthStencilView(G_PDepthStencil.g_pDepthStencil, &G_PDepthStencilView.descDSV, &G_PDepthStencilView.g_pDepthStencilView);
+
+					DeviceContextChido->g_pImmediateContext->OMSetRenderTargets(1, &G_PRenderTargetView.g_pRenderTargetView, G_PDepthStencilView.g_pDepthStencilView);
+
+					C_Viewport_DESC VD;
+					VD.Width = width;
+					VD.Height = height;
+					VD.MinDepth = 0.f;
+					VD.MaxDepth = 1.f;
+					VD.TopLeftX = 0;
+					VD.TopLeftY = 0;
+
+					CViewport ViewP;
+					ViewP.init(VD);
+					DeviceContextChido->g_pImmediateContext->RSSetViewports(1, &ViewP.data);
+				}
 			}
+			break;
 		}
 
 		case WM_KEYDOWN:

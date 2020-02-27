@@ -48,7 +48,6 @@ public:
 	void render();
 	C_DepthStencil_DESC  m_DepthStencil;
 #if defined(D3D11)
-
 	D3D11_TEXTURE2D_DESC descDepth;
 	ID3D11Texture2D* g_pDepthStencil = NULL;
 #endif
