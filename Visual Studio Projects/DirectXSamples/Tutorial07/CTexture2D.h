@@ -2,7 +2,7 @@
 * @File CDevice.h
 * @Author Roberto Ramírez Ontiveros (xc1700@hotmail.com)
 * @date  05/02/2020
-* @brief recrear el device context en singelton
+* @brief recrear texture
 * @Bug No kown bug
 **/
 /****************************************************************************/
@@ -38,5 +38,15 @@ struct C_Texture2D_DESC
 };
 class CTexture2D
 {
+public:
+	int init(C_Texture2D_DESC& _C_DEVICE_DESC);
+	void update();
+	void detroy();
+	void render();
+#if defined(D3D11)
+	ID3D11Texture2D* m_pTexture;
+	ID3D11ShaderResourceView *G_PTextureRV;
+	D3D11_TEXTURE2D_DESC Tex_Des;
+#endif
 };
 

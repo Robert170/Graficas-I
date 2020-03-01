@@ -1,8 +1,18 @@
 #pragma once
 
-#include <d3d11.h>
+//#include <d3d11.h>
 
 #define D3D11
+#include"../assimp/cimport.h"
+#include"../assimp/Importer.hpp"
+#include "../assimp/material.h"
+#include "../assimp/scene.h"
+#include "../assimp/postprocess.h"
+
+#include "../Tutorial07/includes/gtc/matrix_transform.hpp"
+
+
+
 
 #ifdef D3D11
 //Enum
@@ -215,11 +225,11 @@ enum INPUT_CLASSIFICATION
 enum DRIVER_TYPE
 {
 	DRIVER_TYPE_UNKNOWN = 0,
-	DRIVER_TYPE_HARDWARE = (D3D_DRIVER_TYPE_UNKNOWN + 1),
-	DRIVER_TYPE_REFERENCE = (D3D_DRIVER_TYPE_HARDWARE + 1),
-	DRIVER_TYPE_NULL = (D3D_DRIVER_TYPE_REFERENCE + 1),
-	DRIVER_TYPE_SOFTWARE = (D3D_DRIVER_TYPE_NULL + 1),
-	DRIVER_TYPE_WARP = (D3D_DRIVER_TYPE_SOFTWARE + 1)
+	DRIVER_TYPE_HARDWARE = (DRIVER_TYPE_UNKNOWN + 1),
+	DRIVER_TYPE_REFERENCE = (DRIVER_TYPE_HARDWARE + 1),
+	DRIVER_TYPE_NULL = (DRIVER_TYPE_REFERENCE + 1),
+	DRIVER_TYPE_SOFTWARE = (DRIVER_TYPE_NULL + 1),
+	DRIVER_TYPE_WARP = (DRIVER_TYPE_SOFTWARE + 1)
 };
 
 
@@ -298,7 +308,7 @@ struct SWAP_CHAIN_DESC
 	SAMPLE_DESC SampleDesc;
 	C_USAGE BufferUsage;
 	unsigned int BufferCount;
-	HWND OutputWindow;
+	unsigned int OutputWindow;
 	bool Windowed;
 	SWAP_EFFECT SwapEffect;
 	unsigned int Flags;
@@ -316,6 +326,14 @@ struct SAMPLER_DESC
 	float BorderColor[4];
 	float MinLOD;
 	float MaxLOD;
+};
+
+struct SimpleVertex
+{
+	glm::vec3 Pos;
+	//XMFLOAT3 Pos;
+	glm::vec2 Tex;
+	//XMFLOAT2 Tex;
 };
 
 #endif

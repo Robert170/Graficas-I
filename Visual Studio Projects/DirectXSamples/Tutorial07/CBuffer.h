@@ -25,11 +25,16 @@
 struct C_Buffer_DESC
 {
 	unsigned int ByteWidth;
-	C_USAGE		Usage;
+	
 	unsigned int  BindFlags;
 	unsigned int  CPUAccessFlags;
 	unsigned int  MiscFlags;
 	unsigned int  StructureByteStride;
+
+#if defined(D3D11)
+	C_USAGE		Usage;
+#endif
+
 };
 
 class CBuffer

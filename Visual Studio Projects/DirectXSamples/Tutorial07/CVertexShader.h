@@ -17,6 +17,7 @@
 
 #include <iostream>
 #include <windows.h>
+#include "CInputLayer.h"
 #pragma once
 
 

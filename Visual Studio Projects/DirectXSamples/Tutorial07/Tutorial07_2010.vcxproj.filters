@@ -32,6 +32,8 @@
     <ClCompile Include="CInputLayer.cpp" />
     <ClCompile Include="CPixelShader.cpp" />
     <ClCompile Include="CIndexBuffer.cpp" />
+    <ClCompile Include="CMesh.cpp" />
+    <ClCompile Include="CModel.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Tutorial07.cpp" />
@@ -67,6 +69,8 @@
     <ClInclude Include="CInputLayer.h" />
     <ClInclude Include="CPixelShader.h" />
     <ClInclude Include="CIndexBuffer.h" />
+    <ClInclude Include="CMesh.h" />
+    <ClInclude Include="CModel.h" />
   </ItemGroup>
   <ItemGroup>
   </ItemGroup>

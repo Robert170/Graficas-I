@@ -62,8 +62,9 @@ void CSwapChain::detroy()
 void CSwapChain::render()
 {
 }
-
+#if defined(D3D11)
 const DXGI_SWAP_CHAIN_DESC CSwapChain::GetSD()
 {
 	return SCD;
 }
+#endif

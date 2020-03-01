@@ -1,6 +1,5 @@
 #include "CCamera.h"
-#include <glm.hpp>
-#include <mat4x4.hpp>
+#include "../Tutorial07/includes/mat4x4.hpp"
 
 unsigned int CCamera::Init(CCameraDatas D)
 {

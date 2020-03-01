@@ -3,10 +3,9 @@
 #include <d3d11.h>
 #include <d3dx11.h>
 #include <d3dcompiler.h>
-#include <glm.hpp>
-#include <mat4x4.hpp>
-#include "../includes/gtc/matrix_transform.hpp"
-#include "../includes/gtx/rotate_vector.hpp"
+
+#include "includes/gtc/matrix_transform.hpp"
+#include "includes/gtx/rotate_vector.hpp"
 #include <xnamath.h>
 
 

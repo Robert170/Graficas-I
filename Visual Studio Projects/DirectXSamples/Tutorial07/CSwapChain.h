@@ -55,10 +55,10 @@ public:
 	void detroy();
 	void render();
 	C_SWAP_CHAIN_DESC  m_SwapChain;
-	const DXGI_SWAP_CHAIN_DESC GetSD();
+	
 
 #if defined(D3D11)
-	
+	const DXGI_SWAP_CHAIN_DESC GetSD();
 	IDXGISwapChain*      g_pSwapChain = NULL;
 	DXGI_SWAP_CHAIN_DESC SCD;
 	

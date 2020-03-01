@@ -1,5 +1,6 @@
 #include "CDepthStencilVoew.h"
 
+#if defined(D3D11)
 int CDepthStencilView::init(C_DepthStencilView_DESC & _C_DEVICE_DESC, DXGI_FORMAT FORMAT)
 {
 #if defined(D3D11)
@@ -15,7 +16,7 @@ int CDepthStencilView::init(C_DepthStencilView_DESC & _C_DEVICE_DESC, DXGI_FORMA
 #endif
 	return 0;
 }
-
+#endif
 void CDepthStencilView::update()
 {
 }
