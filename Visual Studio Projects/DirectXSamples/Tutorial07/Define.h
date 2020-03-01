@@ -10,6 +10,9 @@
 #include "../assimp/postprocess.h"
 
 #include "../Tutorial07/includes/gtc/matrix_transform.hpp"
+#include "includes/imgui/imgui.h"
+#include"includes/imgui/imgui_impl_win32.h"
+#include "includes/imgui/imgui_impl_dx11.h"
 
 
 

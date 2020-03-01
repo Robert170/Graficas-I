@@ -120,6 +120,8 @@ CSampleState SampleState;
 CViewport ViewPort;
 CModel Mod;
 
+int CLICK = 1;
+
 
 int WholeLevel[10][10] = { 0 };
 int Rows = 0;
@@ -170,7 +172,7 @@ void Laberinto(std::string FileLevelName)
 	}
 	MapFile.close();
 }
-
+extern IMGUI_IMPL_API LRESULT ImGui_ImplWin32_WndProcHandler(HWND hWnd, UINT msg, WPARAM wParam, LPARAM lParam);
 #ifdef D3D11
 HRESULT CreateInputLayoutDescFromVertexShaderSignature(ID3DBlob* pShaderBlob, ID3D11Device* pD3DDevice, ID3D11InputLayout** pInputLayout)
 {
@@ -271,6 +273,99 @@ int WINAPI wWinMain( HINSTANCE hInstance, HINSTANCE hPrevInstance, LPWSTR lpCmdL
         }
         else
         {
+			ImVec2 Texture_Size(240, 240);
+			ImGui_ImplDX11_NewFrame();
+			ImGui_ImplWin32_NewFrame();
+			ImGui::NewFrame();
+			ImGui::Begin("Change");
+
+			if (ImGui::Button("Change"))
+			{
+				if (GODCAM.GodC == false)
+				{
+					//if ()
+					//{
+
+					GODCAM.GodC = true;
+					CBNeverChanges cbNeverChanges;
+					cbNeverChanges.mView = GODCAM.GetView();//XMMatrixTranspose( g_View );
+#ifdef D3D11
+					DeviceContextChido->g_pImmediateContext->UpdateSubresource(g_pCBNeverChangesGOD.P_Buffer, 0, NULL, &cbNeverChanges, 0, 0);
+
+					/*g_pImmediateContext->UpdateSubresource(g_pCBNeverChangesGOD, 0, NULL, &cbNeverChanges, 0, 0);*/
+					CURRENTNEVERCHANGE.P_Buffer = g_pCBNeverChangesGOD.P_Buffer;
+#endif
+					// Initialize the projection matrix
+					g_Projection = GODCAM.GetProyeccion(); //XMMatrixPerspectiveFovLH( XM_PIDIV4, width / (FLOAT)height, 0.01f, 100.0f );
+
+					CBChangeOnResize cbChangesOnResize;
+					cbChangesOnResize.mProjection = GODCAM.GetProyeccion();//XMMatrixTranspose( g_Projection );
+#ifdef D3D11
+					DeviceContextChido->g_pImmediateContext->UpdateSubresource(g_pCBChangeOnResizeGOD.P_Buffer, 0, NULL, &cbChangesOnResize, 0, 0);
+
+					/*g_pImmediateContext->UpdateSubresource(g_pCBChangeOnResizeGOD, 0, NULL, &cbChangesOnResize, 0, 0);*/
+
+					CURRENTCHANGEONRESIZE.P_Buffer = g_pCBChangeOnResizeGOD.P_Buffer;
+					//}
+#endif
+				/*else if (GODCAM.GodC == true)
+				{
+					GODCAM.GodC = false;
+				}*/
+
+				}
+				else if (GODCAM.GodC == true)
+					//else //if (GODCAM.GodC == false)
+				{
+					GODCAM.GodC = false;
+					//CAM.Input(wParam);
+					CBNeverChanges cbNeverChanges;
+					cbNeverChanges.mView = CAM.GetView(); //XMMatrixTranspose( g_View );
+#ifdef D3D11
+					DeviceContextChido->g_pImmediateContext->UpdateSubresource(g_pCBNeverChanges.P_Buffer, 0, NULL, &cbNeverChanges, 0, 0);
+
+					/*g_pImmediateContext->UpdateSubresource(g_pCBNeverChanges, 0, NULL, &cbNeverChanges, 0, 0);*/
+					CURRENTNEVERCHANGE.P_Buffer = g_pCBNeverChanges.P_Buffer;
+					CURRENTCHANGEONRESIZE.P_Buffer = g_pCBChangeOnResize.P_Buffer;
+#endif
+				}
+				if (GODCAM.GodC == true)
+				{
+
+					//GODCAM.Input(wParam);
+					CBNeverChanges cbNeverChanges;
+					cbNeverChanges.mView = GODCAM.GetView();//XMMatrixTranspose( g_View );
+#ifdef D3D11
+					DeviceContextChido->g_pImmediateContext->UpdateSubresource(g_pCBNeverChanges.P_Buffer, 0, NULL, &cbNeverChanges, 0, 0);
+
+					/*g_pImmediateContext->UpdateSubresource(g_pCBNeverChanges, 0, NULL, &cbNeverChanges, 0, 0);*/
+					CURRENTNEVERCHANGE.P_Buffer = g_pCBNeverChanges.P_Buffer;
+					CURRENTCHANGEONRESIZE.P_Buffer = g_pCBChangeOnResize.P_Buffer;
+#endif
+				}
+				if (GODCAM.GodC == false)
+				{
+					//CAM.Input(wParam);
+					CBNeverChanges cbNeverChanges;
+					cbNeverChanges.mView = CAM.GetView(); //XMMatrixTranspose( g_View );
+#ifdef D3D11
+					DeviceContextChido->g_pImmediateContext->UpdateSubresource(g_pCBNeverChanges.P_Buffer, 0, NULL, &cbNeverChanges, 0, 0);
+
+					/*g_pImmediateContext->UpdateSubresource(g_pCBNeverChanges, 0, NULL, &cbNeverChanges, 0, 0);*/
+					CURRENTNEVERCHANGE.P_Buffer = g_pCBNeverChanges.P_Buffer;
+					CURRENTCHANGEONRESIZE.P_Buffer = g_pCBChangeOnResize.P_Buffer;
+#endif
+				}
+			
+
+			}
+			ImGui::End();
+			ImGui::Begin("DirectX11 Texture Test");
+
+			ImGui::Image(g_ShaderResource.G_PTextureRV, Texture_Size);
+			ImGui::GetIO().FontGlobalScale;
+
+			ImGui::End();
             Render();
         }
     }
@@ -844,7 +939,12 @@ HRESULT InitDevice()
 
 	CURRENTCHANGEONRESIZE.P_Buffer = g_pCBChangeOnResize.P_Buffer;
 	
-
+	IMGUI_CHECKVERSION();
+	ImGui::CreateContext();
+	ImGuiIO& io = ImGui::GetIO();
+	ImGui_ImplWin32_Init(g_hWnd);
+	ImGui_ImplDX11_Init(DeviceChido->g_pd3dDevice, DeviceContextChido->g_pImmediateContext);
+	ImGui::StyleColorsDark();
 
 
 
@@ -906,6 +1006,11 @@ void CleanupDevice()
 //--------------------------------------------------------------------------------------
 LRESULT CALLBACK WndProc( HWND hWnd, UINT message, WPARAM wParam, LPARAM lParam )
 {
+	if (ImGui_ImplWin32_WndProcHandler(hWnd, message, wParam, lParam))
+	{
+		std::cout << "F";
+		return true;
+	}
     PAINTSTRUCT ps;
     HDC hdc;
 
@@ -919,7 +1024,7 @@ LRESULT CALLBACK WndProc( HWND hWnd, UINT message, WPARAM wParam, LPARAM lParam 
         case WM_DESTROY:
             PostQuitMessage( 0 );
             break;
-		case WM_SIZING:
+		case WM_SIZE:
 		{
 #ifdef D3D11
 			if (DeviceContextChido->g_pImmediateContext != nullptr)
@@ -994,15 +1099,18 @@ LRESULT CALLBACK WndProc( HWND hWnd, UINT message, WPARAM wParam, LPARAM lParam 
 					CViewport ViewP;
 					ViewP.init(VD);
 					DeviceContextChido->g_pImmediateContext->RSSetViewports(1, &ViewP.data);
+					
 				}
+				ImGui::GetStyle().ScaleAllSizes(1	);
 			}
 #endif
+			
 			break;
 		}
 
 		case WM_KEYDOWN:
 		{
-			if ((wParam == 'g' || wParam == 'G') && GODCAM.GodC == false)
+			if ((wParam == 'g' || wParam == 'G' || CLICK==-1) && GODCAM.GodC == false)
 			{
 				//if ()
 				//{
@@ -1035,7 +1143,7 @@ LRESULT CALLBACK WndProc( HWND hWnd, UINT message, WPARAM wParam, LPARAM lParam 
 				}*/
 
 			}
-			else if ((wParam == 'g' || wParam == 'G') && GODCAM.GodC == true)
+			else if ((wParam == 'g' || wParam == 'G' || CLICK == 1) && GODCAM.GodC == true)
 			//else //if (GODCAM.GodC == false)
 			{
 				GODCAM.GodC = false;
@@ -1084,10 +1192,10 @@ LRESULT CALLBACK WndProc( HWND hWnd, UINT message, WPARAM wParam, LPARAM lParam 
 		{
 			if (GODCAM.GodC == false)
 			{
-				POINT Mouse;
-				GetCursorPos(&Mouse);
-				CAM.PosIn = { float(Mouse.x),float(Mouse.y),0 };
-				CAM.Fpres = true;
+			POINT Mouse;
+			GetCursorPos(&Mouse);
+			CAM.PosIn = { float(Mouse.x),float(Mouse.y),0 };
+			CAM.Fpres = true;
 			}
 			else if (GODCAM.GodC == true)
 			{
@@ -1283,7 +1391,8 @@ void Render()
     //
     // Present our back buffer to our front buffer
     //
-	
+	ImGui::Render();
+	ImGui_ImplDX11_RenderDrawData(ImGui::GetDrawData());
 	SwapChainChido->g_pSwapChain->Present(0, 0);
 #endif
   /*  g_pSwapChain->Present( 0, 0 );*/
