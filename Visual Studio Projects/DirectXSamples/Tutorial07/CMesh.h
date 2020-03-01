@@ -10,8 +10,7 @@ class CMesh
 public:
 
 	
-	std::vector<unsigned int> IndexM;
-	std::vector<SimpleVertex> VertexM;
+
 	CTexture2D Texture;
 	CVertexBuffer VerBUF;
 	CIndexBuffer IndBUF;

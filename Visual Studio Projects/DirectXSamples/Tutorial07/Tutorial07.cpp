@@ -273,14 +273,18 @@ int WINAPI wWinMain( HINSTANCE hInstance, HINSTANCE hPrevInstance, LPWSTR lpCmdL
         }
         else
         {
+#ifdef ID3D11
 			ImVec2 Texture_Size(240, 240);
 			ImGui_ImplDX11_NewFrame();
 			ImGui_ImplWin32_NewFrame();
 			ImGui::NewFrame();
 			ImGui::Begin("Change");
-
+#endif
+#ifdef ID3D11
 			if (ImGui::Button("Change"))
+#endif
 			{
+
 				if (GODCAM.GodC == false)
 				{
 					//if ()
@@ -359,14 +363,17 @@ int WINAPI wWinMain( HINSTANCE hInstance, HINSTANCE hPrevInstance, LPWSTR lpCmdL
 			
 
 			}
+#ifdef D3D11
 			ImGui::End();
 			ImGui::Begin("DirectX11 Texture Test");
 
 			ImGui::Image(g_ShaderResource.G_PTextureRV, Texture_Size);
+
 			ImGui::GetIO().FontGlobalScale;
 
 			ImGui::End();
             Render();
+#endif
         }
     }
 
