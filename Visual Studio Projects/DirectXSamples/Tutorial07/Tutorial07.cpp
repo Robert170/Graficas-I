@@ -273,16 +273,17 @@ int WINAPI wWinMain( HINSTANCE hInstance, HINSTANCE hPrevInstance, LPWSTR lpCmdL
         }
         else
         {
-#ifdef ID3D11
+#ifdef D3D11
 			ImVec2 Texture_Size(240, 240);
 			ImGui_ImplDX11_NewFrame();
 			ImGui_ImplWin32_NewFrame();
 			ImGui::NewFrame();
 			ImGui::Begin("Change");
-#endif
-#ifdef ID3D11
+
+
+
 			if (ImGui::Button("Change"))
-#endif
+
 			{
 
 				if (GODCAM.GodC == false)
@@ -293,25 +294,25 @@ int WINAPI wWinMain( HINSTANCE hInstance, HINSTANCE hPrevInstance, LPWSTR lpCmdL
 					GODCAM.GodC = true;
 					CBNeverChanges cbNeverChanges;
 					cbNeverChanges.mView = GODCAM.GetView();//XMMatrixTranspose( g_View );
-#ifdef D3D11
+
 					DeviceContextChido->g_pImmediateContext->UpdateSubresource(g_pCBNeverChangesGOD.P_Buffer, 0, NULL, &cbNeverChanges, 0, 0);
 
 					/*g_pImmediateContext->UpdateSubresource(g_pCBNeverChangesGOD, 0, NULL, &cbNeverChanges, 0, 0);*/
 					CURRENTNEVERCHANGE.P_Buffer = g_pCBNeverChangesGOD.P_Buffer;
-#endif
+
 					// Initialize the projection matrix
 					g_Projection = GODCAM.GetProyeccion(); //XMMatrixPerspectiveFovLH( XM_PIDIV4, width / (FLOAT)height, 0.01f, 100.0f );
 
 					CBChangeOnResize cbChangesOnResize;
 					cbChangesOnResize.mProjection = GODCAM.GetProyeccion();//XMMatrixTranspose( g_Projection );
-#ifdef D3D11
+
 					DeviceContextChido->g_pImmediateContext->UpdateSubresource(g_pCBChangeOnResizeGOD.P_Buffer, 0, NULL, &cbChangesOnResize, 0, 0);
 
 					/*g_pImmediateContext->UpdateSubresource(g_pCBChangeOnResizeGOD, 0, NULL, &cbChangesOnResize, 0, 0);*/
 
 					CURRENTCHANGEONRESIZE.P_Buffer = g_pCBChangeOnResizeGOD.P_Buffer;
 					//}
-#endif
+
 				/*else if (GODCAM.GodC == true)
 				{
 					GODCAM.GodC = false;
@@ -325,13 +326,13 @@ int WINAPI wWinMain( HINSTANCE hInstance, HINSTANCE hPrevInstance, LPWSTR lpCmdL
 					//CAM.Input(wParam);
 					CBNeverChanges cbNeverChanges;
 					cbNeverChanges.mView = CAM.GetView(); //XMMatrixTranspose( g_View );
-#ifdef D3D11
+
 					DeviceContextChido->g_pImmediateContext->UpdateSubresource(g_pCBNeverChanges.P_Buffer, 0, NULL, &cbNeverChanges, 0, 0);
 
 					/*g_pImmediateContext->UpdateSubresource(g_pCBNeverChanges, 0, NULL, &cbNeverChanges, 0, 0);*/
 					CURRENTNEVERCHANGE.P_Buffer = g_pCBNeverChanges.P_Buffer;
 					CURRENTCHANGEONRESIZE.P_Buffer = g_pCBChangeOnResize.P_Buffer;
-#endif
+
 				}
 				if (GODCAM.GodC == true)
 				{
@@ -339,20 +340,20 @@ int WINAPI wWinMain( HINSTANCE hInstance, HINSTANCE hPrevInstance, LPWSTR lpCmdL
 					//GODCAM.Input(wParam);
 					CBNeverChanges cbNeverChanges;
 					cbNeverChanges.mView = GODCAM.GetView();//XMMatrixTranspose( g_View );
-#ifdef D3D11
+
 					DeviceContextChido->g_pImmediateContext->UpdateSubresource(g_pCBNeverChanges.P_Buffer, 0, NULL, &cbNeverChanges, 0, 0);
 
 					/*g_pImmediateContext->UpdateSubresource(g_pCBNeverChanges, 0, NULL, &cbNeverChanges, 0, 0);*/
 					CURRENTNEVERCHANGE.P_Buffer = g_pCBNeverChanges.P_Buffer;
 					CURRENTCHANGEONRESIZE.P_Buffer = g_pCBChangeOnResize.P_Buffer;
-#endif
+
 				}
 				if (GODCAM.GodC == false)
 				{
 					//CAM.Input(wParam);
 					CBNeverChanges cbNeverChanges;
 					cbNeverChanges.mView = CAM.GetView(); //XMMatrixTranspose( g_View );
-#ifdef D3D11
+
 					DeviceContextChido->g_pImmediateContext->UpdateSubresource(g_pCBNeverChanges.P_Buffer, 0, NULL, &cbNeverChanges, 0, 0);
 
 					/*g_pImmediateContext->UpdateSubresource(g_pCBNeverChanges, 0, NULL, &cbNeverChanges, 0, 0);*/
@@ -373,13 +374,14 @@ int WINAPI wWinMain( HINSTANCE hInstance, HINSTANCE hPrevInstance, LPWSTR lpCmdL
 
 			ImGui::End();
             Render();
-#endif
+
         }
     }
 
     CleanupDevice();
 	Laberinto("Laberinto.txt");
     return ( int )msg.wParam;
+#endif
 }
 
 
