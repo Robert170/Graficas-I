@@ -1119,7 +1119,7 @@ LRESULT CALLBACK WndProc( HWND hWnd, UINT message, WPARAM wParam, LPARAM lParam 
 
 		case WM_KEYDOWN:
 		{
-			if ((wParam == 'g' || wParam == 'G' || CLICK==-1) && GODCAM.GodC == false)
+			if ((wParam == 'g' || wParam == 'G' ) && GODCAM.GodC == false)
 			{
 				//if ()
 				//{
@@ -1152,7 +1152,7 @@ LRESULT CALLBACK WndProc( HWND hWnd, UINT message, WPARAM wParam, LPARAM lParam 
 				}*/
 
 			}
-			else if ((wParam == 'g' || wParam == 'G' || CLICK == 1) && GODCAM.GodC == true)
+			else if ((wParam == 'g' || wParam == 'G' ) && GODCAM.GodC == true)
 			//else //if (GODCAM.GodC == false)
 			{
 				GODCAM.GodC = false;
