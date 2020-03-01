@@ -43,6 +43,7 @@ public:
 	C_Index_Buffer_DESC  m_IndexBuffer;
 
 	CBuffer BIndex;
+	unsigned int NumElements;
 #if defined(D3D11)
 	
 	D3D11_SUBRESOURCE_DATA InitD;

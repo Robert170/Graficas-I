@@ -32,6 +32,7 @@
 #include "CIndexBuffer.h"
 #include "CTexture2D.h"
 #include <vector>
+#include "CModel.h"
 CDevice *CDevice::DeviceInstance = NULL;
 CDeviceContext* CDeviceContext::DeviceInstanceCo = NULL;
 CSwapChain* CSwapChain::SwapChainInstance = NULL;
@@ -46,7 +47,6 @@ CSwapChain* CSwapChain::SwapChainInstance = NULL;
 //--------------------------------------------------------------------------------------
 // Structures
 //--------------------------------------------------------------------------------------
-
 
 struct CBNeverChanges
 {
@@ -118,6 +118,8 @@ CBuffer Buf;
 CRenderTarget BackBuffer;
 CSampleState SampleState;
 CViewport ViewPort;
+CModel Mod;
+
 
 int WholeLevel[10][10] = { 0 };
 int Rows = 0;
@@ -552,6 +554,10 @@ HRESULT InitDevice()
 */
 
 
+
+
+
+
 // Create the input layout
 	hr = CreateInputLayoutDescFromVertexShaderSignature(G_PVertexShader.pVSBlob, DeviceChido->g_pd3dDevice, &G_PInputLayer->g_pVertexLayout);
 	if (FAILED(hr))
@@ -837,6 +843,11 @@ HRESULT InitDevice()
     /*g_pImmediateContext->UpdateSubresource( g_pCBChangeOnResize, 0, NULL, &cbChangesOnResize, 0, 0 );*/
 
 	CURRENTCHANGEONRESIZE.P_Buffer = g_pCBChangeOnResize.P_Buffer;
+	
+
+
+
+
 #endif
     return S_OK;
 }
@@ -1162,6 +1173,7 @@ LRESULT CALLBACK WndProc( HWND hWnd, UINT message, WPARAM wParam, LPARAM lParam 
 void Render()
 {
 #ifdef D3D11
+
     // Update our time
     static float t = 0.0f;
     if( DeviceChido->m_DeviceDesc.DriverTypeDe == D3D_DRIVER_TYPE_REFERENCE )
@@ -1180,7 +1192,7 @@ void Render()
     // Rotate cube around the origin
     //g_World = XMMatrixRotationY( t );
 	glm::vec3 T = { 3, 0, 0 };
-	g_World = glm::translate(T);
+	g_World = glm::translate(CAM.GetPosition());
 
     // Modify the color
     g_vMeshColor.x = ( sinf( t * 1.0f ) + 1.0f ) * 0.5f;
@@ -1214,24 +1226,17 @@ void Render()
     //
     // Render the cube
     //
-	DeviceContextChido->g_pImmediateContext->VSSetShader(G_PVertexShader.g_pVertexShader, NULL, 0);
-	DeviceContextChido->g_pImmediateContext->VSSetConstantBuffers(0, 1, &CURRENTNEVERCHANGE.P_Buffer);
-	DeviceContextChido->g_pImmediateContext->VSSetConstantBuffers(1, 1, &CURRENTCHANGEONRESIZE.P_Buffer);
-	DeviceContextChido->g_pImmediateContext->VSSetConstantBuffers(2, 1, &g_pCBChangesEveryFrame.P_Buffer);
-	DeviceContextChido->g_pImmediateContext->PSSetShader(G_PPixelShader.g_pPixelShader, NULL, 0);
-	DeviceContextChido->g_pImmediateContext->PSSetConstantBuffers(2, 1, &g_pCBChangesEveryFrame.P_Buffer);
-	DeviceContextChido->g_pImmediateContext->PSSetShaderResources(0, 1, &g_ShaderResource.G_PTextureRV);
-	DeviceContextChido->g_pImmediateContext->PSSetSamplers(0, 1, &SampleState.g_pSamplerLinear);
-	DeviceContextChido->g_pImmediateContext->DrawIndexed(36, 0, 0);
-  /*  g_pImmediateContext->VSSetShader( g_pVertexShader, NULL, 0 );
-    g_pImmediateContext->VSSetConstantBuffers( 0, 1, &CURRENTNEVERCHANGE);
-    g_pImmediateContext->VSSetConstantBuffers( 1, 1, &CURRENTCHANGEONRESIZE);
-    g_pImmediateContext->VSSetConstantBuffers( 2, 1, &g_pCBChangesEveryFrame );
-    g_pImmediateContext->PSSetShader( g_pPixelShader, NULL, 0 );
-    g_pImmediateContext->PSSetConstantBuffers( 2, 1, &g_pCBChangesEveryFrame );
-    g_pImmediateContext->PSSetShaderResources( 0, 1, &g_pTextureRV );
-    g_pImmediateContext->PSSetSamplers( 0, 1, &g_pSamplerLinear );
-    g_pImmediateContext->DrawIndexed( 36, 0, 0 );*/
+
+	//DeviceContextChido->g_pImmediateContext->VSSetShader(G_PVertexShader.g_pVertexShader, NULL, 0);
+	//DeviceContextChido->g_pImmediateContext->VSSetConstantBuffers(0, 1, &CURRENTNEVERCHANGE.P_Buffer);
+	//DeviceContextChido->g_pImmediateContext->VSSetConstantBuffers(1, 1, &CURRENTCHANGEONRESIZE.P_Buffer);
+	//DeviceContextChido->g_pImmediateContext->VSSetConstantBuffers(2, 1, &g_pCBChangesEveryFrame.P_Buffer);
+	//DeviceContextChido->g_pImmediateContext->PSSetShader(G_PPixelShader.g_pPixelShader, NULL, 0);
+	//DeviceContextChido->g_pImmediateContext->PSSetConstantBuffers(2, 1, &g_pCBChangesEveryFrame.P_Buffer);
+	//DeviceContextChido->g_pImmediateContext->PSSetShaderResources(0, 1, &g_ShaderResource.G_PTextureRV);
+	//DeviceContextChido->g_pImmediateContext->PSSetSamplers(0, 1, &SampleState.g_pSamplerLinear);
+	//DeviceContextChido->g_pImmediateContext->DrawIndexed(36, 0, 0);
+
 
 	int DistanceX = 0;
 	int DistanceY = 0;
@@ -1264,15 +1269,6 @@ void Render()
 				DeviceContextChido->g_pImmediateContext->PSSetShaderResources(0, 1, &g_ShaderResource.G_PTextureRV);
 				DeviceContextChido->g_pImmediateContext->PSSetSamplers(0, 1, &SampleState.g_pSamplerLinear);
 				DeviceContextChido->g_pImmediateContext->DrawIndexed(36, 0, 0);
-				/*g_pImmediateContext->VSSetShader(g_pVertexShader, NULL, 0);
-				g_pImmediateContext->VSSetConstantBuffers(0, 1, &CURRENTNEVERCHANGE);
-				g_pImmediateContext->VSSetConstantBuffers(1, 1, &CURRENTCHANGEONRESIZE);
-				g_pImmediateContext->VSSetConstantBuffers(2, 1, &g_pCBChangesEveryFrame);
-				g_pImmediateContext->PSSetShader(g_pPixelShader, NULL, 0);
-				g_pImmediateContext->PSSetConstantBuffers(2, 1, &g_pCBChangesEveryFrame);
-				g_pImmediateContext->PSSetShaderResources(0, 1, &g_pTextureRV);
-				g_pImmediateContext->PSSetSamplers(0, 1, &g_pSamplerLinear);
-				g_pImmediateContext->DrawIndexed(36, 0, 0);*/
 			}
 			T = { DistanceX, 0, DistanceY };
 			g_World = glm::translate(T);

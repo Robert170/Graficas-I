@@ -6,15 +6,18 @@
 #include <vector>
 class CMesh
 {
+
 public:
 
-	std::vector<unsigned int>m_VIndex;
-	std::vector<SimpleVertex>m_VVertex;
-	CTexture2D TextureM;
-	CVertexBuffer VertexBufferM;
-	CIndexBuffer IndexBufferM;
+	
+	std::vector<unsigned int> IndexM;
+	std::vector<SimpleVertex> VertexM;
+	CTexture2D Texture;
+	CVertexBuffer VerBUF;
+	CIndexBuffer IndBUF;
 
 	CMesh();
+	
 	~CMesh();
 };
 

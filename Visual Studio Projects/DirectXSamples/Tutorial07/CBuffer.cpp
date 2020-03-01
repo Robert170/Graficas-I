@@ -17,6 +17,7 @@ int CBuffer::init(C_Buffer_DESC & _C_DEVICE_DESC)
 	return 0;
 }
 
+
 void CBuffer::update()
 {
 }

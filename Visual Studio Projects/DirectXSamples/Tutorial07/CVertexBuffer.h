@@ -43,6 +43,7 @@ public:
 	C_Vertex_Buffer_DESC  m_VertexBuffer;
 	
 	CBuffer BVertex;
+	unsigned int NumElements;
 #if defined(D3D11)
 	//ID3D11Buffer*    g_pVertexBuffer = NULL;
 	D3D11_SUBRESOURCE_DATA InitData;

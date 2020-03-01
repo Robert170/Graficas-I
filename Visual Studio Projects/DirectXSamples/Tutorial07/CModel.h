@@ -3,8 +3,12 @@
 #include "CMesh.h"
 #include <vector>
 
+
+
 class CModel
 {
+public:
+
 	std::vector<CMesh> m_VMesh;
 	glm::mat4x4 m_Tranform;
 

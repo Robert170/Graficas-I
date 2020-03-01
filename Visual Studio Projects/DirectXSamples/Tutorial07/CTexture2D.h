@@ -16,6 +16,7 @@
 
 #include <iostream>
 #include <windows.h>
+#include <vector>
 #pragma once
 
 
@@ -40,6 +41,7 @@ class CTexture2D
 {
 public:
 	int init(C_Texture2D_DESC& _C_DEVICE_DESC);
+	void init(std::string Nam);
 	void update();
 	void detroy();
 	void render();

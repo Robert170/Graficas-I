@@ -16,7 +16,7 @@ CMesh CModel::ProcessMesh(aiMesh * Mesh, const aiScene * Scene, aiMaterial * mat
 			Ver.Tex.x = (float)Mesh->mTextureCoords[0][i].x;
 			Ver.Tex.y = (float)Mesh->mTextureCoords[0][i].y;
 		}
-		CurrentMesh.m_VVertex.push_back(Ver);
+		CurrentMesh.VertexM.push_back(Ver);
 	}
 
 	for (unsigned int i = 0; i < Mesh->mNumFaces; i++)
@@ -24,7 +24,7 @@ CMesh CModel::ProcessMesh(aiMesh * Mesh, const aiScene * Scene, aiMaterial * mat
 		aiFace Face = Mesh->mFaces[i];
 		for (unsigned int j = 0; j < Face.mNumIndices; j++)
 		{
-			CurrentMesh.m_VIndex.push_back(Face.mIndices[2 - j]);
+			CurrentMesh.IndexM.push_back(Face.mIndices[2 - j]);
 		}
 	}
 
@@ -33,21 +33,52 @@ CMesh CModel::ProcessMesh(aiMesh * Mesh, const aiScene * Scene, aiMaterial * mat
 		aiString FPath;
 		mat->GetTexture(aiTextureType_DIFFUSE, 0, &FPath, NULL, NULL, NULL, NULL, NULL);
 		std::string FilePath = FPath.data;
-		//CurrentMesh.TextureM.init(FilePath);
+		CurrentMesh.Texture.init(FilePath);
 	}
-
-	
+	CurrentMesh.VerBUF.NumElements = CurrentMesh.VertexM.size();
+	CurrentMesh.IndBUF.NumElements = CurrentMesh.IndexM.size();
 
 	return CurrentMesh;
 }
 
 void CModel::ProcessNod(aiNode * node, const aiScene * scene)
 {
+	for (unsigned int i = 0; i < node->mNumMeshes; i++)
+	{
+		aiMesh* Mesh = scene->mMeshes[node->mMeshes[i]];
+		aiMaterial* Material = scene->mMaterials[Mesh->mMaterialIndex];
+		m_VMesh.push_back(ProcessMesh(Mesh, scene, Material));
+	}
+	for (unsigned int i = 0; i < node->mNumChildren; i++)
+	{
+		ProcessNod(node->mChildren[i], scene);
+	}
 }
 
 void CModel::LoadModel(const std::string & path)
 {
+Assimp::Importer IMP;
+const aiScene* Model = aiImportFile("Smart Bomb.obj",aiProcess_ConvertToLeftHanded);
+if (Model == nullptr)
+{
+	//error
 }
+else
+{
+	ProcessNod(Model->mRootNode, Model);
+}
+	std::vector<SimpleVertex> vertices;
+	Assimp::Importer importer;
+
+
+
+}
+
+CModel::CModel()
+{
+}
+
+
 
 CModel::~CModel()
 {

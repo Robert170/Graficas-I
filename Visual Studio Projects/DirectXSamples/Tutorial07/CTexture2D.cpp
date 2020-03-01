@@ -5,6 +5,11 @@ int CTexture2D::init(C_Texture2D_DESC& _C_DEVICE_DESC)
 	return 0;
 }
 
+void CTexture2D::init(std::string Nam)
+{
+	
+}
+
 void CTexture2D::update()
 {
 }

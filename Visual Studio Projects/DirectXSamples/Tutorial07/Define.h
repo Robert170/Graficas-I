@@ -232,6 +232,14 @@ enum DRIVER_TYPE
 	DRIVER_TYPE_WARP = (DRIVER_TYPE_SOFTWARE + 1)
 };
 
+enum BFlags
+{
+	VERTEX = 0x1L,
+	INDEX = 0x2L,
+	CONSTANT = 0x4L,
+
+};
+
 
 //Estructuras
 

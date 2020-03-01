@@ -41,6 +41,7 @@ class CBuffer
 {
 public:
 	int init(C_Buffer_DESC& _C_DEVICE_DESC);
+	
 	void update();
 	void detroy();
 	void render();
@@ -49,6 +50,7 @@ public:
 #if defined(D3D11)
 	D3D11_BUFFER_DESC bd;
 	ID3D11Buffer*   P_Buffer = NULL;
+	
 #endif
 	
 };
