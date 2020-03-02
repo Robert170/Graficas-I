@@ -664,6 +664,10 @@ HRESULT InitDevice()
 */
 
 
+
+
+
+
 // Create the input layout
 	hr = CreateInputLayoutDescFromVertexShaderSignature(G_PVertexShader.pVSBlob, DeviceChido->g_pd3dDevice, &G_PInputLayer->g_pVertexLayout);
 	if (FAILED(hr))
