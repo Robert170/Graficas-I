@@ -120,6 +120,11 @@ CSampleState SampleState;
 CViewport ViewPort;
 CModel Mod;
 
+CCamera *		MainCamera = NULL;
+CCamera *		SecondCamera = NULL;
+CTargetView		RenderTargetView2;
+CTexture2D		TextureCAMInac;
+
 int CLICK = 1;
 
 
@@ -368,7 +373,7 @@ int WINAPI wWinMain( HINSTANCE hInstance, HINSTANCE hPrevInstance, LPWSTR lpCmdL
 			ImGui::End();
 			ImGui::Begin("DirectX11 Texture Test");
 
-			ImGui::Image(g_ShaderResource.G_PTextureRV, Texture_Size);
+			ImGui::Image(g_ShaderResource.G_PInactiveRV, Texture_Size);
 
 			ImGui::GetIO().FontGlobalScale;
 
@@ -602,7 +607,8 @@ HRESULT InitDevice()
 	/* hr = g_pd3dDevice->CreateDepthStencilView( g_pDepthStencil, &descDSV, &g_pDepthStencilView );*/
 	if (FAILED(hr))
 		return hr;
-	DeviceContextChido->g_pImmediateContext->OMSetRenderTargets(1, &G_PRenderTargetView.g_pRenderTargetView, G_PDepthStencilView.g_pDepthStencilView);
+
+	//DeviceContextChido->g_pImmediateContext->OMSetRenderTargets(1, &G_PRenderTargetView.g_pRenderTargetView, G_PDepthStencilView.g_pDepthStencilView);
 
 	/* g_pImmediateContext->OMSetRenderTargets( 1, &g_pRenderTargetView, g_pDepthStencilView );*/
 
@@ -656,10 +662,6 @@ HRESULT InitDevice()
 
 	UINT numElements = ARRAYSIZE( layout );
 */
-
-
-
-
 
 
 // Create the input layout
@@ -947,6 +949,51 @@ HRESULT InitDevice()
     /*g_pImmediateContext->UpdateSubresource( g_pCBChangeOnResize, 0, NULL, &cbChangesOnResize, 0, 0 );*/
 
 	CURRENTCHANGEONRESIZE.P_Buffer = g_pCBChangeOnResize.P_Buffer;
+
+	C_Texture2D_DESC InacTx;
+	ZeroMemory(&InacTx, sizeof(InacTx));
+	InacTx.Width = width;
+	InacTx.Height = height;
+	InacTx.MipLevels = InacTx.ArraySize = 1;
+	InacTx.Format = FORMAT_R8G8B8A8_UNORM;
+	InacTx.SampleDesc.Count = 1;
+	InacTx.Usage = C_USAGE_DEFAULT;
+	InacTx.BindFlags = 8 | 32;		//D3D11_BIND_SHADER_RESOURCE | D3D11_BIND_RENDER_TARGET;
+	InacTx.CPUAccessFlags = 65536;//D3D11_CPU_ACCESS_WRITE;
+	InacTx.MiscFlags = 0;
+
+	TextureCAMInac.init(InacTx);
+
+	hr = DeviceChido->g_pd3dDevice->CreateTexture2D(&TextureCAMInac.Tex_Des, NULL, &TextureCAMInac.m_pTexture);
+	if (FAILED(hr))
+		return hr;
+
+	//second Render Target View
+	C_TargetView_DESC RTV2;
+	RTV2.Format = InacTx.Format;
+	RTV2.ViewDimension = RTV_DIMENSION_TEXTURE2D;
+	RTV2.Texture2D.mipSlice = 0;
+
+	RenderTargetView2.init(RTV2);
+
+	hr = DeviceChido->g_pd3dDevice->CreateRenderTargetView(TextureCAMInac.m_pTexture, &RenderTargetView2.m_Desc, &RenderTargetView2.g_pRenderTargetView);
+	if (FAILED(hr))
+		return hr;
+
+	D3D11_SHADER_RESOURCE_VIEW_DESC view;
+	view.Format = (DXGI_FORMAT)InacTx.Format;
+	view.ViewDimension = D3D11_SRV_DIMENSION_TEXTURE2D;
+	view.Texture2D.MostDetailedMip = 0;
+	view.Texture2D.MipLevels = 1;
+
+	hr = DeviceChido->g_pd3dDevice->CreateShaderResourceView(TextureCAMInac.m_pTexture, &view, &g_ShaderResource.G_PInactiveRV);
+	if (FAILED(hr))
+		return hr;
+
+	//Set active and inactive camera
+	MainCamera = &CAM;
+	SecondCamera = &GODCAM;
+
 	
 	IMGUI_CHECKVERSION();
 	ImGui::CreateContext();
@@ -1056,9 +1103,49 @@ LRESULT CALLBACK WndProc( HWND hWnd, UINT message, WPARAM wParam, LPARAM lParam 
 				DeviceContextChido->g_pImmediateContext->UpdateSubresource(g_pCBChangeOnResize.P_Buffer, 0, NULL, &cbChangesOnResize, 0, 0);
 				if (SwapChainChido->g_pSwapChain)
 				{
+					HRESULT h;
+
+					//Release inactive camera texture, SRV and RTV
+					TextureCAMInac.m_pTexture->Release();
+					g_ShaderResource.G_PInactiveRV->Release();
+					RenderTargetView2.g_pRenderTargetView->Release();
+
+					//Resize inactive camera texture					
+					C_Texture2D_DESC TD;
+					ZeroMemory(&TD, sizeof(TD));
+					TD.Width = width;
+					TD.Height = height;
+					TD.MipLevels = TD.ArraySize = 1;
+					TD.Format = FORMAT_R8G8B8A8_UNORM;
+					TD.SampleDesc.Count = 1;
+					TD.Usage = C_USAGE_DEFAULT;
+					TD.BindFlags = 8 | 32;			// D3D11_BIND_SHADER_RESOURCE | D3D11_BIND_RENDER_TARGET;
+					TD.CPUAccessFlags = 65536;	//D3D11_CPU_ACCESS_WRITE;
+					TD.MiscFlags = 0;
+					TextureCAMInac.init(TD);
+
+					h = DeviceChido->g_pd3dDevice->CreateTexture2D(&TextureCAMInac.Tex_Des, NULL, &TextureCAMInac.m_pTexture);
+
+					C_TargetView_DESC RTVD;
+					RTVD.Format = TD.Format;
+					RTVD.ViewDimension = RTV_DIMENSION_TEXTURE2D;
+					RTVD.texture1D.mipSlice = 0;
+					RenderTargetView2.init(RTVD);
+
+					h = DeviceChido->g_pd3dDevice->CreateRenderTargetView(TextureCAMInac.m_pTexture, &RenderTargetView2.m_Desc, &RenderTargetView2.g_pRenderTargetView);
+
+					D3D11_SHADER_RESOURCE_VIEW_DESC SRV;
+					SRV.Format = (DXGI_FORMAT)TD.Format;
+					SRV.ViewDimension = D3D11_SRV_DIMENSION_TEXTURE2D;
+					SRV.Texture2D.MostDetailedMip = 0;
+					SRV.Texture2D.MipLevels = 1;
+
+					h = DeviceChido->g_pd3dDevice->CreateShaderResourceView(TextureCAMInac.m_pTexture, &SRV, &g_ShaderResource.G_PInactiveRV);
+
+
 					DeviceContextChido->g_pImmediateContext->OMSetRenderTargets(0, 0, 0);
 					G_PRenderTargetView.g_pRenderTargetView->Release();
-					HRESULT h;
+					
 					h = SwapChainChido->g_pSwapChain->ResizeBuffers(0, 0, 0, DXGI_FORMAT_UNKNOWN, 0);
 
 					CBuffer tempBack;
@@ -1197,7 +1284,7 @@ LRESULT CALLBACK WndProc( HWND hWnd, UINT message, WPARAM wParam, LPARAM lParam 
 		
 			break;
 		}
-		case WM_LBUTTONDOWN:
+		case WM_RBUTTONDOWN:
 		{
 			if (GODCAM.GodC == false)
 			{
@@ -1264,7 +1351,7 @@ LRESULT CALLBACK WndProc( HWND hWnd, UINT message, WPARAM wParam, LPARAM lParam 
 			
 			break;
 		}
-		case WM_LBUTTONUP:
+		case WM_RBUTTONUP:
 		{
 			if (GODCAM.GodC == false)
 			{
@@ -1320,16 +1407,16 @@ void Render()
     // Clear the back buffer
     //
     float ClearColor[4] = { 0.0f, 0.125f, 0.3f, 1.0f }; // red, green, blue, alpha
-	DeviceContextChido->g_pImmediateContext->ClearRenderTargetView(G_PRenderTargetView.g_pRenderTargetView, ClearColor);
-	
-   /* g_pImmediateContext->ClearRenderTargetView( g_pRenderTargetView, ClearColor );*/
 
+	DeviceContextChido->g_pImmediateContext->OMSetRenderTargets(1, &RenderTargetView2.g_pRenderTargetView, G_PDepthStencilView.g_pDepthStencilView);
+
+	DeviceContextChido->g_pImmediateContext->ClearRenderTargetView(RenderTargetView2.g_pRenderTargetView, ClearColor);
+   /* g_pImmediateContext->ClearRenderTargetView( g_pRenderTargetView, ClearColor );*/
     //
     // Clear the depth buffer to 1.0 (max depth)
     //
 	DeviceContextChido->g_pImmediateContext->ClearDepthStencilView(G_PDepthStencilView.g_pDepthStencilView, D3D11_CLEAR_DEPTH, 1.0f, 0);
     /*g_pImmediateContext->ClearDepthStencilView( g_pDepthStencilView, D3D11_CLEAR_DEPTH, 1.0f, 0 );*/
-
     //
     // Update variables that change once per frame
     //
@@ -1397,7 +1484,76 @@ void Render()
 		DistanceY += 2.5;
 		DistanceX = 0;
 	}
-    //
+	DeviceContextChido->g_pImmediateContext->OMSetRenderTargets(1, &G_PRenderTargetView.g_pRenderTargetView, G_PDepthStencilView.g_pDepthStencilView);
+
+	DeviceContextChido->g_pImmediateContext->ClearRenderTargetView(G_PRenderTargetView.g_pRenderTargetView, ClearColor);
+
+	DeviceContextChido->g_pImmediateContext->ClearDepthStencilView(G_PDepthStencilView.g_pDepthStencilView, D3D11_CLEAR_DEPTH, 1.0f, 0);
+	cb;
+	cb.mWorld = glm::transpose(g_World);
+	cb.vMeshColor = g_vMeshColor;
+	DeviceContextChido->g_pImmediateContext->UpdateSubresource(g_pCBChangesEveryFrame.P_Buffer, 0, NULL, &cb, 0, 0);
+	/*g_pImmediateContext->UpdateSubresource( g_pCBChangesEveryFrame, 0, NULL, &cb, 0, 0 );*/
+
+
+	//
+	// Render the cube
+	//
+
+	//DeviceContextChido->g_pImmediateContext->VSSetShader(G_PVertexShader.g_pVertexShader, NULL, 0);
+	//DeviceContextChido->g_pImmediateContext->VSSetConstantBuffers(0, 1, &CURRENTNEVERCHANGE.P_Buffer);
+	//DeviceContextChido->g_pImmediateContext->VSSetConstantBuffers(1, 1, &CURRENTCHANGEONRESIZE.P_Buffer);
+	//DeviceContextChido->g_pImmediateContext->VSSetConstantBuffers(2, 1, &g_pCBChangesEveryFrame.P_Buffer);
+	//DeviceContextChido->g_pImmediateContext->PSSetShader(G_PPixelShader.g_pPixelShader, NULL, 0);
+	//DeviceContextChido->g_pImmediateContext->PSSetConstantBuffers(2, 1, &g_pCBChangesEveryFrame.P_Buffer);
+	//DeviceContextChido->g_pImmediateContext->PSSetShaderResources(0, 1, &g_ShaderResource.G_PTextureRV);
+	//DeviceContextChido->g_pImmediateContext->PSSetSamplers(0, 1, &SampleState.g_pSamplerLinear);
+	//DeviceContextChido->g_pImmediateContext->DrawIndexed(36, 0, 0);
+
+
+	DistanceX = 0;
+	DistanceY = 0;
+	for (int i = 0; i < Rows; i++)
+	{
+		for (int j = 0; j < Columns; j++)
+		{
+			if (WholeLevel[i][j])
+			{
+
+				DistanceX += 2.5;
+			}
+
+			else if (WholeLevel[i][j] == Pilares)
+			{
+				DistanceX += 2.5;
+			}
+			else
+			{
+				DistanceX += 2.5;
+			}
+			if (WholeLevel[i][j] != 0)
+			{
+				DeviceContextChido->g_pImmediateContext->VSSetShader(G_PVertexShader.g_pVertexShader, NULL, 0);
+				DeviceContextChido->g_pImmediateContext->VSSetConstantBuffers(0, 1, &CURRENTNEVERCHANGE.P_Buffer);
+				DeviceContextChido->g_pImmediateContext->VSSetConstantBuffers(1, 1, &CURRENTCHANGEONRESIZE.P_Buffer);
+				DeviceContextChido->g_pImmediateContext->VSSetConstantBuffers(2, 1, &g_pCBChangesEveryFrame.P_Buffer);
+				DeviceContextChido->g_pImmediateContext->PSSetShader(G_PPixelShader.g_pPixelShader, NULL, 0);
+				DeviceContextChido->g_pImmediateContext->PSSetConstantBuffers(2, 1, &g_pCBChangesEveryFrame.P_Buffer);
+				DeviceContextChido->g_pImmediateContext->PSSetShaderResources(0, 1, &g_ShaderResource.G_PInactiveRV);
+				DeviceContextChido->g_pImmediateContext->PSSetSamplers(0, 1, &SampleState.g_pSamplerLinear);
+				DeviceContextChido->g_pImmediateContext->DrawIndexed(36, 0, 0);
+			}
+			T = { DistanceX, 0, DistanceY };
+			g_World = glm::translate(T);
+			cb.mWorld = glm::transpose(g_World);
+			cb.vMeshColor = g_vMeshColor;
+			DeviceContextChido->g_pImmediateContext->UpdateSubresource(g_pCBChangesEveryFrame.P_Buffer, 0, NULL, &cb, 0, 0);
+			/*g_pImmediateContext->UpdateSubresource(g_pCBChangesEveryFrame, 0, NULL, &cb, 0, 0);*/
+		}
+		DistanceY += 2.5;
+		DistanceX = 0;
+	}
+	//
     // Present our back buffer to our front buffer
     //
 	ImGui::Render();

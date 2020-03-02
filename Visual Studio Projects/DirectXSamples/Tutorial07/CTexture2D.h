@@ -45,9 +45,12 @@ public:
 	void update();
 	void detroy();
 	void render();
+
+	C_Texture2D_DESC m_TexDesc;
 #if defined(D3D11)
 	ID3D11Texture2D* m_pTexture;
 	ID3D11ShaderResourceView *G_PTextureRV;
+	ID3D11ShaderResourceView   *G_PInactiveRV = NULL;
 	D3D11_TEXTURE2D_DESC Tex_Des;
 #endif
 };

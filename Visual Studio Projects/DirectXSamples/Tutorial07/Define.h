@@ -256,6 +256,20 @@ struct VIEWPORT
 	float MaxDepth;
 };
 
+struct BUFFER_RTV
+{
+	union
+	{
+		unsigned int firstElement;
+		unsigned int elementOffset;
+	};
+	union
+	{
+		unsigned int numElements;
+		unsigned int elementWidth;
+	};
+};
+
 struct TEX1D_DSV
 {
 	unsigned int mipSlice;
@@ -289,6 +303,13 @@ struct TEX2DMS_ARRAY_DSV
 {
 	unsigned int firstArraySize;
 	unsigned int arraySize;
+};
+
+struct TEX3D_RTV
+{
+	unsigned int mipSlice;
+	unsigned int firstWSlice;
+	unsigned int wSize;
 };
 
 struct RATIONAL

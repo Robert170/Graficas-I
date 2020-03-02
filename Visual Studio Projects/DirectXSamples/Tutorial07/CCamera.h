@@ -4,6 +4,7 @@
 #include <d3dx11.h>
 #include <d3dcompiler.h>
 
+#include "CBuffer.h"
 #include "includes/gtc/matrix_transform.hpp"
 #include "includes/gtx/rotate_vector.hpp"
 #include <xnamath.h>
@@ -109,6 +110,14 @@ public:
 	/*CVector3 GetFront();
 	CVector3 GetRigth();
 	CVector3 GetUpD();*/
+
+	CBuffer		g_pCBNeverChanges;
+	CBuffer		g_pCBChangeOnResize;
+	CBuffer		g_pCBNeverChangesGOD;
+	CBuffer		g_pCBChangeOnResizeGOD;
+	CBuffer		CURRENTNEVERCHANGE;
+	CBuffer		CURRENTCHANGEONRESIZE;
+	CBuffer		g_pCBChangesEveryFrame;
 
 	CCamera();
 	~CCamera();

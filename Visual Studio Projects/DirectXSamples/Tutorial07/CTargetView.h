@@ -26,6 +26,17 @@ struct C_TargetView_DESC
 #if defined(D3D11)
 	FORMAT Format;
 	RTV_DIMENSION ViewDimension;
+	union
+	{
+		BUFFER_RTV buffer;
+		TEX1D_DSV texture1D;
+		TEX1D_ARRAY_DSV texture1DArray;
+		TEX2D_DSV Texture2D;
+		TEX2D_ARRAY_DSV texture2DArray;
+		TEX2DMS_DSV texture2DMS;
+		TEX2DMS_ARRAY_DSV texture2DMSArray;
+		TEX3D_RTV texture3D;
+	};
 	
 #endif
 };
@@ -39,6 +50,7 @@ public:
 	C_TargetView_DESC  m_TargetView;
 #if defined(D3D11)
 	ID3D11RenderTargetView* g_pRenderTargetView = NULL;
+	D3D11_RENDER_TARGET_VIEW_DESC m_Desc;
 #endif
 };
 
