@@ -42,3 +42,11 @@ void CDeviceContext::detroy()
 void CDeviceContext::render()
 {
 }
+
+void * CDeviceContext::GetDevCont()
+{
+#if defined(D3D11)
+	return  g_pImmediateContext;
+#endif
+	return nullptr;
+}

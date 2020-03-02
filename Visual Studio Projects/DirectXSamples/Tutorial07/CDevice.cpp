@@ -38,3 +38,11 @@ void CDevice::detroy()
 void CDevice::render()
 {
 }
+
+void * CDevice::GetDev()
+{
+#if defined(D3D11)
+	return  g_pd3dDevice;
+#endif
+	return nullptr;
+}

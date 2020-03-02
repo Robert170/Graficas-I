@@ -40,6 +40,7 @@ public:
 	void update();
 	void detroy();
 	void render();
+	void*GetDevCont();
 	C_DEVICE_CONTEXT_DESC  m_DeviceContDesc;
 #if defined(D3D11)
 	ID3D11DeviceContext*   g_pImmediateContext = NULL;

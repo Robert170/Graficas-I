@@ -54,6 +54,7 @@ public:
 	void update();
 	void detroy();
 	void render();
+	void*GetSwap();
 	C_SWAP_CHAIN_DESC  m_SwapChain;
 	
 

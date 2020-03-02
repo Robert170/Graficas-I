@@ -49,6 +49,7 @@ public:
 	void update();
 	void detroy();
 	void render();
+	void*GetDev();
 	C_DEVICE_DESC  m_DeviceDesc;
 #if defined(D3D11)
 	ID3D11Device*   g_pd3dDevice = NULL;

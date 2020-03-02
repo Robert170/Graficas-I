@@ -34,3 +34,11 @@ void CDepthStencil::detroy()
 void CDepthStencil::render()
 {
 }
+
+void * CDepthStencil::GetDepth()
+{
+#if defined(D3D11)
+	return  g_pDepthStencil;
+#endif
+	return nullptr;
+}
