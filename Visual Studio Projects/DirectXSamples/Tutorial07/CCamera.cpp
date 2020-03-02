@@ -357,7 +357,7 @@ void CCamera::MoveMouse(glm::fvec3 Dir)
 {
 	RotMouse(Dir);
 	UpdateViewMatrix();
-	CreateViewMatrix();
+	//CreateViewMatrix();
 }
 
 void CCamera::RotMouse(glm::fvec3 Dir)

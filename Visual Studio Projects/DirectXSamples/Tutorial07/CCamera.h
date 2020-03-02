@@ -113,10 +113,7 @@ public:
 
 	CBuffer		g_pCBNeverChanges;
 	CBuffer		g_pCBChangeOnResize;
-	CBuffer		g_pCBNeverChangesGOD;
-	CBuffer		g_pCBChangeOnResizeGOD;
-	CBuffer		CURRENTNEVERCHANGE;
-	CBuffer		CURRENTCHANGEONRESIZE;
+	
 	CBuffer		g_pCBChangesEveryFrame;
 
 	CCamera();

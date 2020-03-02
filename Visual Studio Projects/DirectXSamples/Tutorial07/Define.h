@@ -2,7 +2,7 @@
 
 //#include <d3d11.h>
 
-#define D3D11
+//#define D3D11
 #include"../assimp/cimport.h"
 #include"../assimp/Importer.hpp"
 #include "../assimp/material.h"
