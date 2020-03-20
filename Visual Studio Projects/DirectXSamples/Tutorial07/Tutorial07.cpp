@@ -33,6 +33,12 @@
 #include "CTexture2D.h"
 #include <vector>
 #include "CModel.h"
+#include "CGraphicApi.h"
+#include "CSceneManager.h"
+#include <io.h>
+#include <stdlib.h>
+#include <stdio.h>
+#include <fcntl.h>    
 CDevice *CDevice::DeviceInstance = NULL;
 CDeviceContext* CDeviceContext::DeviceInstanceCo = NULL;
 CSwapChain* CSwapChain::SwapChainInstance = NULL;
@@ -60,12 +66,13 @@ struct CBChangeOnResize
    // XMMATRIX mProjection;
 };
 
-struct CBChangesEveryFrame
-{
-	glm::mat4x4 mWorld;
-	glm::vec4 vMeshColor;
-    //XMFLOAT4 vMeshColor;
-};
+//struct CBChangesEveryFrame
+//{
+//	glm::mat4x4 mWorld;
+//	glm::vec4 vMeshColor;
+//    //XMFLOAT4 vMeshColor;
+//};
+
 
 
 //--------------------------------------------------------------------------------------
@@ -73,8 +80,11 @@ struct CBChangesEveryFrame
 //--------------------------------------------------------------------------------------
 HINSTANCE                           g_hInst = NULL;
 HWND                                g_hWnd = NULL;
+GLFWwindow*							window;
+#if defined(D3D11)
 D3D_DRIVER_TYPE                     g_driverType = D3D_DRIVER_TYPE_NULL;
 D3D_FEATURE_LEVEL                   g_featureLevel = D3D_FEATURE_LEVEL_11_0;
+#endif
 //ID3D11Device*                       g_pd3dDevice = NULL;
 CDevice*							DeviceChido = CDevice::getInstance();
 //ID3D11DeviceContext*                g_pImmediateContext = NULL;
@@ -88,14 +98,18 @@ CDepthStencil						G_PDepthStencil;
 CDepthStencilView					G_PDepthStencilView;
 //ID3D11DepthStencilView*             g_pDepthStencilView = NULL;
 CVertexShader						G_PVertexShader;
+
 //ID3D11VertexShader*                 g_pVertexShader = NULL;
 CPixelShader						G_PPixelShader;
+
 //ID3D11PixelShader*                  g_pPixelShader = NULL;
 CInputLayer*						G_PInputLayer = new CInputLayer();
 //ID3D11InputLayout*                  g_pVertexLayout = NULL;
 CVertexBuffer*						g_VertexBuffer = new CVertexBuffer();
+CVertexBuffer*						g_VertexBufferMOD = new CVertexBuffer();
 //ID3D11Buffer*                       g_pVertexBuffer = NULL;
 CIndexBuffer                       g_pIndexBuffer;
+CIndexBuffer                       g_pIndexBufferMOD;
 //CBuffer							g_pCBNeverChanges;
 //CBuffer							g_pCBChangeOnResize;
 //CBuffer							 g_pCBNeverChangesGOD;
@@ -124,6 +138,9 @@ CCamera *		SecondCamera = NULL;
 CTargetView		RenderTargetView2;
 CTexture2D		TextureCAMInac;
 
+CGraphicApi GraphicApi;
+CSceneManager ScMana;
+
 #if defined(D3D11)
 ID3D11Device *ptrDEV = static_cast<ID3D11Device*>(DeviceChido->GetDev());
 IDXGISwapChain *ptrSwap = static_cast<IDXGISwapChain*>(SwapChainChido->GetSwap());
@@ -131,7 +148,8 @@ ID3D11DeviceContext *ptrDevCont = static_cast<ID3D11DeviceContext*>(DeviceContex
 ID3D11Texture2D *ptrDepht = static_cast<ID3D11Texture2D*>(G_PDepthStencil.GetDepth());
 #endif
 
-
+unsigned int mNumVertices;
+unsigned int mNumFaces;
 
 
 
@@ -144,6 +162,7 @@ int Columns = 0;
 //--------------------------------------------------------------------------------------
 HRESULT InitWindow( HINSTANCE hInstance, int nCmdShow );
 HRESULT InitDevice();
+
 void CleanupDevice();
 LRESULT CALLBACK    WndProc( HWND, UINT, WPARAM, LPARAM );
 void Render();
@@ -158,6 +177,48 @@ enum VariablesParaElMapa
 	NotColideWalls = 5
 
 };
+
+
+void activateConsole()
+{
+	//Create a console for this application
+	AllocConsole();
+	// Get STDOUT handle
+	HANDLE ConsoleOutput = GetStdHandle(STD_OUTPUT_HANDLE);
+	int SystemOutput = _open_osfhandle(intptr_t(ConsoleOutput), _O_TEXT);
+	FILE* COutputHandle = _fdopen(SystemOutput, "w");
+
+	// Get STDERR handle
+	HANDLE ConsoleError = GetStdHandle(STD_ERROR_HANDLE);
+	int SystemError = _open_osfhandle(intptr_t(ConsoleError), _O_TEXT);
+	FILE* CErrorHandle = _fdopen(SystemError, "w");
+
+	// Get STDIN handle
+	HANDLE ConsoleInput = GetStdHandle(STD_INPUT_HANDLE);
+	int SystemInput = _open_osfhandle(intptr_t(ConsoleInput), _O_TEXT);
+	FILE* CInputHandle = _fdopen(SystemInput, "r");
+
+	//make cout, wcout, cin, wcin, wcerr, cerr, wclog and clog point to console as well
+	std::ios::sync_with_stdio(true);
+
+	// Redirect the CRT standard input, output, and error handles to the console
+	freopen_s(&CInputHandle, "CONIN$", "r", stdin);
+	freopen_s(&COutputHandle, "CONOUT$", "w", stdout);
+	freopen_s(&CErrorHandle, "CONOUT$", "w", stderr);
+
+	//Clear the error state for each of the C++ standard stream objects. We need to do this, as
+	//attempts to access the standard streams before they refer to a valid target will cause the
+	//iostream objects to enter an error state. In versions of Visual Studio after 2005, this seems
+	//to always occur during startup regardless of whether anything has been read from or written to
+	//the console or not.
+	std::wcout.clear();
+	std::cout.clear();
+	std::wcerr.clear();
+	std::cerr.clear();
+	std::wcin.clear();
+	std::cin.clear();
+
+}
 
 void Laberinto(std::string FileLevelName)
 {
@@ -264,9 +325,48 @@ int WINAPI wWinMain( HINSTANCE hInstance, HINSTANCE hPrevInstance, LPWSTR lpCmdL
 {
     UNREFERENCED_PARAMETER( hPrevInstance );
     UNREFERENCED_PARAMETER( lpCmdLine );
+	activateConsole();
 
-    if( FAILED( InitWindow( hInstance, nCmdShow ) ) )
-        return 0;
+#ifdef GLFW_TRUE
+	/* Initialize the library */
+	if (!glfwInit())
+		return -1;
+
+	/* Create a windowed mode window and its OpenGL context */
+	window = glfwCreateWindow(640, 480, "OpenGL", NULL, NULL);
+	if (!window)
+	{
+		glfwTerminate();
+		return -1;
+	}
+
+	/* Make the window's context current */
+	glfwMakeContextCurrent(window);
+
+	/* Loop until the user closes the window */
+	while (!glfwWindowShouldClose(window))
+	{
+		/* Render here */
+		glClear(GL_COLOR_BUFFER_BIT);
+
+		/* Swap front and back buffers */
+		glfwSwapBuffers(window);
+
+		/* Poll for and process events */
+		glfwPollEvents();
+
+		glClearColor(1, 0.5, 0, 0);
+	}
+
+	glfwTerminate();
+	return 0;	
+	
+#endif // GLFW_TRUE
+
+	
+
+	if (FAILED(InitWindow(hInstance, nCmdShow)))
+		return 0;
 
     if( FAILED( InitDevice() ) )
     {
@@ -274,8 +374,14 @@ int WINAPI wWinMain( HINSTANCE hInstance, HINSTANCE hPrevInstance, LPWSTR lpCmdL
         return 0;
     }
 
+	MSG msg = { 0 };
+
+
+	/* Loop until the user closes the window */
+
+
     // Main message loop
-    MSG msg = {0};
+    
     while( WM_QUIT != msg.message )
     {
         if( PeekMessage( &msg, NULL, 0, 0, PM_REMOVE ) )
@@ -316,6 +422,7 @@ int WINAPI wWinMain( HINSTANCE hInstance, HINSTANCE hPrevInstance, LPWSTR lpCmdL
 
         }
 
+
     }
 
     CleanupDevice();
@@ -323,6 +430,7 @@ int WINAPI wWinMain( HINSTANCE hInstance, HINSTANCE hPrevInstance, LPWSTR lpCmdL
 	return (int)msg.wParam;
 
 }
+
 
 
 //--------------------------------------------------------------------------------------
@@ -351,13 +459,19 @@ HRESULT InitWindow( HINSTANCE hInstance, int nCmdShow )
     g_hInst = hInstance;
     RECT rc = { 0, 0, 640, 480 };
     AdjustWindowRect( &rc, WS_OVERLAPPEDWINDOW, FALSE );
-    g_hWnd = CreateWindow( L"TutorialWindowClass", L"Direct3D 11 Tutorial 7", WS_OVERLAPPEDWINDOW,
-                           CW_USEDEFAULT, CW_USEDEFAULT, rc.right - rc.left, rc.bottom - rc.top, NULL, NULL, hInstance,
-                           NULL );
-    if( !g_hWnd )
-        return E_FAIL;
 
-    ShowWindow( g_hWnd, nCmdShow );
+	g_hWnd = CreateWindow(L"TutorialWindowClass", L"Direct3D 11 Tutorial 7", WS_OVERLAPPEDWINDOW,
+		CW_USEDEFAULT, CW_USEDEFAULT, rc.right - rc.left, rc.bottom - rc.top, NULL, NULL, hInstance,
+		NULL );
+
+
+
+	if (!g_hWnd)
+		return E_FAIL;
+
+	ShowWindow(g_hWnd, nCmdShow);
+
+
 	Laberinto("Laberinto.txt");
     return S_OK;
 }
@@ -396,6 +510,7 @@ HRESULT CompileShaderFromFile( WCHAR* szFileName, LPCSTR szEntryPoint, LPCSTR sz
 }
 #endif
 
+
 //--------------------------------------------------------------------------------------
 // Create Direct3D device and swap chain
 //--------------------------------------------------------------------------------------
@@ -412,7 +527,7 @@ HRESULT InitDevice()
 #ifdef _DEBUG
 	createDeviceFlags |= D3D11_CREATE_DEVICE_DEBUG;
 #endif
-	
+
 	D3D_DRIVER_TYPE driverTypes[] =
 	{
 		D3D_DRIVER_TYPE_HARDWARE,
@@ -421,7 +536,7 @@ HRESULT InitDevice()
 	};
 	UINT numDriverTypes = ARRAYSIZE(driverTypes);
 
-	
+
 
 	D3D_FEATURE_LEVEL featureLevels[] =
 	{
@@ -464,8 +579,6 @@ HRESULT InitDevice()
 	sd.SampleDesc.Count = 1;
 	sd.SampleDesc.Quality = 0;
 	sd.Windowed = TRUE;*/
-
-	
 
 
 	for (unsigned int driverTypeIndex = 0; driverTypeIndex < numDriverTypes; driverTypeIndex++)
@@ -703,34 +816,34 @@ HRESULT InitDevice()
 
 	//Assimp::Importer Ass;
 
-    // Set vertex buffer
-    UINT stride = sizeof( SimpleVertex );
-    UINT offset = 0;
+	// Set vertex buffer
+	UINT stride = sizeof(SimpleVertex);
+	UINT offset = 0;
 	ptrDevCont->IASetVertexBuffers(0, 1, &g_VertexBuffer->BVertex.P_Buffer, &stride, &offset);
-   /* g_pImmediateContext->IASetVertexBuffers( 0, 1, &g_pVertexBuffer, &stride, &offset );*/
+	/* g_pImmediateContext->IASetVertexBuffers( 0, 1, &g_pVertexBuffer, &stride, &offset );*/
 
-    // Create index buffer
-    // Create vertex buffer
-    WORD indices[] =
-    {
-        3,1,0,
-        2,1,3,
+	 // Create index buffer
+	 // Create vertex buffer
+	WORD indices[] =
+	{
+		3,1,0,
+		2,1,3,
 
-        6,4,5,
-        7,4,6,
+		6,4,5,
+		7,4,6,
 
-        11,9,8,
-        10,9,11,
+		11,9,8,
+		10,9,11,
 
-        14,12,13,
-        15,12,14,
+		14,12,13,
+		15,12,14,
 
-        19,17,16,
-        18,17,19,
+		19,17,16,
+		18,17,19,
 
-        22,20,21,
-        23,20,22
-    };
+		22,20,21,
+		23,20,22
+	};
 
 	BD.Usage = C_USAGE::C_USAGE_DEFAULT;
 	BD.ByteWidth = sizeof(WORD) * 36;
@@ -738,112 +851,113 @@ HRESULT InitDevice()
 	BD.CPUAccessFlags = 0;
 
 	Buf.init(BD);
-    /*bd.Usage = D3D11_USAGE_DEFAULT;
-    bd.ByteWidth = sizeof( WORD ) * 36;
-    bd.BindFlags = D3D11_BIND_INDEX_BUFFER;
-    bd.CPUAccessFlags = 0;*/
+	/*bd.Usage = D3D11_USAGE_DEFAULT;
+	bd.ByteWidth = sizeof( WORD ) * 36;
+	bd.BindFlags = D3D11_BIND_INDEX_BUFFER;
+	bd.CPUAccessFlags = 0;*/
 	C_Index_Buffer_DESC Ind;
 	Ind.pSystem = indices;
 	g_pIndexBuffer.init(Ind);
 	//g_pIndexBuffer->init(Ind);
-    //InitData.pSysMem = indices;
+	//InitData.pSysMem = indices;
 	hr = ptrDEV->CreateBuffer(&Buf.bd, &g_pIndexBuffer.InitD, &g_pIndexBuffer.BIndex.P_Buffer);
-  /*  hr = g_pd3dDevice->CreateBuffer( &bd, &InitData, &g_pIndexBuffer );*/
-    if( FAILED( hr ) )
-        return hr;
+	/*  hr = g_pd3dDevice->CreateBuffer( &bd, &InitData, &g_pIndexBuffer );*/
+	if (FAILED(hr))
+		return hr;
 
-    // Set index buffer
+	// Set index buffer
 	ptrDevCont->IASetIndexBuffer(g_pIndexBuffer.BIndex.P_Buffer, DXGI_FORMAT_R16_UINT, 0);
-   /* g_pImmediateContext->IASetIndexBuffer( g_pIndexBuffer, DXGI_FORMAT_R16_UINT, 0 );*/
+	/* g_pImmediateContext->IASetIndexBuffer( g_pIndexBuffer, DXGI_FORMAT_R16_UINT, 0 );*/
 
-    // Set primitive topology
+	 // Set primitive topology
 	ptrDevCont->IASetPrimitiveTopology(D3D11_PRIMITIVE_TOPOLOGY_TRIANGLELIST);
-    /*g_pImmediateContext->IASetPrimitiveTopology( D3D11_PRIMITIVE_TOPOLOGY_TRIANGLELIST );*/
+	/*g_pImmediateContext->IASetPrimitiveTopology( D3D11_PRIMITIVE_TOPOLOGY_TRIANGLELIST );*/
 
-    // Create the constant buffers
+	// Create the constant buffers
 	BD.Usage = C_USAGE::C_USAGE_DEFAULT;
 	BD.ByteWidth = sizeof(CBNeverChanges);
 	BD.BindFlags = D3D11_BIND_CONSTANT_BUFFER;
 	BD.CPUAccessFlags = 0;
 
 	Buf.init(BD);
-    /*bd.Usage = D3D11_USAGE_DEFAULT;
-    bd.ByteWidth = sizeof(CBNeverChanges);
-    bd.BindFlags = D3D11_BIND_CONSTANT_BUFFER;
-    bd.CPUAccessFlags = 0;*/
+	/*bd.Usage = D3D11_USAGE_DEFAULT;
+	bd.ByteWidth = sizeof(CBNeverChanges);
+	bd.BindFlags = D3D11_BIND_CONSTANT_BUFFER;
+	bd.CPUAccessFlags = 0;*/
 	hr = ptrDEV->CreateBuffer(&Buf.bd, NULL, &CAM.g_pCBNeverChanges.P_Buffer);
-   /* hr = g_pd3dDevice->CreateBuffer( &bd, NULL, &g_pCBNeverChanges );*/
-    if( FAILED( hr ) )
-        return hr;
+	/* hr = g_pd3dDevice->CreateBuffer( &bd, NULL, &g_pCBNeverChanges );*/
+	if (FAILED(hr))
+		return hr;
 	hr = ptrDEV->CreateBuffer(&Buf.bd, NULL, &GODCAM.g_pCBNeverChanges.P_Buffer);
-    /*hr = g_pd3dDevice->CreateBuffer( &bd, NULL, &g_pCBNeverChangesGOD );*/
-    if( FAILED( hr ) )
-        return hr;
+	/*hr = g_pd3dDevice->CreateBuffer( &bd, NULL, &g_pCBNeverChangesGOD );*/
+	if (FAILED(hr))
+		return hr;
 
-    //BD.Usage = C_USAGE::C_USAGE_DEFAULT;
+	//BD.Usage = C_USAGE::C_USAGE_DEFAULT;
 	BD.ByteWidth = sizeof(CBChangeOnResize);
 	BD.BindFlags = D3D11_BIND_CONSTANT_BUFFER;
 	BD.CPUAccessFlags = 0;
 
 	Buf.init(BD);
-    //bd.ByteWidth = sizeof(CBChangeOnResize);
+	//bd.ByteWidth = sizeof(CBChangeOnResize);
 	hr = ptrDEV->CreateBuffer(&Buf.bd, NULL, &CAM.g_pCBChangeOnResize.P_Buffer);
-   /* hr = g_pd3dDevice->CreateBuffer( &bd, NULL, &g_pCBChangeOnResize );*/
-    if( FAILED( hr ) )
-        return hr;
+	/* hr = g_pd3dDevice->CreateBuffer( &bd, NULL, &g_pCBChangeOnResize );*/
+	if (FAILED(hr))
+		return hr;
 	hr = ptrDEV->CreateBuffer(&Buf.bd, NULL, &GODCAM.g_pCBChangeOnResize.P_Buffer);
-   /* hr = g_pd3dDevice->CreateBuffer( &bd, NULL, &g_pCBChangeOnResizeGOD );*/
-    if( FAILED( hr ) )
-        return hr;
+	/* hr = g_pd3dDevice->CreateBuffer( &bd, NULL, &g_pCBChangeOnResizeGOD );*/
+	if (FAILED(hr))
+		return hr;
 	//BD.Usage = C_USAGE::C_USAGE_DEFAULT;
 	BD.ByteWidth = sizeof(CBChangesEveryFrame);
 	BD.BindFlags = D3D11_BIND_CONSTANT_BUFFER;
 	BD.CPUAccessFlags = 0;
 
 	Buf.init(BD);
-    //bd.ByteWidth = sizeof(CBChangesEveryFrame);
+	//bd.ByteWidth = sizeof(CBChangesEveryFrame);
 	hr = ptrDEV->CreateBuffer(&Buf.bd, NULL, &CAM.g_pCBChangesEveryFrame.P_Buffer);
-   /* hr = g_pd3dDevice->CreateBuffer( &bd, NULL, &g_pCBChangesEveryFrame );*/
-    if( FAILED( hr ) )
-        return hr;
+	/* hr = g_pd3dDevice->CreateBuffer( &bd, NULL, &g_pCBChangesEveryFrame );*/
+	if (FAILED(hr))
+		return hr;
 
 	hr = ptrDEV->CreateBuffer(&Buf.bd, NULL, &GODCAM.g_pCBChangesEveryFrame.P_Buffer);
 	/* hr = g_pd3dDevice->CreateBuffer( &bd, NULL, &g_pCBChangesEveryFrame );*/
 	if (FAILED(hr))
 		return hr;
 
-    // Load the Texture
+	// Load the Texture
 	hr = D3DX11CreateShaderResourceViewFromFile(ptrDEV, L"seafloor.dds", NULL, NULL, &g_ShaderResource.G_PTextureRV, NULL);
-    /*hr = D3DX11CreateShaderResourceViewFromFile( g_pd3dDevice, L"seafloor.dds", NULL, NULL, &g_pTextureRV, NULL );*/
-    if( FAILED( hr ) )
-        return hr;
+	/*hr = D3DX11CreateShaderResourceViewFromFile( g_pd3dDevice, L"seafloor.dds", NULL, NULL, &g_pTextureRV, NULL );*/
+	if (FAILED(hr))
+		return hr;
 
-    // Create the sample state
+	// Create the sample state
 	C_SampleState_DESC STD;
-	STD.Filter =(FILTER)D3D11_FILTER_MIN_MAG_MIP_LINEAR;
-	STD.AddressU =(TEXTURE_ADDRESS_MODE) D3D11_TEXTURE_ADDRESS_WRAP;
+	STD.Filter = (FILTER)D3D11_FILTER_MIN_MAG_MIP_LINEAR;
+	STD.AddressU = (TEXTURE_ADDRESS_MODE)D3D11_TEXTURE_ADDRESS_WRAP;
 	STD.AddressV = (TEXTURE_ADDRESS_MODE)D3D11_TEXTURE_ADDRESS_WRAP;
 	STD.AddressW = (TEXTURE_ADDRESS_MODE)D3D11_TEXTURE_ADDRESS_WRAP;
-	STD.ComparisonFunc =(COMPARISON_FUNC) D3D11_COMPARISON_NEVER;
+	STD.ComparisonFunc = (COMPARISON_FUNC)D3D11_COMPARISON_NEVER;
 	STD.MinLOD = 0;
 	STD.MaxLOD = D3D11_FLOAT32_MAX;
 
 	SampleState.init(STD);
-    /*D3D11_SAMPLER_DESC sampDesc;
-    ZeroMemory( &sampDesc, sizeof(sampDesc) );
+	/*D3D11_SAMPLER_DESC sampDesc;
+	ZeroMemory( &sampDesc, sizeof(sampDesc) );
 	sampDesc.Filter = D3D11_FILTER_MIN_MAG_MIP_LINEAR;
-    sampDesc.AddressU = D3D11_TEXTURE_ADDRESS_WRAP;
-    sampDesc.AddressV = D3D11_TEXTURE_ADDRESS_WRAP;
-    sampDesc.AddressW = D3D11_TEXTURE_ADDRESS_WRAP;
-    sampDesc.ComparisonFunc = D3D11_COMPARISON_NEVER;
-    sampDesc.MinLOD = 0;
-    sampDesc.MaxLOD = D3D11_FLOAT32_MAX;*/
+	sampDesc.AddressU = D3D11_TEXTURE_ADDRESS_WRAP;
+	sampDesc.AddressV = D3D11_TEXTURE_ADDRESS_WRAP;
+	sampDesc.AddressW = D3D11_TEXTURE_ADDRESS_WRAP;
+	sampDesc.ComparisonFunc = D3D11_COMPARISON_NEVER;
+	sampDesc.MinLOD = 0;
+	sampDesc.MaxLOD = D3D11_FLOAT32_MAX;*/
 
 	hr = ptrDEV->CreateSamplerState(&SampleState.sampDesc, &SampleState.g_pSamplerLinear);
-    /*hr = g_pd3dDevice->CreateSamplerState( &sampDesc, &g_pSamplerLinear );*/
-    if( FAILED( hr ) )
-        return hr;
+	/*hr = g_pd3dDevice->CreateSamplerState( &sampDesc, &g_pSamplerLinear );*/
+	if (FAILED(hr))
+		return hr;
 #endif
+
     // Initialize the world matrices
 	g_World = glm::mat4(1.0f);
 		//XMMatrixIdentity();
@@ -969,8 +1083,9 @@ HRESULT InitDevice()
 	ImGui::StyleColorsDark();
 
 
-
+	GraphicApi.ChargeMesh("Smart Bomb.obj", &ScMana, GraphicApi.m_Model, DeviceContextChido, GraphicApi.m_Importer, ptrDEV);
 #endif
+	
     return S_OK;
 }
 
@@ -1190,21 +1305,23 @@ LRESULT CALLBACK WndProc( HWND hWnd, UINT message, WPARAM wParam, LPARAM lParam 
 
 		case WM_KEYDOWN:
 		{
+#if defined(D3D11)
 			MainCamera->Input(wParam);
 			CBNeverChanges cb;
 			cb.mView = MainCamera->GetView();
-#if defined(D3D11)
+
 			ptrDevCont->UpdateSubresource(MainCamera->g_pCBNeverChanges.P_Buffer, 0, NULL, &cb, 0, 0);
 #endif
 			break;
 		}
 		case WM_RBUTTONDOWN:
 		{
-
+#if defined(D3D11)
 			POINT Mouse;
 			GetCursorPos(&Mouse);
 			MainCamera->PosIn = { float(Mouse.x),float(Mouse.y),0 };
 			MainCamera->Fpres = true;
+#endif
 			break;
 
 		}
@@ -1255,61 +1372,63 @@ void Render()
 {
 #ifdef D3D11
 
-    // Update our time
-    static float t = 0.0f;
-    if( DeviceChido->m_DeviceDesc.DriverTypeDe == D3D_DRIVER_TYPE_REFERENCE )
-    {
-        t += ( float )XM_PI * 0.0125f;
-    }
-    else
-    {
-        static DWORD dwTimeStart = 0;
-        DWORD dwTimeCur = GetTickCount();
-        if( dwTimeStart == 0 )
-            dwTimeStart = dwTimeCur;
-        t = ( dwTimeCur - dwTimeStart ) / 1000.0f;
-    }
 
-    // Rotate cube around the origin
-    //g_World = XMMatrixRotationY( t );
+	// Update our time
+	static float t = 0.0f;
+	if (DeviceChido->m_DeviceDesc.DriverTypeDe == D3D_DRIVER_TYPE_REFERENCE)
+	{
+		t += (float)XM_PI * 0.0125f;
+	}
+	else
+	{
+		static DWORD dwTimeStart = 0;
+		DWORD dwTimeCur = GetTickCount();
+		if (dwTimeStart == 0)
+			dwTimeStart = dwTimeCur;
+		t = (dwTimeCur - dwTimeStart) / 1000.0f;
+	}
+
+	// Rotate cube around the origin
+	//g_World = XMMatrixRotationY( t );
 	glm::vec3 T = { 3, 0, 0 };
-	g_World = glm::translate(MainCamera->GetPosition());
+	//g_World = glm::translate(MainCamera->GetPosition());
 
-    // Modify the color
-    g_vMeshColor.x = ( sinf( t * 1.0f ) + 1.0f ) * 0.5f;
-    g_vMeshColor.y = ( cosf( t * 3.0f ) + 1.0f ) * 0.5f;
-    g_vMeshColor.z = ( sinf( t * 5.0f ) + 1.0f ) * 0.5f;
 
-    //
-    // Clear the back buffer
-    //
-    float ClearColor[4] = { 0.0f, 0.125f, 0.3f, 1.0f }; // red, green, blue, alpha
+	// Modify the color
+	g_vMeshColor.x = (sinf(t * 1.0f) + 1.0f) * 0.5f;
+	g_vMeshColor.y = (cosf(t * 3.0f) + 1.0f) * 0.5f;
+	g_vMeshColor.z = (sinf(t * 5.0f) + 1.0f) * 0.5f;
+
+	//
+	// Clear the back buffer
+	//
+	float ClearColor[4] = { 0.0f, 0.125f, 0.3f, 1.0f }; // red, green, blue, alpha
 
 	ptrDevCont->OMSetRenderTargets(1, &RenderTargetView2.g_pRenderTargetView, G_PDepthStencilView.g_pDepthStencilView);
 
 	ptrDevCont->ClearRenderTargetView(RenderTargetView2.g_pRenderTargetView, ClearColor);
-   /* g_pImmediateContext->ClearRenderTargetView( g_pRenderTargetView, ClearColor );*/
-    //
-    // Clear the depth buffer to 1.0 (max depth)
-    //
+	/* g_pImmediateContext->ClearRenderTargetView( g_pRenderTargetView, ClearColor );*/
+	 //
+	 // Clear the depth buffer to 1.0 (max depth)
+	 //
 	ptrDevCont->ClearDepthStencilView(G_PDepthStencilView.g_pDepthStencilView, D3D11_CLEAR_DEPTH, 1.0f, 0);
-    /*g_pImmediateContext->ClearDepthStencilView( g_pDepthStencilView, D3D11_CLEAR_DEPTH, 1.0f, 0 );*/
-    //
-    // Update variables that change once per frame
-    //
+	/*g_pImmediateContext->ClearDepthStencilView( g_pDepthStencilView, D3D11_CLEAR_DEPTH, 1.0f, 0 );*/
+	//
+	// Update variables that change once per frame
+	//
 
-    /*CBChangesEveryFrame cb;
-    cb.mWorld = glm::transpose( g_World );
-    cb.vMeshColor = g_vMeshColor;
+	/*CBChangesEveryFrame cb;
+	cb.mWorld = glm::transpose( g_World );
+	cb.vMeshColor = g_vMeshColor;
 	ptrDevCont->UpdateSubresource(SecondCamera->g_pCBChangesEveryFrame.P_Buffer, 0, NULL, &cb, 0, 0);*/
-    /*g_pImmediateContext->UpdateSubresource( g_pCBChangesEveryFrame, 0, NULL, &cb, 0, 0 );*/
+	/*g_pImmediateContext->UpdateSubresource( g_pCBChangesEveryFrame, 0, NULL, &cb, 0, 0 );*/
 
-	
-    //
-    // Render the cube
-    //
 
-	ptrDevCont->VSSetShader(G_PVertexShader.g_pVertexShader, NULL, 0);
+	//
+	// Render the cube
+	//
+
+	/*ptrDevCont->VSSetShader(G_PVertexShader.g_pVertexShader, NULL, 0);
 	ptrDevCont->VSSetConstantBuffers(0, 1, &MainCamera->g_pCBNeverChanges.P_Buffer);
 	ptrDevCont->VSSetConstantBuffers(1, 1, &MainCamera->g_pCBChangeOnResize.P_Buffer);
 	ptrDevCont->VSSetConstantBuffers(2, 1, &MainCamera->g_pCBChangesEveryFrame.P_Buffer);
@@ -1317,9 +1436,14 @@ void Render()
 	ptrDevCont->PSSetConstantBuffers(2, 1, &MainCamera->g_pCBChangesEveryFrame.P_Buffer);
 	ptrDevCont->PSSetShaderResources(0, 1, &g_ShaderResource.G_PTextureRV);
 	ptrDevCont->PSSetSamplers(0, 1, &SampleState.g_pSamplerLinear);
-	ptrDevCont->DrawIndexed(36, 0, 0);
+	ptrDevCont->DrawIndexed(36, 0, 0);*/
 
-	
+
+	UINT stride = sizeof(SimpleVertex);
+	UINT offset = 0;
+	ptrDevCont->IASetVertexBuffers(0, 1, &g_VertexBuffer->BVertex.P_Buffer, &stride, &offset);
+	ptrDevCont->IASetIndexBuffer(g_pIndexBuffer.BIndex.P_Buffer, DXGI_FORMAT_R16_UINT, 0);
+
 	int DistanceX = 0;
 	int DistanceY = 0;
 	for (int i = 0; i < Rows; i++)
@@ -1368,19 +1492,62 @@ void Render()
 		DistanceX = 0;
 	}
 
+	CBChangesEveryFrame cbMesh;
+	cbMesh.mWorld = {
+		1,0,0,MainCamera->GetPosition().x,
+		0,1,0,MainCamera->GetPosition().y,
+		0,0,1,MainCamera->GetPosition().z,
+		0,0,0,1
+	};
+	cbMesh.vMeshColor = { 1,0,0,1 };
+	ptrDevCont->UpdateSubresource(SecondCamera->g_pCBChangesEveryFrame.P_Buffer, 0, NULL, &cbMesh, 0, 0);
+	for (int i = 0; i < ScMana.m_MeshInScene.size(); i++)
+	{
+		ptrDevCont->VSSetConstantBuffers(2, 1, &SecondCamera->g_pCBChangesEveryFrame.P_Buffer);
+		ptrDevCont->PSSetShaderResources(0, 1, &ScMana.m_MeshInScene[i]->m_Materials->m_TexDif);
+		ptrDevCont->VSSetShaderResources(0, 1, &ScMana.m_MeshInScene[i]->m_Materials->m_TexDif);
+
+
+		UINT stride = sizeof(SimpleVertex);
+		UINT offset = 0;
+
+		ptrDevCont->IASetVertexBuffers
+		(0,
+			1,//numero de buffers que estamos utilizando
+			&ScMana.m_MeshInScene[i]->m_VertexBuffer->P_Buffer,//puntero a la lista buffers
+			&stride,//un uint que indica el tamaño de un unico vertice
+			&offset
+		);//un uint que indica el numero del byte en el vertice del que se quiere comenzar a pintar
+
+		ptrDevCont->IASetIndexBuffer
+		(
+			ScMana.m_MeshInScene[i]->m_Index->P_Buffer,
+			DXGI_FORMAT_R16_UINT,
+			0
+		);
+
+		//Tipo de topologia
+		/*Esta segunda función le dice a Direct3D qué tipo de primitiva se usa.*/
+		//_devCont.g_pImmediateContextD3D11->IASetPrimitiveTopology(D3D11_PRIMITIVE_TOPOLOGY_TRIANGLELIST);
+
+		 //Dibuja el búfer de vértices en el búfer posterior 
+		ptrDevCont->DrawIndexed(ScMana.m_MeshInScene[i]->m_IndexNum, 0, 0);
+	}
+
 	ptrDevCont->OMSetRenderTargets(1, &G_PRenderTargetView.g_pRenderTargetView, G_PDepthStencilView.g_pDepthStencilView);
 
 	ptrDevCont->ClearRenderTargetView(G_PRenderTargetView.g_pRenderTargetView, ClearColor);
 
 	ptrDevCont->ClearDepthStencilView(G_PDepthStencilView.g_pDepthStencilView, D3D11_CLEAR_DEPTH, 1.0f, 0);
-	
 
+	ptrDevCont->IASetVertexBuffers(0, 1, &g_VertexBuffer->BVertex.P_Buffer, &stride, &offset);
+	ptrDevCont->IASetIndexBuffer(g_pIndexBuffer.BIndex.P_Buffer, DXGI_FORMAT_R16_UINT, 0);
 	//
 	// Render the cube
 	//
 	DistanceX = 0;
 	DistanceY = 0;
-	
+
 	for (int i = 0; i < Rows; i++)
 	{
 		for (int j = 0; j < Columns; j++)
@@ -1418,11 +1585,54 @@ void Render()
 			}
 			T = { DistanceX, 0, DistanceY };
 			g_World = glm::translate(T);
-			
+
 			/*g_pImmediateContext->UpdateSubresource(g_pCBChangesEveryFrame, 0, NULL, &cb, 0, 0);*/
 		}
 		DistanceY += 2.5;
 		DistanceX = 0;
+	}
+	cbMesh.mWorld = {
+		1,0,0,SecondCamera->GetPosition().x,
+		0,1,0,SecondCamera->GetPosition().y,
+		0,0,1,SecondCamera->GetPosition().z,
+		0,0,0,1
+	};
+	cbMesh.vMeshColor = { 1,1,1,1 };
+	ptrDevCont->UpdateSubresource(MainCamera->g_pCBChangesEveryFrame.P_Buffer, 0, NULL, &cbMesh, 0, 0);
+	for (int i = 0; i < ScMana.m_MeshInScene.size(); i++)
+	{
+		ptrDevCont->VSSetConstantBuffers(2, 1, &MainCamera->g_pCBChangesEveryFrame.P_Buffer);
+		ptrDevCont->PSSetShaderResources(0, 1, &ScMana.m_MeshInScene[i]->m_Materials->m_TexDif);
+		ptrDevCont->VSSetShaderResources(0, 1, &ScMana.m_MeshInScene[i]->m_Materials->m_TexDif);
+		//_devCont->g_pImmediateContextD3D11->UpdateSubresource	(_bufferData->m_BufferD3D11, 0, NULL, &m_MeshData, 0, 0);
+		//
+		//_devCont->g_pImmediateContextD3D11->VSSetConstantBuffers(2, 1, &_bufferData->m_BufferD3D11);
+		//_devCont->g_pImmediateContextD3D11->PSSetConstantBuffers(2, 1, &_bufferData->m_BufferD3D11);
+
+		UINT stride = sizeof(SimpleVertex);
+		UINT offset = 0;
+
+		ptrDevCont->IASetVertexBuffers
+		(0,
+			1,//numero de buffers que estamos utilizando
+			&ScMana.m_MeshInScene[i]->m_VertexBuffer->P_Buffer,//puntero a la lista buffers
+			&stride,//un uint que indica el tamaño de un unico vertice
+			&offset
+		);//un uint que indica el numero del byte en el vertice del que se quiere comenzar a pintar
+
+		ptrDevCont->IASetIndexBuffer
+		(
+			ScMana.m_MeshInScene[i]->m_Index->P_Buffer,
+			DXGI_FORMAT_R16_UINT,
+			0
+		);
+
+		//Tipo de topologia
+		/*Esta segunda función le dice a Direct3D qué tipo de primitiva se usa.*/
+		//_devCont.g_pImmediateContextD3D11->IASetPrimitiveTopology(D3D11_PRIMITIVE_TOPOLOGY_TRIANGLELIST);
+
+		 //Dibuja el búfer de vértices en el búfer posterior 
+		ptrDevCont->DrawIndexed(ScMana.m_MeshInScene[i]->m_IndexNum, 0, 0);
 	}
 	//
     // Present our back buffer to our front buffer
@@ -1430,6 +1640,9 @@ void Render()
 	ImGui::Render();
 	ImGui_ImplDX11_RenderDrawData(ImGui::GetDrawData());
 	ptrSwap->Present(0, 0);
+
+
+	void Render(glm::mat4x4(g_World));
 #endif
   /*  g_pSwapChain->Present( 0, 0 );*/
 }

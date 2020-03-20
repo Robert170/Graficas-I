@@ -20,6 +20,7 @@
 
 #include <iostream>
 #include <windows.h>
+#include "CDevice.h"
 #pragma once
 
 struct C_Buffer_DESC
@@ -46,12 +47,16 @@ public:
 	void detroy();
 	void render();
 	C_Buffer_DESC  m_Buffer;
+	
 
 #if defined(D3D11)
+	static void createVertexBuffer(int _numvertex, const aiScene* _model, SimpleVertex* _vertex, ID3D11Buffer*& _buffer, void* _dev);
+	static void createIndexBuffer(int numindices, const aiScene* _model, WORD* _index, ID3D11Buffer*& _buffer, void* _dev);
 	D3D11_BUFFER_DESC bd;
 	ID3D11Buffer*   P_Buffer = NULL;
 	
 #endif
 	
 };
+
 

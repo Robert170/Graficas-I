@@ -40,6 +40,9 @@
     <ClCompile Include="includes\imgui\imgui_impl_dx11.cpp" />
     <ClCompile Include="includes\imgui\imgui_impl_win32.cpp" />
     <ClCompile Include="includes\imgui\imgui_widgets.cpp" />
+    <ClCompile Include="CMaterial.cpp" />
+    <ClCompile Include="CSceneManager.cpp" />
+    <ClCompile Include="CGraphicApi.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Tutorial07.cpp" />
@@ -85,6 +88,9 @@
     <ClInclude Include="includes\imgui\imstb_rectpack.h" />
     <ClInclude Include="includes\imgui\imstb_textedit.h" />
     <ClInclude Include="includes\imgui\imstb_truetype.h" />
+    <ClInclude Include="CMaterial.h" />
+    <ClInclude Include="CSceneManager.h" />
+    <ClInclude Include="CGraphicApi.h" />
   </ItemGroup>
   <ItemGroup>
   </ItemGroup>

@@ -2,7 +2,9 @@
 
 //#include <d3d11.h>
 
-#define D3D11
+//#define D3D11
+#define GLFW_TRUE 
+
 #include"../assimp/cimport.h"
 #include"../assimp/Importer.hpp"
 #include "../assimp/material.h"
@@ -13,6 +15,23 @@
 #include "includes/imgui/imgui.h"
 #include"includes/imgui/imgui_impl_win32.h"
 #include "includes/imgui/imgui_impl_dx11.h"
+
+#include <iostream>
+#include <sstream>
+#include <fstream>
+
+#include <d3d11.h>
+#include <d3dx11.h>
+#include <d3dcompiler.h>
+
+#define GLFW_INCLUDE_NONE
+#include <glfw3.h>
+#include <gl/GL.h>
+#include <gl/GLU.h>
+
+#include <stdlib.h>
+#include <stdio.h>
+
 
 
 
@@ -129,6 +148,7 @@ enum FORMAT
 	FORMAT_BC7_UNORM,
 	FORMAT_BC7_UNORM_SRGB,
 	FORMAT_FORCE_UINT
+
 };
 
 enum DSV_DIMENSION
@@ -360,6 +380,10 @@ struct SAMPLER_DESC
 	float MaxLOD;
 };
 
+
+
+#endif
+
 struct SimpleVertex
 {
 	glm::vec3 Pos;
@@ -368,4 +392,9 @@ struct SimpleVertex
 	//XMFLOAT2 Tex;
 };
 
-#endif
+struct CBChangesEveryFrame
+{
+	glm::mat4x4 mWorld;
+	glm::vec4 vMeshColor;
+	//XMFLOAT4 vMeshColor;
+};
