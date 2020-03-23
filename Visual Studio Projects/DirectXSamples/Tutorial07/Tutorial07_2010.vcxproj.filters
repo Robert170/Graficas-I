@@ -43,6 +43,7 @@
     <ClCompile Include="CMaterial.cpp" />
     <ClCompile Include="CSceneManager.cpp" />
     <ClCompile Include="CGraphicApi.cpp" />
+    <ClCompile Include="glad.c" />
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Tutorial07.cpp" />
@@ -91,6 +92,8 @@
     <ClInclude Include="CMaterial.h" />
     <ClInclude Include="CSceneManager.h" />
     <ClInclude Include="CGraphicApi.h" />
+    <ClInclude Include="ShaderOGL.h" />
+    <ClInclude Include="stb_image.h" />
   </ItemGroup>
   <ItemGroup>
   </ItemGroup>

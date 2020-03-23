@@ -1,15 +1,27 @@
+
+//*****************************************************************************/
+/**
+* @File CDevice.h
+* @Author Roberto Ramírez Ontiveros (xc1700@hotmail.com)
+* @date  10/03/2020
+* @brief inclusion de encabezados y uso de enum y estructuras
+* @Bug No kown bug
+**/
+//****************************************************************************/
+
+
 #pragma once
 
 //#include <d3d11.h>
 
-//#define D3D11
-#define GLFW_TRUE 
+#define D3D11
+#define GLFW 
 
-#include"../assimp/cimport.h"
-#include"../assimp/Importer.hpp"
-#include "../assimp/material.h"
-#include "../assimp/scene.h"
-#include "../assimp/postprocess.h"
+#include "assimp/Importer.hpp"
+#include"assimp/cimport.h"
+#include "assimp/material.h"
+#include "assimp/scene.h"
+#include "assimp/postprocess.h"
 
 #include "../Tutorial07/includes/gtc/matrix_transform.hpp"
 #include "includes/imgui/imgui.h"
@@ -24,10 +36,8 @@
 #include <d3dx11.h>
 #include <d3dcompiler.h>
 
-#define GLFW_INCLUDE_NONE
+#include <glad.h>
 #include <glfw3.h>
-#include <gl/GL.h>
-#include <gl/GLU.h>
 
 #include <stdlib.h>
 #include <stdio.h>

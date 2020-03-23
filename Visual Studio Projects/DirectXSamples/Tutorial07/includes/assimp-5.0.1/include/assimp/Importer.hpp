@@ -239,7 +239,7 @@ public:
     /** Set a matrix configuration property.
      * @see SetPropertyInteger()
      */
-    bool SetPropertyMatrix(const char* szName, const aiMatrix4x4& sValue);
+    bool SetPropertyMatrix(const char* szName, const assimp-vc141-mt.libaiMatrix4x4& sValue);
 
     // -------------------------------------------------------------------
     /** Get a configuration property.

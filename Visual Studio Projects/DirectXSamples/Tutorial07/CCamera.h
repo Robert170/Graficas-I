@@ -1,3 +1,15 @@
+
+//*****************************************************************************/
+/**
+* @File CDevice.h
+* @Author Roberto Ramírez Ontiveros (xc1700@hotmail.com)
+* @date  10/02/2020
+* @brief implementar camara
+* @Bug No kown bug
+**/
+//****************************************************************************/
+
+
 #pragma once
 
 #include <d3d11.h>
