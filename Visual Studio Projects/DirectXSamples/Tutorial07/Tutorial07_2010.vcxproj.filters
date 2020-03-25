@@ -94,6 +94,8 @@
     <ClInclude Include="CGraphicApi.h" />
     <ClInclude Include="ShaderOGL.h" />
     <ClInclude Include="stb_image.h" />
+    <ClInclude Include="ModelOGL.h" />
+    <ClInclude Include="MeshOGL.h" />
   </ItemGroup>
   <ItemGroup>
   </ItemGroup>

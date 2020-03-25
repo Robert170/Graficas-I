@@ -1,13 +1,10 @@
 #ifndef SHADER_H
 #define SHADER_H
 
-#include <glad/glad.h>
-#include "glm.hpp"
+#include "Define.h"
 
-#include <string>
-#include <fstream>
-#include <sstream>
-#include <iostream>
+
+
 class Shader
 {
 public:

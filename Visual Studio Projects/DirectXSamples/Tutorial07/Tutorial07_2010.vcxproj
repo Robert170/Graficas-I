@@ -451,6 +451,8 @@
     <ClInclude Include="includes\imgui\imstb_rectpack.h" />
     <ClInclude Include="includes\imgui\imstb_textedit.h" />
     <ClInclude Include="includes\imgui\imstb_truetype.h" />
+    <ClInclude Include="MeshOGL.h" />
+    <ClInclude Include="ModelOGL.h" />
     <CLInclude Include="resource.h" />
     <ClInclude Include="ShaderOGL.h" />
     <ClInclude Include="stb_image.h" />
