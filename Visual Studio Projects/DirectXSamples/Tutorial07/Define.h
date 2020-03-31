@@ -754,16 +754,28 @@ struct TEX2DMS_DSV
 	unsigned int unusedField_NothingToDefine;
 };
 
+// !An struct.
+/*! struc TEX2DMS_ARRAY_DSV. */
 struct TEX2DMS_ARRAY_DSV
 {
+	/**< struct unsigned int firstArraySize. */
 	unsigned int firstArraySize;
+
+	/**< struct unsigned int arraySize. */
 	unsigned int arraySize;
 };
 
+// !An struct.
+/*! struc TEX3D_RTV. */
 struct TEX3D_RTV
 {
+	/**< struct unsigned int mipSlice. */
 	unsigned int mipSlice;
+
+	/**< struct unsigned int mipSlice. */
 	unsigned int firstWSlice;
+
+	/**< struct unsigned int mipSlice. */
 	unsigned int wSize;
 };
 
