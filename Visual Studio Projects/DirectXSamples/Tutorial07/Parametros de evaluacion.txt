@@ -1,0 +1,17 @@
+-OpenGL implementado
+-Dos camaras implementadas OPENGL
+-Imgui implementado OPENGL
+-Cambio de camara por imgui OPENGL
+-Escena del modelo de la rana en OPENGL
+-Movimiento de camara OPENGL
+-Billboard implementado OPENGL
+-Render de lo que ve una camara en billboard OPENGL
+-Funcionamiento en x32 y x64 debug y release OPENGL
+
+
+-DIRECTX implementado
+-Lo que ya se tenía antes del segundo parcial
+-Escena nueva en DIRECTX, solo cargue el modelo, pero la escena original 
+de los cubos igue ahí 
+-Billboard en DIRECTX, no implementado
+*Problemas al cargar modelo en directx en 64, en 32 dunciona sin problemas
