@@ -15,7 +15,7 @@
 //#include <d3d11.h>
 
 #define D3D11
-//#define GLFW 
+#define GLFW 
 
 /*! \file .h, .hpp and includes in general
 	\brief A Documented file.
@@ -779,37 +779,77 @@ struct TEX3D_RTV
 	unsigned int wSize;
 };
 
+// !An struct.
+/*! struc RATIONAL. */
 struct RATIONAL
 {
+	/**< struct unsigned int Numerator. */
 	unsigned int Numerator;
+
+	/**< struct unsigned int Denominator. */
 	unsigned int Denominator;
 };
 
+// !An struct.
+/*! struc MODE_DESC. */
 struct MODE_DESC
 {
+	/**< struct unsigned int Width. */
 	unsigned int Width;
+
+	/**< struct unsigned int Height. */
 	unsigned int Height;
+
+	/**< struct RATIONAL RefreshRate. */
 	RATIONAL RefreshRate;
+
+	/**< struct FORMAT Format. */
 	FORMAT Format;
+
+	/**< struct MODE_SCANLINE_ORDER ScanlineOrdering. */
 	MODE_SCANLINE_ORDER ScanlineOrdering;
+
+	/**< struct MODE_SCALING Scaling. */
 	MODE_SCALING Scaling;
 };
 
+// !An struct.
+/*! struc SAMPLE_DESC. */
 struct SAMPLE_DESC
 {
+	/**< struct unsigned int Count. */
 	unsigned int Count;
+
+	/**< struct unsigned int Quality. */
 	unsigned int Quality;
 };
 
+// !An struct.
+/*! struc SWAP_CHAIN_DESC. */
 struct SWAP_CHAIN_DESC
 {
+	/**< struct MODE_DESC BufferDesc. */
 	MODE_DESC BufferDesc;
+
+	/**< struct SAMPLE_DESC SampleDesc. */
 	SAMPLE_DESC SampleDesc;
+
+	/**< struct C_USAGE BufferUsage. */
 	C_USAGE BufferUsage;
+
+	/**< struct unsigned int BufferCount. */
 	unsigned int BufferCount;
+
+	/**< struct unsigned int OutputWindow. */
 	unsigned int OutputWindow;
+
+	/**< struct bool Windowed. */
 	bool Windowed;
+
+	/**< struct SWAP_EFFECT SwapEffect. */
 	SWAP_EFFECT SwapEffect;
+
+	/**< struct unsigned int Flags. */
 	unsigned int Flags;
 };
 

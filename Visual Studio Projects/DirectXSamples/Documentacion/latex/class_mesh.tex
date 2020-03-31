@@ -1,0 +1,141 @@
+\hypertarget{class_mesh}{}\doxysection{Mesh Class Reference}
+\label{class_mesh}\index{Mesh@{Mesh}}
+\doxysubsection*{Public Member Functions}
+\begin{DoxyCompactItemize}
+\item 
+\mbox{\hyperlink{class_mesh_a2d6c71adb66e5f270cee7a60c4e23018}{Mesh}} (vector$<$ \mbox{\hyperlink{struct_vertex}{Vertex}} $>$ \mbox{\hyperlink{class_mesh_abe5c05c224e47ba1e8b6393759798a9b}{vertices}}, vector$<$ unsigned int $>$ \mbox{\hyperlink{class_mesh_a464d9a1d7e7a4f67321dffc1e8b44b7d}{indices}}, vector$<$ \mbox{\hyperlink{struct_texture}{Texture}} $>$ \mbox{\hyperlink{class_mesh_a09bf4e8307bf7717c56501ca6293c6c0}{textures}})
+\begin{DoxyCompactList}\small\item\em An constructor. \end{DoxyCompactList}\item 
+void \mbox{\hyperlink{class_mesh_a143c8d7c179801c6377853db26d4a19f}{Draw}} (\mbox{\hyperlink{class_shader}{Shader}} shader)
+\begin{DoxyCompactList}\small\item\em An public function. \end{DoxyCompactList}\end{DoxyCompactItemize}
+\doxysubsection*{Public Attributes}
+\begin{DoxyCompactItemize}
+\item 
+vector$<$ \mbox{\hyperlink{struct_vertex}{Vertex}} $>$ \mbox{\hyperlink{class_mesh_abe5c05c224e47ba1e8b6393759798a9b}{vertices}}
+\begin{DoxyCompactList}\small\item\em A public variable. \end{DoxyCompactList}\item 
+vector$<$ unsigned int $>$ \mbox{\hyperlink{class_mesh_a464d9a1d7e7a4f67321dffc1e8b44b7d}{indices}}
+\begin{DoxyCompactList}\small\item\em A public variable. \end{DoxyCompactList}\item 
+vector$<$ \mbox{\hyperlink{struct_texture}{Texture}} $>$ \mbox{\hyperlink{class_mesh_a09bf4e8307bf7717c56501ca6293c6c0}{textures}}
+\begin{DoxyCompactList}\small\item\em A public variable. \end{DoxyCompactList}\item 
+unsigned int \mbox{\hyperlink{class_mesh_a79afa055e485fb65b1a7aa5b8eda2940}{V\+AO}}
+\begin{DoxyCompactList}\small\item\em A public variable. \end{DoxyCompactList}\end{DoxyCompactItemize}
+\doxysubsection*{Private Member Functions}
+\begin{DoxyCompactItemize}
+\item 
+void \mbox{\hyperlink{class_mesh_aafa4e21067a9b0c4407daf5e3c9ea991}{setup\+Mesh}} ()
+\begin{DoxyCompactList}\small\item\em An private function. \end{DoxyCompactList}\end{DoxyCompactItemize}
+\doxysubsection*{Private Attributes}
+\begin{DoxyCompactItemize}
+\item 
+unsigned int \mbox{\hyperlink{class_mesh_af08e5f92b0cf587817841104c16fa803}{V\+BO}}
+\begin{DoxyCompactList}\small\item\em A private variable. \end{DoxyCompactList}\item 
+\mbox{\Hypertarget{class_mesh_a25262f446aea3107da7c23f126a81faa}\label{class_mesh_a25262f446aea3107da7c23f126a81faa}} 
+unsigned int {\bfseries E\+BO}
+\end{DoxyCompactItemize}
+
+
+\doxysubsection{Constructor \& Destructor Documentation}
+\mbox{\Hypertarget{class_mesh_a2d6c71adb66e5f270cee7a60c4e23018}\label{class_mesh_a2d6c71adb66e5f270cee7a60c4e23018}} 
+\index{Mesh@{Mesh}!Mesh@{Mesh}}
+\index{Mesh@{Mesh}!Mesh@{Mesh}}
+\doxysubsubsection{\texorpdfstring{Mesh()}{Mesh()}}
+{\footnotesize\ttfamily Mesh\+::\+Mesh (\begin{DoxyParamCaption}\item[{vector$<$ \mbox{\hyperlink{struct_vertex}{Vertex}} $>$}]{vertices,  }\item[{vector$<$ unsigned int $>$}]{indices,  }\item[{vector$<$ \mbox{\hyperlink{struct_texture}{Texture}} $>$}]{textures }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [inline]}}
+
+
+
+An constructor. 
+
+constructor for class \mbox{\hyperlink{class_mesh}{Mesh}}. 
+\begin{DoxyParams}{Parameters}
+{\em vertices} & an vector$<$\+Vertex$>$. \\
+\hline
+{\em indices} & an vector$<$unsigned int$>$. \\
+\hline
+{\em textures} & an vector$<$\+Texture$>$. \\
+\hline
+\end{DoxyParams}
+
+
+\doxysubsection{Member Function Documentation}
+\mbox{\Hypertarget{class_mesh_a143c8d7c179801c6377853db26d4a19f}\label{class_mesh_a143c8d7c179801c6377853db26d4a19f}} 
+\index{Mesh@{Mesh}!Draw@{Draw}}
+\index{Draw@{Draw}!Mesh@{Mesh}}
+\doxysubsubsection{\texorpdfstring{Draw()}{Draw()}}
+{\footnotesize\ttfamily void Mesh\+::\+Draw (\begin{DoxyParamCaption}\item[{\mbox{\hyperlink{class_shader}{Shader}}}]{shader }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [inline]}}
+
+
+
+An public function. 
+
+render the \mbox{\hyperlink{class_mesh}{Mesh}}. 
+\begin{DoxyParams}{Parameters}
+{\em shader} & an \mbox{\hyperlink{class_shader}{Shader}}. \\
+\hline
+\end{DoxyParams}
+\mbox{\Hypertarget{class_mesh_aafa4e21067a9b0c4407daf5e3c9ea991}\label{class_mesh_aafa4e21067a9b0c4407daf5e3c9ea991}} 
+\index{Mesh@{Mesh}!setupMesh@{setupMesh}}
+\index{setupMesh@{setupMesh}!Mesh@{Mesh}}
+\doxysubsubsection{\texorpdfstring{setupMesh()}{setupMesh()}}
+{\footnotesize\ttfamily void Mesh\+::setup\+Mesh (\begin{DoxyParamCaption}{ }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [inline]}, {\ttfamily [private]}}
+
+
+
+An private function. 
+
+set up mesh. 
+
+\doxysubsection{Member Data Documentation}
+\mbox{\Hypertarget{class_mesh_a464d9a1d7e7a4f67321dffc1e8b44b7d}\label{class_mesh_a464d9a1d7e7a4f67321dffc1e8b44b7d}} 
+\index{Mesh@{Mesh}!indices@{indices}}
+\index{indices@{indices}!Mesh@{Mesh}}
+\doxysubsubsection{\texorpdfstring{indices}{indices}}
+{\footnotesize\ttfamily vector$<$unsigned int$>$ Mesh\+::indices}
+
+
+
+A public variable. 
+
+variable vector of unsigned int for indices. \mbox{\Hypertarget{class_mesh_a09bf4e8307bf7717c56501ca6293c6c0}\label{class_mesh_a09bf4e8307bf7717c56501ca6293c6c0}} 
+\index{Mesh@{Mesh}!textures@{textures}}
+\index{textures@{textures}!Mesh@{Mesh}}
+\doxysubsubsection{\texorpdfstring{textures}{textures}}
+{\footnotesize\ttfamily vector$<$\mbox{\hyperlink{struct_texture}{Texture}}$>$ Mesh\+::textures}
+
+
+
+A public variable. 
+
+variable vector of texture for textures. \mbox{\Hypertarget{class_mesh_a79afa055e485fb65b1a7aa5b8eda2940}\label{class_mesh_a79afa055e485fb65b1a7aa5b8eda2940}} 
+\index{Mesh@{Mesh}!VAO@{VAO}}
+\index{VAO@{VAO}!Mesh@{Mesh}}
+\doxysubsubsection{\texorpdfstring{VAO}{VAO}}
+{\footnotesize\ttfamily unsigned int Mesh\+::\+V\+AO}
+
+
+
+A public variable. 
+
+variable unsigned intfor vertex arry object. \mbox{\Hypertarget{class_mesh_af08e5f92b0cf587817841104c16fa803}\label{class_mesh_af08e5f92b0cf587817841104c16fa803}} 
+\index{Mesh@{Mesh}!VBO@{VBO}}
+\index{VBO@{VBO}!Mesh@{Mesh}}
+\doxysubsubsection{\texorpdfstring{VBO}{VBO}}
+{\footnotesize\ttfamily unsigned int Mesh\+::\+V\+BO\hspace{0.3cm}{\ttfamily [private]}}
+
+
+
+A private variable. 
+
+variable unsigned int for vertex buffer object. \mbox{\Hypertarget{class_mesh_abe5c05c224e47ba1e8b6393759798a9b}\label{class_mesh_abe5c05c224e47ba1e8b6393759798a9b}} 
+\index{Mesh@{Mesh}!vertices@{vertices}}
+\index{vertices@{vertices}!Mesh@{Mesh}}
+\doxysubsubsection{\texorpdfstring{vertices}{vertices}}
+{\footnotesize\ttfamily vector$<$\mbox{\hyperlink{struct_vertex}{Vertex}}$>$ Mesh\+::vertices}
+
+
+
+A public variable. 
+
+variable vector of vertex for vertices. 
+
+The documentation for this class was generated from the following file\+:\begin{DoxyCompactItemize}
+\item 
+C\+:/\+Users/\+Xc170/\+Desktop/\+Proyecto lei/\+Visual Studio Projects/\+Direct\+X\+Samples/\+Tutorial07/Mesh\+O\+G\+L.\+h\end{DoxyCompactItemize}

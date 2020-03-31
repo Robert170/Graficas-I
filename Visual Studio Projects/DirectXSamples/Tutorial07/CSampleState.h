@@ -3,7 +3,7 @@
 * @File C_SampleState_DESC.h
 * @Author Roberto Ramírez Ontiveros (xc1700@hotmail.com)
 * @date  05/02/2020
-* @brief recrear el device context en singelton
+* @brief abstraccion de sample state
 * @Bug No kown bug
 **/
 /****************************************************************************/

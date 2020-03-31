@@ -1,6 +1,17 @@
 #pragma once
 #include "Define.h"
 #include "CMesh.h"
+//*****************************************************************************/
+/**
+* @File CModel.h
+* @Author Roberto Ramírez Ontiveros (xc1700@hotmail.com)
+* @date  05/02/2020
+* @brief clase para hacer cargas de modelos
+* @Bug No kown bug
+**/
+//****************************************************************************/
+
+
 #include "CVertexBuffer.h"
 #include "CIndexBuffer.h"
 #include "CDevice.h"

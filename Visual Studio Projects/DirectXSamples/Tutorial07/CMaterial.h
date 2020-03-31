@@ -3,7 +3,7 @@
 * @File CMaterial.h
 * @Author Roberto Ramírez Ontiveros (xc1700@hotmail.com)
 * @date  05/02/2020
-* @brief recrear el Input layer
+* @brief clase para el material
 * @Bug No kown bug
 **/
 //****************************************************************************/

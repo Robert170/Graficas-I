@@ -3,7 +3,7 @@
 * @File CDepthStencilVoew.h
 * @Author Roberto Ramírez Ontiveros (xc1700@hotmail.com)
 * @date  05/02/2020
-* @brief recrear el device context en singelton
+* @brief recrear depth stencil view y abstraer
 * @Bug No kown bug
 **/
 /****************************************************************************/

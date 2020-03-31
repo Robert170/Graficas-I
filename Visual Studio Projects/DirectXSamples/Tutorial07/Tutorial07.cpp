@@ -1,3 +1,13 @@
+//*****************************************************************************/
+/**
+* @File Tutorial07.cpp
+* @Author Roberto Ramírez Ontiveros (xc1700@hotmail.com)
+* @date  10/03/2020
+* @brief cuerpo de todo el proyecto
+* @Bug No kown bug
+**/
+//****************************************************************************/
+
 //--------------------------------------------------------------------------------------
 // File: Tutorial07.cpp
 //
@@ -6,6 +16,12 @@
 // Copyright (c) Microsoft Corporation. All rights reserved.
 //--------------------------------------------------------------------------------------
 #define STB_IMAGE_IMPLEMENTATION
+
+/*! \file includes of .h
+	\brief A Documented file.
+
+	this is where include all class who use for the proyect like, device, Camera, Buffer, etc
+*/
 #include <windows.h>
 #include "Define.h"
 #include <d3d11.h>
@@ -60,16 +76,22 @@ CSwapChain* CSwapChain::SwapChainInstance = NULL;
 // Structures
 //--------------------------------------------------------------------------------------
 
+// !An struct.
+/*! struc CBNeverChanges. */
 struct CBNeverChanges
 {
+	/**< struct glm::mat4x4 mView. */
 	glm::mat4x4 mView;
     //XMMATRIX mView;
 };
 
+// !An struct.
+/*! struc CBChangeOnResize. */
 struct CBChangeOnResize
 {
+	/**< struct glm::mat4x4 mProjection. */
 	glm::mat4x4 mProjection;
-   // XMMATRIX mProjection;
+
 };
 
 //struct CBChangesEveryFrame
@@ -84,6 +106,11 @@ struct CBChangeOnResize
 //--------------------------------------------------------------------------------------
 // Global Variables
 //--------------------------------------------------------------------------------------
+
+//! A  Global Variables.
+	/*!
+	  variable, i use this variables in all proyects, someones are for directx and others are for OpenGL.
+	*/
 HINSTANCE                           g_hInst = NULL;
 HWND                                g_hWnd = NULL;
 GLFWwindow*							window;
@@ -218,17 +245,31 @@ void processInput(GLFWwindow *window);
 void mouse_button_callback(GLFWwindow* window, int button, int action, int mods);
 #endif
 
+// !An enum.
+/*! enum of VariablesParaElMapa values. */
 enum VariablesParaElMapa
 {
+	/**< enum Paredes. */
 	Paredes = 1,
+
+	/**< enum Vacio. */
 	Vacio = 2,
+
+	/**< enum Enemigos. */
 	Enemigos = 3,
+
+	/**< enum ParPilaresedes. */
 	Pilares = 4,
+
+	/**< enum NotColideWalls. */
 	NotColideWalls = 5
 
 };
 
-
+//! A activateConsole function.
+	/*!
+	  function for activate consele in Directx.
+	*/
 void activateConsole()
 {
 	//Create a console for this application
@@ -270,6 +311,11 @@ void activateConsole()
 
 }
 
+//! A Laberinto function.
+	/*!
+	  function for read txt and load laberint of cubes.
+	  \param FileLevelName an string.
+	*/
 void Laberinto(std::string FileLevelName)
 {
 	std::ifstream MapFile;
@@ -297,6 +343,14 @@ void Laberinto(std::string FileLevelName)
 }
 extern IMGUI_IMPL_API LRESULT ImGui_ImplWin32_WndProcHandler(HWND hWnd, UINT msg, WPARAM wParam, LPARAM lParam);
 #ifdef D3D11
+
+//! A CreateInputLayoutDescFromVertexShaderSignature function.
+	/*!
+	  function create a autimatic input layaut.
+	  \param pShaderBlob an ID3DBlob.
+	  \param pD3DDevice an ID3D11Device.
+	  \param pInputLayout an strID3D11InputLayouting.
+	*/
 HRESULT CreateInputLayoutDescFromVertexShaderSignature(ID3DBlob* pShaderBlob, ID3D11Device* pD3DDevice, ID3D11InputLayout** pInputLayout)
 {
 	// Reflect shader info
@@ -371,6 +425,11 @@ HRESULT CreateInputLayoutDescFromVertexShaderSignature(ID3DBlob* pShaderBlob, ID
 // Entry point to the program. Initializes everything and goes into a message processing 
 // loop. Idle time is used to render the scene.
 //--------------------------------------------------------------------------------------
+
+//! A wWinMain function.
+	/*!
+	  main Function where the program start and call the rest of the Functions.
+	*/
 int WINAPI wWinMain( HINSTANCE hInstance, HINSTANCE hPrevInstance, LPWSTR lpCmdLine, int nCmdShow )
 {
     UNREFERENCED_PARAMETER( hPrevInstance );
@@ -453,7 +512,14 @@ int WINAPI wWinMain( HINSTANCE hInstance, HINSTANCE hPrevInstance, LPWSTR lpCmdL
 
 }
 
-
+//! A mouse_button_callback function.
+	/*!
+	  Function of Opengl for detect mouse input.
+	   \param window an GLFWwindow.
+	  \param button an int.
+	  \param action an int.
+	  \param mods an int.
+	*/
 void mouse_button_callback(GLFWwindow* window, int button, int action, int mods)
 {
 	if (button == GLFW_MOUSE_BUTTON_RIGHT )
@@ -476,6 +542,12 @@ void mouse_button_callback(GLFWwindow* window, int button, int action, int mods)
 
 // process all input: query GLFW whether relevant keys are pressed/released this frame and react accordingly
 // ---------------------------------------------------------------------------------------------------------
+
+//! A mouse_button_callback function.
+	/*!
+	  Function of Opengl for detect mouse input.
+	   \param window an GLFWwindow.
+	*/
 void processInput(GLFWwindow *window)
 {
 	if (glfwGetKey(window, GLFW_KEY_ESCAPE) == GLFW_PRESS)
@@ -512,6 +584,14 @@ void processInput(GLFWwindow *window)
 
 // glfw: whenever the window size changed (by OS or user resize) this callback function executes
 // ---------------------------------------------------------------------------------------------
+
+//! A framebuffer_size_callback function.
+	/*!
+	  Function of Opengl for do the resize of the window.
+	   \param window an GLFWwindow.
+	   \param width an int.
+	   \param height an int.
+	*/
 void framebuffer_size_callback(GLFWwindow* window, int width, int height)
 {
 	glBindFramebuffer(GL_FRAMEBUFFER, 0);
@@ -542,6 +622,14 @@ void framebuffer_size_callback(GLFWwindow* window, int width, int height)
 
 // glfw: whenever the mouse moves, this callback is called
 // -------------------------------------------------------
+
+//! A framebuffer_size_callback function.
+	/*!
+	  Function of Opengl for detect when the mouse is moving.
+	   \param window an GLFWwindow.
+	   \param xpos an double.
+	   \param ypos an double.
+	*/
 void mouse_callback(GLFWwindow* window, double xpos, double ypos)
 {
 	if (MainCamera->Fpres == true)
@@ -574,6 +662,13 @@ void scroll_callback(GLFWwindow* window, double xoffset, double yoffset)
 //--------------------------------------------------------------------------------------
 // Register class and create window
 //--------------------------------------------------------------------------------------
+
+//! A InitWindow function.
+	/*!
+	  Function for init window of DirectX.
+	   \param hInstance an HINSTANCE.
+	   \param nCmdShow an int.
+	*/
 HRESULT InitWindow( HINSTANCE hInstance, int nCmdShow )
 {
     // Register class
@@ -619,6 +714,14 @@ HRESULT InitWindow( HINSTANCE hInstance, int nCmdShow )
 // Helper for compiling shaders with D3DX11
 //--------------------------------------------------------------------------------------
 #ifdef D3D11
+//! A CompileShaderFromFile function.
+	/*!
+	  Function for compile shader from fileof DirectX.
+	   \param szFileName an WCHAR.
+	   \param szEntryPoint an LPCSTR.
+	   \param szShaderModel an LPCSTR.
+	   \param ppBlobOut an ID3DBlob.
+	*/
 HRESULT CompileShaderFromFile( WCHAR* szFileName, LPCSTR szEntryPoint, LPCSTR szShaderModel, ID3DBlob** ppBlobOut )
 {
     HRESULT hr = S_OK;
@@ -648,7 +751,10 @@ HRESULT CompileShaderFromFile( WCHAR* szFileName, LPCSTR szEntryPoint, LPCSTR sz
 }
 #endif
 
-
+//! A InitDeviceOGL function.
+	/*!
+	  Function of opengl for init window, create shader, load model, and render.
+	*/
 int InitDeviceOGL()
 {
 
@@ -950,6 +1056,11 @@ int InitDeviceOGL()
 //--------------------------------------------------------------------------------------
 // Create Direct3D device and swap chain
 //--------------------------------------------------------------------------------------
+
+//! A InitDevice function.
+	/*!
+	  Function of directx for call class of device, load model, shader, etc.
+	*/
 HRESULT InitDevice()
 {
 	HRESULT hr = S_OK;
@@ -1531,6 +1642,11 @@ HRESULT InitDevice()
 //--------------------------------------------------------------------------------------
 // Clean up the objects we've created
 //--------------------------------------------------------------------------------------
+
+//! A CleanupDevice function.
+	/*!
+	  Function of directx for clean all pointer.
+	*/
 void CleanupDevice()
 {
 #ifdef D3D11
@@ -1582,6 +1698,15 @@ void CleanupDevice()
 //--------------------------------------------------------------------------------------
 // Called every time the application receives a message
 //--------------------------------------------------------------------------------------
+
+//! A WndProc function.
+	/*!
+	  Function of directx detect events of the window like inputs, move mouse, etc.
+	  \param hWnd an HWND.
+	   \param message an UINT.
+	   \param wParam an WPARAM.
+	   \param lParam an LPARAM.
+	*/
 LRESULT CALLBACK WndProc( HWND hWnd, UINT message, WPARAM wParam, LPARAM lParam )
 {
 	if (ImGui_ImplWin32_WndProcHandler(hWnd, message, wParam, lParam))
@@ -1806,6 +1931,11 @@ LRESULT CALLBACK WndProc( HWND hWnd, UINT message, WPARAM wParam, LPARAM lParam 
 //--------------------------------------------------------------------------------------
 // Render a frame
 //--------------------------------------------------------------------------------------
+
+//! A Render function.
+	/*!
+	  Function of directx for render the scence in the window.
+	*/
 void Render()
 {
 #ifdef D3D11

@@ -1,0 +1,188 @@
+\hypertarget{class_c_graphic_api}{}\doxysection{C\+Graphic\+Api Class Reference}
+\label{class_c_graphic_api}\index{CGraphicApi@{CGraphicApi}}
+\doxysubsection*{Public Member Functions}
+\begin{DoxyCompactItemize}
+\item 
+\mbox{\hyperlink{class_c_graphic_api_ab080d4c251c0ee8e60aca7f4dda24314}{C\+Graphic\+Api}} ()
+\begin{DoxyCompactList}\small\item\em A constructor. \end{DoxyCompactList}\item 
+\mbox{\hyperlink{class_c_graphic_api_a61adf314efd6568d6e19e7b3d7cfe682}{$\sim$\+C\+Graphic\+Api}} ()
+\begin{DoxyCompactList}\small\item\em A destroyer. \end{DoxyCompactList}\item 
+bool \mbox{\hyperlink{class_c_graphic_api_a658aded0b1db48f08695c1fc1875faca}{Charge\+Mesh}} (const char $\ast$\+\_\+mesh\+Path, \mbox{\hyperlink{class_c_scene_manager}{C\+Scene\+Manager}} $\ast$\+\_\+scene\+Manager, const ai\+Scene $\ast$\+\_\+model, \mbox{\hyperlink{class_c_device_context}{C\+Device\+Context}} $\ast$\+\_\+dev\+Cont, Assimp\+::\+Importer $\ast$\+\_\+importer, void $\ast$\+\_\+dev)
+\begin{DoxyCompactList}\small\item\em A public function. \end{DoxyCompactList}\end{DoxyCompactItemize}
+\doxysubsection*{Public Attributes}
+\begin{DoxyCompactItemize}
+\item 
+const ai\+Scene $\ast$ \mbox{\hyperlink{class_c_graphic_api_a691d6d1df17d2154f4cf8903244bb4d3}{m\+\_\+\+Model}} = new const ai\+Scene()
+\begin{DoxyCompactList}\small\item\em A public variable. \end{DoxyCompactList}\item 
+Assimp\+::\+Importer $\ast$ \mbox{\hyperlink{class_c_graphic_api_a1eed763b400c06fb2dffdc95d5bddbf5}{m\+\_\+\+Importer}} = new Assimp\+::\+Importer()
+\begin{DoxyCompactList}\small\item\em A public variable. \end{DoxyCompactList}\end{DoxyCompactItemize}
+\doxysubsection*{Private Member Functions}
+\begin{DoxyCompactItemize}
+\item 
+void \mbox{\hyperlink{class_c_graphic_api_a7cc51be84703c243eefff73a248b5e29}{Mesh\+Read}} (const ai\+Scene $\ast$\+\_\+model, \mbox{\hyperlink{class_c_mesh}{C\+Mesh}} $\ast$\+\_\+mesh, int \+\_\+mesh\+Index, void $\ast$\+\_\+dev)
+\begin{DoxyCompactList}\small\item\em A private function. \end{DoxyCompactList}\item 
+void \mbox{\hyperlink{class_c_graphic_api_a2be7815d3098c2db139a0fa7d720913f}{Read\+Texture\+Mesh}} (const ai\+Scene $\ast$\+\_\+model, \mbox{\hyperlink{class_c_mesh}{C\+Mesh}} $\ast$\+\_\+mesh, int \+\_\+mesh\+Index, void $\ast$\+\_\+dev)
+\begin{DoxyCompactList}\small\item\em A private function. \end{DoxyCompactList}\end{DoxyCompactItemize}
+
+
+\doxysubsection{Constructor \& Destructor Documentation}
+\mbox{\Hypertarget{class_c_graphic_api_ab080d4c251c0ee8e60aca7f4dda24314}\label{class_c_graphic_api_ab080d4c251c0ee8e60aca7f4dda24314}} 
+\index{CGraphicApi@{CGraphicApi}!CGraphicApi@{CGraphicApi}}
+\index{CGraphicApi@{CGraphicApi}!CGraphicApi@{CGraphicApi}}
+\doxysubsubsection{\texorpdfstring{CGraphicApi()}{CGraphicApi()}}
+{\footnotesize\ttfamily C\+Graphic\+Api\+::\+C\+Graphic\+Api (\begin{DoxyParamCaption}{ }\end{DoxyParamCaption})}
+
+
+
+A constructor. 
+
+function for use the constructor of the class \mbox{\hyperlink{class_c_graphic_api}{C\+Graphic\+Api}}.
+
+function for construc the class. \mbox{\Hypertarget{class_c_graphic_api_a61adf314efd6568d6e19e7b3d7cfe682}\label{class_c_graphic_api_a61adf314efd6568d6e19e7b3d7cfe682}} 
+\index{CGraphicApi@{CGraphicApi}!````~CGraphicApi@{$\sim$CGraphicApi}}
+\index{````~CGraphicApi@{$\sim$CGraphicApi}!CGraphicApi@{CGraphicApi}}
+\doxysubsubsection{\texorpdfstring{$\sim$CGraphicApi()}{~CGraphicApi()}}
+{\footnotesize\ttfamily C\+Graphic\+Api\+::$\sim$\+C\+Graphic\+Api (\begin{DoxyParamCaption}{ }\end{DoxyParamCaption})}
+
+
+
+A destroyer. 
+
+function for use the destroyer of the class \mbox{\hyperlink{class_c_graphic_api}{C\+Graphic\+Api}}.
+
+function for destroy the class. 
+
+\doxysubsection{Member Function Documentation}
+\mbox{\Hypertarget{class_c_graphic_api_a658aded0b1db48f08695c1fc1875faca}\label{class_c_graphic_api_a658aded0b1db48f08695c1fc1875faca}} 
+\index{CGraphicApi@{CGraphicApi}!ChargeMesh@{ChargeMesh}}
+\index{ChargeMesh@{ChargeMesh}!CGraphicApi@{CGraphicApi}}
+\doxysubsubsection{\texorpdfstring{ChargeMesh()}{ChargeMesh()}}
+{\footnotesize\ttfamily bool C\+Graphic\+Api\+::\+Charge\+Mesh (\begin{DoxyParamCaption}\item[{const char $\ast$}]{\+\_\+mesh\+Path,  }\item[{\mbox{\hyperlink{class_c_scene_manager}{C\+Scene\+Manager}} $\ast$}]{\+\_\+scene\+Manager,  }\item[{const ai\+Scene $\ast$}]{\+\_\+model,  }\item[{\mbox{\hyperlink{class_c_device_context}{C\+Device\+Context}} $\ast$}]{\+\_\+dev\+Cont,  }\item[{Assimp\+::\+Importer $\ast$}]{\+\_\+importer,  }\item[{void $\ast$}]{\+\_\+dev }\end{DoxyParamCaption})}
+
+
+
+A public function. 
+
+function return bool if the mesh was charge. 
+\begin{DoxyParams}{Parameters}
+{\em \+\_\+mesh\+Path} & an const char. \\
+\hline
+{\em \+\_\+scene\+Manager} & an \mbox{\hyperlink{class_c_scene_manager}{C\+Scene\+Manager}}. \\
+\hline
+{\em \+\_\+model} & an const ai\+Scene. \\
+\hline
+{\em \+\_\+dev\+Cont} & an \mbox{\hyperlink{class_c_device_context}{C\+Device\+Context}}. \\
+\hline
+{\em \+\_\+importer} & an Assimp\+::\+Importer. \\
+\hline
+{\em \+\_\+dev} & an void.\\
+\hline
+\end{DoxyParams}
+function return bool if the mesh was charge, using a model. 
+\begin{DoxyParams}{Parameters}
+{\em \+\_\+mesh\+Path} & an const char. \\
+\hline
+{\em \+\_\+scene\+Manager} & an \mbox{\hyperlink{class_c_scene_manager}{C\+Scene\+Manager}}. \\
+\hline
+{\em \+\_\+model} & an const ai\+Scene. \\
+\hline
+{\em \+\_\+dev\+Cont} & an \mbox{\hyperlink{class_c_device_context}{C\+Device\+Context}}. \\
+\hline
+{\em \+\_\+importer} & an Assimp\+::\+Importer. \\
+\hline
+{\em \+\_\+dev} & an void. \\
+\hline
+\end{DoxyParams}
+\mbox{\Hypertarget{class_c_graphic_api_a7cc51be84703c243eefff73a248b5e29}\label{class_c_graphic_api_a7cc51be84703c243eefff73a248b5e29}} 
+\index{CGraphicApi@{CGraphicApi}!MeshRead@{MeshRead}}
+\index{MeshRead@{MeshRead}!CGraphicApi@{CGraphicApi}}
+\doxysubsubsection{\texorpdfstring{MeshRead()}{MeshRead()}}
+{\footnotesize\ttfamily void C\+Graphic\+Api\+::\+Mesh\+Read (\begin{DoxyParamCaption}\item[{const ai\+Scene $\ast$}]{\+\_\+model,  }\item[{\mbox{\hyperlink{class_c_mesh}{C\+Mesh}} $\ast$}]{\+\_\+mesh,  }\item[{int}]{\+\_\+mesh\+Index,  }\item[{void $\ast$}]{\+\_\+dev }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [private]}}
+
+
+
+A private function. 
+
+function for read mesh. 
+\begin{DoxyParams}{Parameters}
+{\em \+\_\+model} & an const ai\+Scene. \\
+\hline
+{\em \+\_\+mesh} & an \mbox{\hyperlink{class_c_mesh}{C\+Mesh}}. \\
+\hline
+{\em \+\_\+mesh\+Index} & an int. \\
+\hline
+{\em \+\_\+dev} & an void.\\
+\hline
+\end{DoxyParams}
+function for the caracteristics of mesh like indices, vertex. 
+\begin{DoxyParams}{Parameters}
+{\em \+\_\+model} & an const ai\+Scene. \\
+\hline
+{\em \+\_\+mesh} & an \mbox{\hyperlink{class_c_mesh}{C\+Mesh}}. \\
+\hline
+{\em \+\_\+mesh\+Index} & an int. \\
+\hline
+{\em \+\_\+dev} & an void. \\
+\hline
+\end{DoxyParams}
+\mbox{\Hypertarget{class_c_graphic_api_a2be7815d3098c2db139a0fa7d720913f}\label{class_c_graphic_api_a2be7815d3098c2db139a0fa7d720913f}} 
+\index{CGraphicApi@{CGraphicApi}!ReadTextureMesh@{ReadTextureMesh}}
+\index{ReadTextureMesh@{ReadTextureMesh}!CGraphicApi@{CGraphicApi}}
+\doxysubsubsection{\texorpdfstring{ReadTextureMesh()}{ReadTextureMesh()}}
+{\footnotesize\ttfamily void C\+Graphic\+Api\+::\+Read\+Texture\+Mesh (\begin{DoxyParamCaption}\item[{const ai\+Scene $\ast$}]{\+\_\+model,  }\item[{\mbox{\hyperlink{class_c_mesh}{C\+Mesh}} $\ast$}]{\+\_\+mesh,  }\item[{int}]{\+\_\+mesh\+Index,  }\item[{void $\ast$}]{\+\_\+dev }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [private]}}
+
+
+
+A private function. 
+
+function for read texture. 
+\begin{DoxyParams}{Parameters}
+{\em \+\_\+model} & an const ai\+Scene. \\
+\hline
+{\em \+\_\+mesh} & an \mbox{\hyperlink{class_c_mesh}{C\+Mesh}}. \\
+\hline
+{\em \+\_\+mesh\+Index} & an int. \\
+\hline
+{\em \+\_\+dev} & an void.\\
+\hline
+\end{DoxyParams}
+function for search and read texture of model. 
+\begin{DoxyParams}{Parameters}
+{\em \+\_\+model} & an const ai\+Scene. \\
+\hline
+{\em \+\_\+mesh} & an \mbox{\hyperlink{class_c_mesh}{C\+Mesh}}. \\
+\hline
+{\em \+\_\+mesh\+Index} & an int. \\
+\hline
+{\em \+\_\+dev} & an void. \\
+\hline
+\end{DoxyParams}
+
+
+\doxysubsection{Member Data Documentation}
+\mbox{\Hypertarget{class_c_graphic_api_a1eed763b400c06fb2dffdc95d5bddbf5}\label{class_c_graphic_api_a1eed763b400c06fb2dffdc95d5bddbf5}} 
+\index{CGraphicApi@{CGraphicApi}!m\_Importer@{m\_Importer}}
+\index{m\_Importer@{m\_Importer}!CGraphicApi@{CGraphicApi}}
+\doxysubsubsection{\texorpdfstring{m\_Importer}{m\_Importer}}
+{\footnotesize\ttfamily Assimp\+::\+Importer$\ast$ C\+Graphic\+Api\+::m\+\_\+\+Importer = new Assimp\+::\+Importer()}
+
+
+
+A public variable. 
+
+variable pointer Importer for assimp. \mbox{\Hypertarget{class_c_graphic_api_a691d6d1df17d2154f4cf8903244bb4d3}\label{class_c_graphic_api_a691d6d1df17d2154f4cf8903244bb4d3}} 
+\index{CGraphicApi@{CGraphicApi}!m\_Model@{m\_Model}}
+\index{m\_Model@{m\_Model}!CGraphicApi@{CGraphicApi}}
+\doxysubsubsection{\texorpdfstring{m\_Model}{m\_Model}}
+{\footnotesize\ttfamily const ai\+Scene$\ast$ C\+Graphic\+Api\+::m\+\_\+\+Model = new const ai\+Scene()}
+
+
+
+A public variable. 
+
+variable pointer ai\+Scene for the model. 
+
+The documentation for this class was generated from the following files\+:\begin{DoxyCompactItemize}
+\item 
+C\+:/\+Users/\+Xc170/\+Desktop/\+Proyecto lei/\+Visual Studio Projects/\+Direct\+X\+Samples/\+Tutorial07/C\+Graphic\+Api.\+h\item 
+C\+:/\+Users/\+Xc170/\+Desktop/\+Proyecto lei/\+Visual Studio Projects/\+Direct\+X\+Samples/\+Tutorial07/C\+Graphic\+Api.\+cpp\end{DoxyCompactItemize}

@@ -1,0 +1,46 @@
+\hypertarget{class_model}{}\doxysection{Model Class Reference}
+\label{class_model}\index{Model@{Model}}
+\doxysubsection*{Public Member Functions}
+\begin{DoxyCompactItemize}
+\item 
+\mbox{\Hypertarget{class_model_aa236145f5d1132ce2949b0ceca540ef2}\label{class_model_aa236145f5d1132ce2949b0ceca540ef2}} 
+{\bfseries Model} (string const \&path, bool gamma=false)
+\item 
+\mbox{\Hypertarget{class_model_a191a00d937b9e911bf4881ea14d79b6c}\label{class_model_a191a00d937b9e911bf4881ea14d79b6c}} 
+void {\bfseries Draw} (\mbox{\hyperlink{class_shader}{Shader}} shader)
+\end{DoxyCompactItemize}
+\doxysubsection*{Public Attributes}
+\begin{DoxyCompactItemize}
+\item 
+\mbox{\Hypertarget{class_model_aa0d87cb976812a96da160a85d7a610e8}\label{class_model_aa0d87cb976812a96da160a85d7a610e8}} 
+vector$<$ \mbox{\hyperlink{struct_texture}{Texture}} $>$ {\bfseries textures\+\_\+loaded}
+\item 
+\mbox{\Hypertarget{class_model_a8ff9e88cc08d20ac95168a6a61458d98}\label{class_model_a8ff9e88cc08d20ac95168a6a61458d98}} 
+vector$<$ \mbox{\hyperlink{class_mesh}{Mesh}} $>$ {\bfseries meshes}
+\item 
+\mbox{\Hypertarget{class_model_a5d77b67392e10756ca9c5075b2abedea}\label{class_model_a5d77b67392e10756ca9c5075b2abedea}} 
+string {\bfseries directory}
+\item 
+\mbox{\Hypertarget{class_model_ad77d358db2ff46758774b8a621f60db3}\label{class_model_ad77d358db2ff46758774b8a621f60db3}} 
+bool {\bfseries gamma\+Correction}
+\end{DoxyCompactItemize}
+\doxysubsection*{Private Member Functions}
+\begin{DoxyCompactItemize}
+\item 
+\mbox{\Hypertarget{class_model_a1033e3ef04119cd665593b9bf1679850}\label{class_model_a1033e3ef04119cd665593b9bf1679850}} 
+void {\bfseries load\+Model} (string const \&path)
+\item 
+\mbox{\Hypertarget{class_model_a23b167ce0d33f7e6ab5693cd5e81a9a5}\label{class_model_a23b167ce0d33f7e6ab5693cd5e81a9a5}} 
+void {\bfseries process\+Node} (ai\+Node $\ast$node, const ai\+Scene $\ast$scene)
+\item 
+\mbox{\Hypertarget{class_model_a95ae1a9980ded3d98b1c8785cb889d96}\label{class_model_a95ae1a9980ded3d98b1c8785cb889d96}} 
+\mbox{\hyperlink{class_mesh}{Mesh}} {\bfseries process\+Mesh} (ai\+Mesh $\ast$mesh, const ai\+Scene $\ast$scene)
+\item 
+\mbox{\Hypertarget{class_model_aae58d549a5695ae7c1d7bef7b82df73a}\label{class_model_aae58d549a5695ae7c1d7bef7b82df73a}} 
+vector$<$ \mbox{\hyperlink{struct_texture}{Texture}} $>$ {\bfseries load\+Material\+Textures} (ai\+Material $\ast$mat, ai\+Texture\+Type type, string type\+Name)
+\end{DoxyCompactItemize}
+
+
+The documentation for this class was generated from the following file\+:\begin{DoxyCompactItemize}
+\item 
+C\+:/\+Users/\+Xc170/\+Desktop/\+Proyecto lei/\+Visual Studio Projects/\+Direct\+X\+Samples/\+Tutorial07/Model\+O\+G\+L.\+h\end{DoxyCompactItemize}

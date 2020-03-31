@@ -3,7 +3,7 @@
 * @File CGraphicApi.h
 * @Author Roberto Ramírez Ontiveros (xc1700@hotmail.com)
 * @date  05/02/2020
-* @brief recrear el device context en singelton
+* @brief crear el graphic api
 * @Bug No kown bug
 **/
 /****************************************************************************/

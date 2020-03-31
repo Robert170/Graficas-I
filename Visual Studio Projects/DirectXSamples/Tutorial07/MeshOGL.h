@@ -1,41 +1,109 @@
+//*****************************************************************************/
+/**
+* @File MeshOGL.h
+* @Author Roberto Ramírez Ontiveros (xc1700@hotmail.com)
+* @date  05/02/2020
+* @brief hacer el mesh para opengl 
+* @Bug No kown bug
+**/
+//****************************************************************************/
+
 #pragma once
 #ifndef MESH_H
 #define MESH_H
 
+
+/*! \file Define.h
+	\brief A Documented file.
+
+	.h where include eneum, struc an other things for class use.
+*/
 #include "Define.h"
 #include "ShaderOGL.h"
 
 using namespace std;
 
+// !An struct.
+/*! struc vertex for class MeshOGL. */
 struct Vertex {
 	// position
+
+	/**< struct glm::vec3 Position. */
 	glm::vec3 Position;
+
 	// normal
+
+	/**< struct glm::vec3 Normal. */
 	glm::vec3 Normal;
+
 	// texCoords
+
+	/**< struct glm::vec3 TexCoords. */
 	glm::vec2 TexCoords;
+
 	// tangent
+
+	/**< struct glm::vec3 Tangent. */
 	glm::vec3 Tangent;
+
 	// bitangent
+
+	/**< struct glm::vec3 Bitangent. */
 	glm::vec3 Bitangent;
 };
 
+// !An struct.
+/*! struc texture for class MeshOGL. */
 struct Texture {
+
+	/**< struct unsigned int id. */
 	unsigned int id;
+
+	/**< struct string type. */
 	string type;
+
+	/**< struct v. */
 	string path;
 };
 
 class Mesh {
 public:
 	/*  Mesh Data  */
+
+	//! A public variable.
+	/*!
+	  variable vector of vertex for vertices.
+	*/
 	vector<Vertex> vertices;
+
+	//! A public variable.
+	/*!
+	  variable vector of unsigned int for indices.
+	*/
 	vector<unsigned int> indices;
+
+	//! A public variable.
+	/*!
+	  variable vector of texture for textures.
+	*/
 	vector<Texture> textures;
+
+	//! A public variable.
+	/*!
+	  variable unsigned intfor vertex arry object.
+	*/
 	unsigned int VAO;
 
 	/*  Functions  */
 	// constructor
+
+	//! An constructor.
+	/*!
+	  constructor for class Mesh.
+	  \param vertices an vector<Vertex>.
+	   \param indices an vector<unsigned int>.
+		\param textures an vector<Texture>.
+	*/
 	Mesh(vector<Vertex> vertices, vector<unsigned int> indices, vector<Texture> textures)
 	{
 		this->vertices = vertices;
@@ -47,6 +115,12 @@ public:
 	}
 
 	// render the mesh
+
+	//! An public function.
+	/*!
+	  render the Mesh.
+	  \param shader an Shader.
+	*/
 	void Draw(Shader shader)
 	{
 		// bind appropriate textures
@@ -86,10 +160,20 @@ public:
 
 private:
 	/*  Render data  */
+
+	//! A private variable.
+	/*!
+	  variable unsigned int for vertex buffer object.
+	*/
 	unsigned int VBO, EBO;
 
 	/*  Functions    */
 	// initializes all the buffer objects/arrays
+
+	//! An private function.
+	/*!
+	  set up mesh.
+	*/
 	void setupMesh()
 	{
 		// create buffers/arrays

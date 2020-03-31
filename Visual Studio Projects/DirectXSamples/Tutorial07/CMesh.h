@@ -1,3 +1,14 @@
+//*****************************************************************************/
+/**
+* @File CMesh.h
+* @Author Roberto Ramírez Ontiveros (xc1700@hotmail.com)
+* @date  05/02/2020
+* @brief clase mesh para el modelo
+* @Bug No kown bug
+**/
+//****************************************************************************/
+
+
 #pragma once
 
 #include "Define.h"

@@ -1,0 +1,130 @@
+\hypertarget{class_c_buffer}{}\doxysection{C\+Buffer Class Reference}
+\label{class_c_buffer}\index{CBuffer@{CBuffer}}
+\doxysubsection*{Public Member Functions}
+\begin{DoxyCompactItemize}
+\item 
+int \mbox{\hyperlink{class_c_buffer_aae1fffe60012b12b1b4bd8483282a3db}{init}} (\mbox{\hyperlink{struct_c___buffer___d_e_s_c}{C\+\_\+\+Buffer\+\_\+\+D\+E\+SC}} \&\+\_\+\+C\+\_\+\+D\+E\+V\+I\+C\+E\+\_\+\+D\+E\+SC)
+\begin{DoxyCompactList}\small\item\em An init. \end{DoxyCompactList}\item 
+void \mbox{\hyperlink{class_c_buffer_a6b4d73649836377357a3e69b86a23f5e}{update}} ()
+\item 
+void \mbox{\hyperlink{class_c_buffer_a8cb64f80d991ede13849630b35b48255}{detroy}} ()
+\item 
+void \mbox{\hyperlink{class_c_buffer_a86b227a55335cc7020b006f3a658df35}{render}} ()
+\end{DoxyCompactItemize}
+\doxysubsection*{Static Public Member Functions}
+\begin{DoxyCompactItemize}
+\item 
+static void \mbox{\hyperlink{class_c_buffer_a1d48f6022676c5cbf9ed307134ae912f}{create\+Vertex\+Buffer}} (int \+\_\+numvertex, const ai\+Scene $\ast$\+\_\+model, \mbox{\hyperlink{struct_simple_vertex}{Simple\+Vertex}} $\ast$\+\_\+vertex, I\+D3\+D11\+Buffer $\ast$\&\+\_\+buffer, void $\ast$\+\_\+dev)
+\begin{DoxyCompactList}\small\item\em A public variable. \end{DoxyCompactList}\item 
+static void \mbox{\hyperlink{class_c_buffer_a00fc425290a84ae8ddd7a23ef96dce67}{create\+Index\+Buffer}} (int numindices, const ai\+Scene $\ast$\+\_\+model, W\+O\+RD $\ast$\+\_\+index, I\+D3\+D11\+Buffer $\ast$\&\+\_\+buffer, void $\ast$\+\_\+dev)
+\end{DoxyCompactItemize}
+\doxysubsection*{Public Attributes}
+\begin{DoxyCompactItemize}
+\item 
+\mbox{\hyperlink{struct_c___buffer___d_e_s_c}{C\+\_\+\+Buffer\+\_\+\+D\+E\+SC}} \mbox{\hyperlink{class_c_buffer_a60788c0202ff61668504c912245b0e3b}{m\+\_\+\+Buffer}}
+\begin{DoxyCompactList}\small\item\em A public variable. \end{DoxyCompactList}\item 
+\mbox{\Hypertarget{class_c_buffer_a6fd3e0d780f2767f736d5491f9071309}\label{class_c_buffer_a6fd3e0d780f2767f736d5491f9071309}} 
+D3\+D11\+\_\+\+B\+U\+F\+F\+E\+R\+\_\+\+D\+E\+SC {\bfseries bd}
+\item 
+\mbox{\Hypertarget{class_c_buffer_abdc0284846fa1b98fbe6f1904094b2a8}\label{class_c_buffer_abdc0284846fa1b98fbe6f1904094b2a8}} 
+I\+D3\+D11\+Buffer $\ast$ {\bfseries P\+\_\+\+Buffer} = N\+U\+LL
+\end{DoxyCompactItemize}
+
+
+\doxysubsection{Member Function Documentation}
+\mbox{\Hypertarget{class_c_buffer_a00fc425290a84ae8ddd7a23ef96dce67}\label{class_c_buffer_a00fc425290a84ae8ddd7a23ef96dce67}} 
+\index{CBuffer@{CBuffer}!createIndexBuffer@{createIndexBuffer}}
+\index{createIndexBuffer@{createIndexBuffer}!CBuffer@{CBuffer}}
+\doxysubsubsection{\texorpdfstring{createIndexBuffer()}{createIndexBuffer()}}
+{\footnotesize\ttfamily void C\+Buffer\+::create\+Index\+Buffer (\begin{DoxyParamCaption}\item[{int}]{numindices,  }\item[{const ai\+Scene $\ast$}]{\+\_\+model,  }\item[{W\+O\+RD $\ast$}]{\+\_\+index,  }\item[{I\+D3\+D11\+Buffer $\ast$\&}]{\+\_\+buffer,  }\item[{void $\ast$}]{\+\_\+dev }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [static]}}
+
+create\+Index\+Buffer for create a index buffer use for models. 
+\begin{DoxyParams}{Parameters}
+{\em numindices} & an int. \\
+\hline
+{\em \+\_\+model} & an const ai\+Scene pointer. \\
+\hline
+{\em \+\_\+index} & an W\+O\+RD pointer. \\
+\hline
+{\em \+\_\+buffer} & an I\+D3\+D11\+Buffer pointer. \\
+\hline
+{\em \+\_\+dev} & an void pointer. \\
+\hline
+\end{DoxyParams}
+\mbox{\Hypertarget{class_c_buffer_a1d48f6022676c5cbf9ed307134ae912f}\label{class_c_buffer_a1d48f6022676c5cbf9ed307134ae912f}} 
+\index{CBuffer@{CBuffer}!createVertexBuffer@{createVertexBuffer}}
+\index{createVertexBuffer@{createVertexBuffer}!CBuffer@{CBuffer}}
+\doxysubsubsection{\texorpdfstring{createVertexBuffer()}{createVertexBuffer()}}
+{\footnotesize\ttfamily void C\+Buffer\+::create\+Vertex\+Buffer (\begin{DoxyParamCaption}\item[{int}]{\+\_\+numvertex,  }\item[{const ai\+Scene $\ast$}]{\+\_\+model,  }\item[{\mbox{\hyperlink{struct_simple_vertex}{Simple\+Vertex}} $\ast$}]{\+\_\+vertex,  }\item[{I\+D3\+D11\+Buffer $\ast$\&}]{\+\_\+buffer,  }\item[{void $\ast$}]{\+\_\+dev }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [static]}}
+
+
+
+A public variable. 
+
+variable using direckX\+: static void \mbox{\hyperlink{class_c_buffer_a1d48f6022676c5cbf9ed307134ae912f}{create\+Vertex\+Buffer(int \+\_\+numvertex, const ai\+Scene$\ast$ \+\_\+model, Simple\+Vertex$\ast$ \+\_\+vertex, I\+D3\+D11\+Buffer$\ast$\& \+\_\+buffer, void$\ast$ \+\_\+dev)}}; static void \mbox{\hyperlink{class_c_buffer_a00fc425290a84ae8ddd7a23ef96dce67}{create\+Index\+Buffer(int numindices, const ai\+Scene$\ast$ \+\_\+model, W\+O\+R\+D$\ast$ \+\_\+index, I\+D3\+D11\+Buffer$\ast$\& \+\_\+buffer, void$\ast$ \+\_\+dev)}}; D3\+D11\+\_\+\+B\+U\+F\+F\+E\+R\+\_\+\+D\+E\+SC bd; I\+D3\+D11\+Buffer$\ast$ P\+\_\+\+Buffer = N\+U\+LL;.
+
+create\+Vertex\+Buffer for create a vertex buffer use for models. 
+\begin{DoxyParams}{Parameters}
+{\em \+\_\+numvertex} & an int. \\
+\hline
+{\em \+\_\+model} & an const ai\+Scene pointer. \\
+\hline
+{\em \+\_\+vertex} & an \mbox{\hyperlink{struct_simple_vertex}{Simple\+Vertex}} pointer. \\
+\hline
+{\em \+\_\+buffer} & an I\+D3\+D11\+Buffer pointer. \\
+\hline
+{\em \+\_\+dev} & an void pointer. \\
+\hline
+\end{DoxyParams}
+\mbox{\Hypertarget{class_c_buffer_a8cb64f80d991ede13849630b35b48255}\label{class_c_buffer_a8cb64f80d991ede13849630b35b48255}} 
+\index{CBuffer@{CBuffer}!detroy@{detroy}}
+\index{detroy@{detroy}!CBuffer@{CBuffer}}
+\doxysubsubsection{\texorpdfstring{detroy()}{detroy()}}
+{\footnotesize\ttfamily void C\+Buffer\+::detroy (\begin{DoxyParamCaption}{ }\end{DoxyParamCaption})}
+
+destroy of class buffer. \mbox{\Hypertarget{class_c_buffer_aae1fffe60012b12b1b4bd8483282a3db}\label{class_c_buffer_aae1fffe60012b12b1b4bd8483282a3db}} 
+\index{CBuffer@{CBuffer}!init@{init}}
+\index{init@{init}!CBuffer@{CBuffer}}
+\doxysubsubsection{\texorpdfstring{init()}{init()}}
+{\footnotesize\ttfamily int C\+Buffer\+::init (\begin{DoxyParamCaption}\item[{\mbox{\hyperlink{struct_c___buffer___d_e_s_c}{C\+\_\+\+Buffer\+\_\+\+D\+E\+SC}} \&}]{\+\_\+\+C\+\_\+\+D\+E\+V\+I\+C\+E\+\_\+\+D\+E\+SC }\end{DoxyParamCaption})}
+
+
+
+An init. 
+
+init for class buffer. 
+\begin{DoxyParams}{Parameters}
+{\em \+\_\+\+C\+\_\+\+D\+E\+V\+I\+C\+E\+\_\+\+D\+E\+SC} & an struc of buffer. \\
+\hline
+\end{DoxyParams}
+\mbox{\Hypertarget{class_c_buffer_a86b227a55335cc7020b006f3a658df35}\label{class_c_buffer_a86b227a55335cc7020b006f3a658df35}} 
+\index{CBuffer@{CBuffer}!render@{render}}
+\index{render@{render}!CBuffer@{CBuffer}}
+\doxysubsubsection{\texorpdfstring{render()}{render()}}
+{\footnotesize\ttfamily void C\+Buffer\+::render (\begin{DoxyParamCaption}{ }\end{DoxyParamCaption})}
+
+render for class buffer. \mbox{\Hypertarget{class_c_buffer_a6b4d73649836377357a3e69b86a23f5e}\label{class_c_buffer_a6b4d73649836377357a3e69b86a23f5e}} 
+\index{CBuffer@{CBuffer}!update@{update}}
+\index{update@{update}!CBuffer@{CBuffer}}
+\doxysubsubsection{\texorpdfstring{update()}{update()}}
+{\footnotesize\ttfamily void C\+Buffer\+::update (\begin{DoxyParamCaption}{ }\end{DoxyParamCaption})}
+
+update class buffer. 
+
+\doxysubsection{Member Data Documentation}
+\mbox{\Hypertarget{class_c_buffer_a60788c0202ff61668504c912245b0e3b}\label{class_c_buffer_a60788c0202ff61668504c912245b0e3b}} 
+\index{CBuffer@{CBuffer}!m\_Buffer@{m\_Buffer}}
+\index{m\_Buffer@{m\_Buffer}!CBuffer@{CBuffer}}
+\doxysubsubsection{\texorpdfstring{m\_Buffer}{m\_Buffer}}
+{\footnotesize\ttfamily \mbox{\hyperlink{struct_c___buffer___d_e_s_c}{C\+\_\+\+Buffer\+\_\+\+D\+E\+SC}} C\+Buffer\+::m\+\_\+\+Buffer}
+
+
+
+A public variable. 
+
+variable of buffer desc. 
+
+The documentation for this class was generated from the following files\+:\begin{DoxyCompactItemize}
+\item 
+C\+:/\+Users/\+Xc170/\+Desktop/\+Proyecto lei/\+Visual Studio Projects/\+Direct\+X\+Samples/\+Tutorial07/C\+Buffer.\+h\item 
+C\+:/\+Users/\+Xc170/\+Desktop/\+Proyecto lei/\+Visual Studio Projects/\+Direct\+X\+Samples/\+Tutorial07/C\+Buffer.\+cpp\end{DoxyCompactItemize}

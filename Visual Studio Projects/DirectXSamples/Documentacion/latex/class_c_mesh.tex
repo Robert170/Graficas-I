@@ -1,0 +1,484 @@
+\hypertarget{class_c_mesh}{}\doxysection{C\+Mesh Class Reference}
+\label{class_c_mesh}\index{CMesh@{CMesh}}
+
+
+clase mesh para el modelo @\+Bug No kown bug  
+
+
+
+
+{\ttfamily \#include $<$C\+Mesh.\+h$>$}
+
+\doxysubsection*{Public Member Functions}
+\begin{DoxyCompactItemize}
+\item 
+\mbox{\hyperlink{class_c_mesh_a64788cc21ccfb530be510baf60c40c85}{C\+Mesh}} ()
+\begin{DoxyCompactList}\small\item\em A constructor. \end{DoxyCompactList}\item 
+\mbox{\hyperlink{class_c_mesh_a259cc63e340c6ab35aa08be905ffcc19}{$\sim$\+C\+Mesh}} ()
+\begin{DoxyCompactList}\small\item\em A destroyer. \end{DoxyCompactList}\item 
+void \mbox{\hyperlink{class_c_mesh_ae5bd19de7154e4874bbb70d71724379d}{Init}} ()
+\begin{DoxyCompactList}\small\item\em An init. \end{DoxyCompactList}\item 
+void \mbox{\hyperlink{class_c_mesh_ad6faa29864f195c9fc42ee77684e1785}{Update}} ()
+\begin{DoxyCompactList}\small\item\em An Update. \end{DoxyCompactList}\item 
+void \mbox{\hyperlink{class_c_mesh_a91d1849a3785b58dd819c71fbdfbdce7}{Render}} (\mbox{\hyperlink{class_c_device_context}{C\+Device\+Context}} $\ast$\+\_\+dev\+Cont, \mbox{\hyperlink{class_c_buffer}{C\+Buffer}} $\ast$\+\_\+buffer\+Data, \mbox{\hyperlink{class_c_device}{C\+Device}} $\ast$\+\_\+dev)
+\begin{DoxyCompactList}\small\item\em An Render. \end{DoxyCompactList}\item 
+void \mbox{\hyperlink{class_c_mesh_ae13e2c62e2c74796a8d34b078b8cde3f}{Delete}} ()
+\begin{DoxyCompactList}\small\item\em An Delete. \end{DoxyCompactList}\item 
+void \mbox{\hyperlink{class_c_mesh_af15bc35c40cb26201d2cf2b00348a568}{Add\+Children}} (\mbox{\hyperlink{class_c_mesh}{C\+Mesh}} $\ast$\+\_\+new\+Child)
+\begin{DoxyCompactList}\small\item\em An Add\+Children. \end{DoxyCompactList}\item 
+void \mbox{\hyperlink{class_c_mesh_a9f5b0d08e68f177abeb194ca37412a46}{Set\+Parent}} (\mbox{\hyperlink{class_c_mesh}{C\+Mesh}} $\ast$\+\_\+parent)
+\begin{DoxyCompactList}\small\item\em An Set\+Parent. \end{DoxyCompactList}\item 
+void \mbox{\hyperlink{class_c_mesh_a7da05e514e0a1f02e525ee8c774ed414}{Set\+Vertex}} (\mbox{\hyperlink{struct_simple_vertex}{Simple\+Vertex}} $\ast$My\+Vertex, int num\+Vertex)
+\begin{DoxyCompactList}\small\item\em An Set\+Vertex. \end{DoxyCompactList}\item 
+void \mbox{\hyperlink{class_c_mesh_a5ae0fb68cf05b7838deaab381f683226}{Set\+Index\+List}} (W\+O\+RD $\ast$\+\_\+index, int num\+Index)
+\begin{DoxyCompactList}\small\item\em An Set\+Index\+List. \end{DoxyCompactList}\item 
+W\+O\+RD $\ast$\& \mbox{\hyperlink{class_c_mesh_a08bc7877e5bc32c27dac2c77222bc83e}{Get\+Index\+List}} (\mbox{\hyperlink{struct_simple_vertex}{Simple\+Vertex}} $\ast$\mbox{\hyperlink{struct_simple_vertex}{Simple\+Vertex}}, int num\+Vertex)
+\begin{DoxyCompactList}\small\item\em An Get\+Index\+List. \end{DoxyCompactList}\item 
+\mbox{\hyperlink{struct_simple_vertex}{Simple\+Vertex}} $\ast$ \mbox{\hyperlink{class_c_mesh_ab01c54afd18b68bce4aad2e32b2fd83b}{Get\+Vertex}} ()
+\begin{DoxyCompactList}\small\item\em An Get\+Vertex. \end{DoxyCompactList}\item 
+int \mbox{\hyperlink{class_c_mesh_a783579293b385c63df6cd271d66b1985}{Get\+Vertex\+Num}} ()
+\begin{DoxyCompactList}\small\item\em An Get\+Vertex\+Num. \end{DoxyCompactList}\item 
+int \mbox{\hyperlink{class_c_mesh_a5f0a75d2fb6f4f56c14122d08459951d}{Get\+Index\+Num}} ()
+\begin{DoxyCompactList}\small\item\em An Get\+Index\+Num. \end{DoxyCompactList}\item 
+\mbox{\hyperlink{class_c_buffer}{C\+Buffer}} $\ast$\& \mbox{\hyperlink{class_c_mesh_a81af315d2f8104dd9734055ebb79a8f3}{Get\+Vertex\+Buffer}} ()
+\begin{DoxyCompactList}\small\item\em An Get\+Vertex\+Buffer. \end{DoxyCompactList}\item 
+void \mbox{\hyperlink{class_c_mesh_a99bb4a06766c429111db83f1a22e59e1}{Set\+Vertex\+Buffer}} (I\+D3\+D11\+Buffer $\ast$\+\_\+p\+VertexB)
+\begin{DoxyCompactList}\small\item\em An Set\+Vertex\+Buffer. \end{DoxyCompactList}\item 
+void \mbox{\hyperlink{class_c_mesh_aabf521da9090d7a475ea7198172ccafd}{Set\+Index\+Buffer}} (I\+D3\+D11\+Buffer $\ast$\+\_\+p\+IndexB)
+\begin{DoxyCompactList}\small\item\em An Set\+Index\+Buffer. \end{DoxyCompactList}\item 
+\mbox{\hyperlink{class_c_buffer}{C\+Buffer}} $\ast$\& \mbox{\hyperlink{class_c_mesh_ab7347dcee97d4e31ab47277489418d41}{Get\+Index\+Buffer}} ()
+\begin{DoxyCompactList}\small\item\em An Get\+Index\+Buffer. \end{DoxyCompactList}\item 
+void \mbox{\hyperlink{class_c_mesh_a07491897c9d2c22803049ee23afc7599}{Set\+Scene\+ID}} (int ID)
+\begin{DoxyCompactList}\small\item\em An Set\+Scene\+ID. \end{DoxyCompactList}\item 
+int \mbox{\hyperlink{class_c_mesh_aa3530193173b7d2d6ca39c4be150683d}{Get\+Scene\+ID}} ()
+\begin{DoxyCompactList}\small\item\em An Get\+Scene\+ID. \end{DoxyCompactList}\end{DoxyCompactItemize}
+\doxysubsection*{Public Attributes}
+\begin{DoxyCompactItemize}
+\item 
+std\+::string \mbox{\hyperlink{class_c_mesh_ab08e6572e2439934f4034c26b97d4a89}{m\+\_\+\+Difuce\+Name}}
+\begin{DoxyCompactList}\small\item\em A public variable. \end{DoxyCompactList}\item 
+\mbox{\hyperlink{class_c_material}{C\+Material}} $\ast$ \mbox{\hyperlink{class_c_mesh_a758b2d67f5b1f8b1863ce5ae5ca2460b}{m\+\_\+\+Materials}}
+\begin{DoxyCompactList}\small\item\em A public variable. \end{DoxyCompactList}\item 
+\mbox{\hyperlink{class_c_mesh}{C\+Mesh}} $\ast$ \mbox{\hyperlink{class_c_mesh_aaccb1b464e3b7819b9c6ca1c102f1d9e}{m\+\_\+\+Parent}}
+\begin{DoxyCompactList}\small\item\em A public variable. \end{DoxyCompactList}\item 
+std\+::vector$<$ \mbox{\hyperlink{class_c_mesh}{C\+Mesh}} $\ast$ $>$ \mbox{\hyperlink{class_c_mesh_acee2a485b67649b38e2d9192e5063fb0}{m\+\_\+\+Children}}
+\begin{DoxyCompactList}\small\item\em A public variable. \end{DoxyCompactList}\item 
+glm\+::vec4 \mbox{\hyperlink{class_c_mesh_a92111ee7fc711fcd2359b4969aae611a}{m\+\_\+\+Transform}}
+\begin{DoxyCompactList}\small\item\em A public variable. \end{DoxyCompactList}\item 
+\mbox{\hyperlink{class_c_buffer}{C\+Buffer}} $\ast$ \mbox{\hyperlink{class_c_mesh_ac2d5044403c251345e18f5ceab112a00}{m\+\_\+\+Vertex\+Buffer}} = nullptr
+\begin{DoxyCompactList}\small\item\em A public variable. \end{DoxyCompactList}\item 
+\mbox{\hyperlink{class_c_buffer}{C\+Buffer}} $\ast$ \mbox{\hyperlink{class_c_mesh_a6f586e44a3ce13ce73cee89611950f83}{m\+\_\+\+Index}} = nullptr
+\begin{DoxyCompactList}\small\item\em A public variable. \end{DoxyCompactList}\item 
+\mbox{\hyperlink{struct_simple_vertex}{Simple\+Vertex}} $\ast$ \mbox{\hyperlink{class_c_mesh_a865fe9470498b0eabc38e7f8f2e1b912}{m\+\_\+\+My\+Vertex}} = nullptr
+\begin{DoxyCompactList}\small\item\em A public variable. \end{DoxyCompactList}\item 
+W\+O\+RD $\ast$ \mbox{\hyperlink{class_c_mesh_a23711cda694c9f78b1e9c7e3cf6e9688}{m\+\_\+\+My\+Index}} = nullptr
+\begin{DoxyCompactList}\small\item\em A public variable. \end{DoxyCompactList}\item 
+int \mbox{\hyperlink{class_c_mesh_af1862344125e839db9cf06f0d28bde34}{m\+\_\+\+Vertex\+Num}} = 0
+\begin{DoxyCompactList}\small\item\em A public variable. \end{DoxyCompactList}\item 
+int \mbox{\hyperlink{class_c_mesh_a6575b934290b503476dfccde80407a74}{m\+\_\+\+Index\+Num}} = 0
+\begin{DoxyCompactList}\small\item\em A public variable. \end{DoxyCompactList}\item 
+int \mbox{\hyperlink{class_c_mesh_a7729ecb87c623b76d73b84c06e0a5834}{m\+\_\+\+Scene\+Id}} = -\/1
+\begin{DoxyCompactList}\small\item\em A public variable. \end{DoxyCompactList}\item 
+\mbox{\hyperlink{struct_c_b_changes_every_frame}{C\+B\+Changes\+Every\+Frame}} \mbox{\hyperlink{class_c_mesh_abbe0cd44b482e6cab2c1a35481cba2ea}{m\+\_\+\+Mesh\+Data}}
+\begin{DoxyCompactList}\small\item\em A public variable. \end{DoxyCompactList}\end{DoxyCompactItemize}
+
+
+\doxysubsection{Detailed Description}
+clase mesh para el modelo @\+Bug No kown bug 
+
+@\+File \mbox{\hyperlink{_c_mesh_8h_source}{C\+Mesh.\+h}} @\+Author Roberto Ramírez Ontiveros (\href{mailto:xc1700@hotmail.com}{\texttt{ xc1700@hotmail.\+com}}) \begin{DoxyDate}{Date}
+05/02/2020 
+\end{DoxyDate}
+
+
+\doxysubsection{Constructor \& Destructor Documentation}
+\mbox{\Hypertarget{class_c_mesh_a64788cc21ccfb530be510baf60c40c85}\label{class_c_mesh_a64788cc21ccfb530be510baf60c40c85}} 
+\index{CMesh@{CMesh}!CMesh@{CMesh}}
+\index{CMesh@{CMesh}!CMesh@{CMesh}}
+\doxysubsubsection{\texorpdfstring{CMesh()}{CMesh()}}
+{\footnotesize\ttfamily C\+Mesh\+::\+C\+Mesh (\begin{DoxyParamCaption}{ }\end{DoxyParamCaption})}
+
+
+
+A constructor. 
+
+function for use the constructor of the class \mbox{\hyperlink{class_c_mesh}{C\+Mesh}}.
+
+function for the class. \mbox{\Hypertarget{class_c_mesh_a259cc63e340c6ab35aa08be905ffcc19}\label{class_c_mesh_a259cc63e340c6ab35aa08be905ffcc19}} 
+\index{CMesh@{CMesh}!````~CMesh@{$\sim$CMesh}}
+\index{````~CMesh@{$\sim$CMesh}!CMesh@{CMesh}}
+\doxysubsubsection{\texorpdfstring{$\sim$CMesh()}{~CMesh()}}
+{\footnotesize\ttfamily C\+Mesh\+::$\sim$\+C\+Mesh (\begin{DoxyParamCaption}{ }\end{DoxyParamCaption})}
+
+
+
+A destroyer. 
+
+function for use the destroyer of the class \mbox{\hyperlink{class_c_mesh}{C\+Mesh}}. 
+
+\doxysubsection{Member Function Documentation}
+\mbox{\Hypertarget{class_c_mesh_af15bc35c40cb26201d2cf2b00348a568}\label{class_c_mesh_af15bc35c40cb26201d2cf2b00348a568}} 
+\index{CMesh@{CMesh}!AddChildren@{AddChildren}}
+\index{AddChildren@{AddChildren}!CMesh@{CMesh}}
+\doxysubsubsection{\texorpdfstring{AddChildren()}{AddChildren()}}
+{\footnotesize\ttfamily void C\+Mesh\+::\+Add\+Children (\begin{DoxyParamCaption}\item[{\mbox{\hyperlink{class_c_mesh}{C\+Mesh}} $\ast$}]{\+\_\+new\+Child }\end{DoxyParamCaption})}
+
+
+
+An Add\+Children. 
+
+Add\+Children for class \mbox{\hyperlink{class_c_mesh}{C\+Mesh}}. 
+\begin{DoxyParams}{Parameters}
+{\em \+\_\+new\+Child} & an \mbox{\hyperlink{class_c_mesh}{C\+Mesh}}. \\
+\hline
+\end{DoxyParams}
+\mbox{\Hypertarget{class_c_mesh_ae13e2c62e2c74796a8d34b078b8cde3f}\label{class_c_mesh_ae13e2c62e2c74796a8d34b078b8cde3f}} 
+\index{CMesh@{CMesh}!Delete@{Delete}}
+\index{Delete@{Delete}!CMesh@{CMesh}}
+\doxysubsubsection{\texorpdfstring{Delete()}{Delete()}}
+{\footnotesize\ttfamily void C\+Mesh\+::\+Delete (\begin{DoxyParamCaption}{ }\end{DoxyParamCaption})}
+
+
+
+An Delete. 
+
+Delete for class \mbox{\hyperlink{class_c_mesh}{C\+Mesh}}.
+
+funcion for free memory of buffer, like m\+\_\+\+Vertex\+Buffer and m\+\_\+\+Index. \mbox{\Hypertarget{class_c_mesh_ab7347dcee97d4e31ab47277489418d41}\label{class_c_mesh_ab7347dcee97d4e31ab47277489418d41}} 
+\index{CMesh@{CMesh}!GetIndexBuffer@{GetIndexBuffer}}
+\index{GetIndexBuffer@{GetIndexBuffer}!CMesh@{CMesh}}
+\doxysubsubsection{\texorpdfstring{GetIndexBuffer()}{GetIndexBuffer()}}
+{\footnotesize\ttfamily \mbox{\hyperlink{class_c_buffer}{C\+Buffer}}$\ast$\& C\+Mesh\+::\+Get\+Index\+Buffer (\begin{DoxyParamCaption}{ }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [inline]}}
+
+
+
+An Get\+Index\+Buffer. 
+
+Get\+Index\+Buffer for class \mbox{\hyperlink{class_c_mesh}{C\+Mesh}}, return m\+\_\+\+Index. \mbox{\Hypertarget{class_c_mesh_a08bc7877e5bc32c27dac2c77222bc83e}\label{class_c_mesh_a08bc7877e5bc32c27dac2c77222bc83e}} 
+\index{CMesh@{CMesh}!GetIndexList@{GetIndexList}}
+\index{GetIndexList@{GetIndexList}!CMesh@{CMesh}}
+\doxysubsubsection{\texorpdfstring{GetIndexList()}{GetIndexList()}}
+{\footnotesize\ttfamily W\+O\+RD$\ast$\& C\+Mesh\+::\+Get\+Index\+List (\begin{DoxyParamCaption}\item[{\mbox{\hyperlink{struct_simple_vertex}{Simple\+Vertex}} $\ast$}]{Simple\+Vertex,  }\item[{int}]{num\+Vertex }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [inline]}}
+
+
+
+An Get\+Index\+List. 
+
+Get\+Index\+List for class \mbox{\hyperlink{class_c_mesh}{C\+Mesh}}, return m\+\_\+\+My\+Index. 
+\begin{DoxyParams}{Parameters}
+{\em \mbox{\hyperlink{struct_simple_vertex}{Simple\+Vertex}}} & an \mbox{\hyperlink{struct_simple_vertex}{Simple\+Vertex}}. \\
+\hline
+{\em num\+Vertex} & an int. \\
+\hline
+\end{DoxyParams}
+\mbox{\Hypertarget{class_c_mesh_a5f0a75d2fb6f4f56c14122d08459951d}\label{class_c_mesh_a5f0a75d2fb6f4f56c14122d08459951d}} 
+\index{CMesh@{CMesh}!GetIndexNum@{GetIndexNum}}
+\index{GetIndexNum@{GetIndexNum}!CMesh@{CMesh}}
+\doxysubsubsection{\texorpdfstring{GetIndexNum()}{GetIndexNum()}}
+{\footnotesize\ttfamily int C\+Mesh\+::\+Get\+Index\+Num (\begin{DoxyParamCaption}{ }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [inline]}}
+
+
+
+An Get\+Index\+Num. 
+
+Get\+Vertex for class \mbox{\hyperlink{class_c_mesh}{C\+Mesh}}, return m\+\_\+\+Index\+Num. \mbox{\Hypertarget{class_c_mesh_aa3530193173b7d2d6ca39c4be150683d}\label{class_c_mesh_aa3530193173b7d2d6ca39c4be150683d}} 
+\index{CMesh@{CMesh}!GetSceneID@{GetSceneID}}
+\index{GetSceneID@{GetSceneID}!CMesh@{CMesh}}
+\doxysubsubsection{\texorpdfstring{GetSceneID()}{GetSceneID()}}
+{\footnotesize\ttfamily int C\+Mesh\+::\+Get\+Scene\+ID (\begin{DoxyParamCaption}{ }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [inline]}}
+
+
+
+An Get\+Scene\+ID. 
+
+Get\+Scene\+ID for class \mbox{\hyperlink{class_c_mesh}{C\+Mesh}}, return m\+\_\+\+Scene\+Id. \mbox{\Hypertarget{class_c_mesh_ab01c54afd18b68bce4aad2e32b2fd83b}\label{class_c_mesh_ab01c54afd18b68bce4aad2e32b2fd83b}} 
+\index{CMesh@{CMesh}!GetVertex@{GetVertex}}
+\index{GetVertex@{GetVertex}!CMesh@{CMesh}}
+\doxysubsubsection{\texorpdfstring{GetVertex()}{GetVertex()}}
+{\footnotesize\ttfamily \mbox{\hyperlink{struct_simple_vertex}{Simple\+Vertex}}$\ast$ C\+Mesh\+::\+Get\+Vertex (\begin{DoxyParamCaption}{ }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [inline]}}
+
+
+
+An Get\+Vertex. 
+
+Get\+Vertex for class \mbox{\hyperlink{class_c_mesh}{C\+Mesh}}, return m\+\_\+\+My\+Vertex. \mbox{\Hypertarget{class_c_mesh_a81af315d2f8104dd9734055ebb79a8f3}\label{class_c_mesh_a81af315d2f8104dd9734055ebb79a8f3}} 
+\index{CMesh@{CMesh}!GetVertexBuffer@{GetVertexBuffer}}
+\index{GetVertexBuffer@{GetVertexBuffer}!CMesh@{CMesh}}
+\doxysubsubsection{\texorpdfstring{GetVertexBuffer()}{GetVertexBuffer()}}
+{\footnotesize\ttfamily \mbox{\hyperlink{class_c_buffer}{C\+Buffer}}$\ast$\& C\+Mesh\+::\+Get\+Vertex\+Buffer (\begin{DoxyParamCaption}{ }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [inline]}}
+
+
+
+An Get\+Vertex\+Buffer. 
+
+Get\+Vertex\+Buffer for class \mbox{\hyperlink{class_c_mesh}{C\+Mesh}}, return m\+\_\+\+Vertex\+Buffer. \mbox{\Hypertarget{class_c_mesh_a783579293b385c63df6cd271d66b1985}\label{class_c_mesh_a783579293b385c63df6cd271d66b1985}} 
+\index{CMesh@{CMesh}!GetVertexNum@{GetVertexNum}}
+\index{GetVertexNum@{GetVertexNum}!CMesh@{CMesh}}
+\doxysubsubsection{\texorpdfstring{GetVertexNum()}{GetVertexNum()}}
+{\footnotesize\ttfamily int C\+Mesh\+::\+Get\+Vertex\+Num (\begin{DoxyParamCaption}{ }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [inline]}}
+
+
+
+An Get\+Vertex\+Num. 
+
+Get\+Vertex for class \mbox{\hyperlink{class_c_mesh}{C\+Mesh}}, return m\+\_\+\+Vertex\+Num. \mbox{\Hypertarget{class_c_mesh_ae5bd19de7154e4874bbb70d71724379d}\label{class_c_mesh_ae5bd19de7154e4874bbb70d71724379d}} 
+\index{CMesh@{CMesh}!Init@{Init}}
+\index{Init@{Init}!CMesh@{CMesh}}
+\doxysubsubsection{\texorpdfstring{Init()}{Init()}}
+{\footnotesize\ttfamily void C\+Mesh\+::\+Init (\begin{DoxyParamCaption}{ }\end{DoxyParamCaption})}
+
+
+
+An init. 
+
+init for class \mbox{\hyperlink{class_c_mesh}{C\+Mesh}}
+
+function for init m\+\_\+\+Vertex\+Buffer and m\+\_\+\+Index. \mbox{\Hypertarget{class_c_mesh_a91d1849a3785b58dd819c71fbdfbdce7}\label{class_c_mesh_a91d1849a3785b58dd819c71fbdfbdce7}} 
+\index{CMesh@{CMesh}!Render@{Render}}
+\index{Render@{Render}!CMesh@{CMesh}}
+\doxysubsubsection{\texorpdfstring{Render()}{Render()}}
+{\footnotesize\ttfamily void C\+Mesh\+::\+Render (\begin{DoxyParamCaption}\item[{\mbox{\hyperlink{class_c_device_context}{C\+Device\+Context}} $\ast$}]{\+\_\+dev\+Cont,  }\item[{\mbox{\hyperlink{class_c_buffer}{C\+Buffer}} $\ast$}]{\+\_\+buffer\+Data,  }\item[{\mbox{\hyperlink{class_c_device}{C\+Device}} $\ast$}]{\+\_\+dev }\end{DoxyParamCaption})}
+
+
+
+An Render. 
+
+Render for class \mbox{\hyperlink{class_c_mesh}{C\+Mesh}}. 
+\begin{DoxyParams}{Parameters}
+{\em \+\_\+dev\+Cont} & an \mbox{\hyperlink{class_c_device_context}{C\+Device\+Context}}. \\
+\hline
+{\em \+\_\+buffer\+Data} & an \mbox{\hyperlink{class_c_buffer}{C\+Buffer}}. \\
+\hline
+{\em \+\_\+dev} & an \mbox{\hyperlink{class_c_device}{C\+Device}}. \\
+\hline
+\end{DoxyParams}
+\mbox{\Hypertarget{class_c_mesh_aabf521da9090d7a475ea7198172ccafd}\label{class_c_mesh_aabf521da9090d7a475ea7198172ccafd}} 
+\index{CMesh@{CMesh}!SetIndexBuffer@{SetIndexBuffer}}
+\index{SetIndexBuffer@{SetIndexBuffer}!CMesh@{CMesh}}
+\doxysubsubsection{\texorpdfstring{SetIndexBuffer()}{SetIndexBuffer()}}
+{\footnotesize\ttfamily void C\+Mesh\+::\+Set\+Index\+Buffer (\begin{DoxyParamCaption}\item[{I\+D3\+D11\+Buffer $\ast$}]{\+\_\+p\+IndexB }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [inline]}}
+
+
+
+An Set\+Index\+Buffer. 
+
+Set\+Index\+Buffer for class \mbox{\hyperlink{class_c_mesh}{C\+Mesh}}, set m\+\_\+\+Index, only fo D3\+D11. \mbox{\Hypertarget{class_c_mesh_a5ae0fb68cf05b7838deaab381f683226}\label{class_c_mesh_a5ae0fb68cf05b7838deaab381f683226}} 
+\index{CMesh@{CMesh}!SetIndexList@{SetIndexList}}
+\index{SetIndexList@{SetIndexList}!CMesh@{CMesh}}
+\doxysubsubsection{\texorpdfstring{SetIndexList()}{SetIndexList()}}
+{\footnotesize\ttfamily void C\+Mesh\+::\+Set\+Index\+List (\begin{DoxyParamCaption}\item[{W\+O\+RD $\ast$}]{\+\_\+index,  }\item[{int}]{num\+Index }\end{DoxyParamCaption})}
+
+
+
+An Set\+Index\+List. 
+
+Set\+Index\+List for class \mbox{\hyperlink{class_c_mesh}{C\+Mesh}}. 
+\begin{DoxyParams}{Parameters}
+{\em \+\_\+index} & an W\+O\+RD. \\
+\hline
+{\em num\+Index} & an int. \\
+\hline
+\end{DoxyParams}
+\mbox{\Hypertarget{class_c_mesh_a9f5b0d08e68f177abeb194ca37412a46}\label{class_c_mesh_a9f5b0d08e68f177abeb194ca37412a46}} 
+\index{CMesh@{CMesh}!SetParent@{SetParent}}
+\index{SetParent@{SetParent}!CMesh@{CMesh}}
+\doxysubsubsection{\texorpdfstring{SetParent()}{SetParent()}}
+{\footnotesize\ttfamily void C\+Mesh\+::\+Set\+Parent (\begin{DoxyParamCaption}\item[{\mbox{\hyperlink{class_c_mesh}{C\+Mesh}} $\ast$}]{\+\_\+parent }\end{DoxyParamCaption})}
+
+
+
+An Set\+Parent. 
+
+Set\+Parent for class \mbox{\hyperlink{class_c_mesh}{C\+Mesh}}. 
+\begin{DoxyParams}{Parameters}
+{\em \+\_\+parent} & an \mbox{\hyperlink{class_c_mesh}{C\+Mesh}}. \\
+\hline
+\end{DoxyParams}
+\mbox{\Hypertarget{class_c_mesh_a07491897c9d2c22803049ee23afc7599}\label{class_c_mesh_a07491897c9d2c22803049ee23afc7599}} 
+\index{CMesh@{CMesh}!SetSceneID@{SetSceneID}}
+\index{SetSceneID@{SetSceneID}!CMesh@{CMesh}}
+\doxysubsubsection{\texorpdfstring{SetSceneID()}{SetSceneID()}}
+{\footnotesize\ttfamily void C\+Mesh\+::\+Set\+Scene\+ID (\begin{DoxyParamCaption}\item[{int}]{ID }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [inline]}}
+
+
+
+An Set\+Scene\+ID. 
+
+Set\+Scene\+ID for class \mbox{\hyperlink{class_c_mesh}{C\+Mesh}}, set m\+\_\+\+Scene\+Id. \mbox{\Hypertarget{class_c_mesh_a7da05e514e0a1f02e525ee8c774ed414}\label{class_c_mesh_a7da05e514e0a1f02e525ee8c774ed414}} 
+\index{CMesh@{CMesh}!SetVertex@{SetVertex}}
+\index{SetVertex@{SetVertex}!CMesh@{CMesh}}
+\doxysubsubsection{\texorpdfstring{SetVertex()}{SetVertex()}}
+{\footnotesize\ttfamily void C\+Mesh\+::\+Set\+Vertex (\begin{DoxyParamCaption}\item[{\mbox{\hyperlink{struct_simple_vertex}{Simple\+Vertex}} $\ast$}]{My\+Vertex,  }\item[{int}]{num\+Vertex }\end{DoxyParamCaption})}
+
+
+
+An Set\+Vertex. 
+
+Set\+Vertex for class \mbox{\hyperlink{class_c_mesh}{C\+Mesh}}. 
+\begin{DoxyParams}{Parameters}
+{\em My\+Vertex} & an \mbox{\hyperlink{struct_simple_vertex}{Simple\+Vertex}}. \\
+\hline
+{\em num\+Vertex} & an int. \\
+\hline
+\end{DoxyParams}
+\mbox{\Hypertarget{class_c_mesh_a99bb4a06766c429111db83f1a22e59e1}\label{class_c_mesh_a99bb4a06766c429111db83f1a22e59e1}} 
+\index{CMesh@{CMesh}!SetVertexBuffer@{SetVertexBuffer}}
+\index{SetVertexBuffer@{SetVertexBuffer}!CMesh@{CMesh}}
+\doxysubsubsection{\texorpdfstring{SetVertexBuffer()}{SetVertexBuffer()}}
+{\footnotesize\ttfamily void C\+Mesh\+::\+Set\+Vertex\+Buffer (\begin{DoxyParamCaption}\item[{I\+D3\+D11\+Buffer $\ast$}]{\+\_\+p\+VertexB }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [inline]}}
+
+
+
+An Set\+Vertex\+Buffer. 
+
+Set\+Vertex\+Buffer for class \mbox{\hyperlink{class_c_mesh}{C\+Mesh}}, set m\+\_\+\+Vertex\+Buffer, only fo D3\+D11. \mbox{\Hypertarget{class_c_mesh_ad6faa29864f195c9fc42ee77684e1785}\label{class_c_mesh_ad6faa29864f195c9fc42ee77684e1785}} 
+\index{CMesh@{CMesh}!Update@{Update}}
+\index{Update@{Update}!CMesh@{CMesh}}
+\doxysubsubsection{\texorpdfstring{Update()}{Update()}}
+{\footnotesize\ttfamily void C\+Mesh\+::\+Update (\begin{DoxyParamCaption}{ }\end{DoxyParamCaption})}
+
+
+
+An Update. 
+
+Update for class \mbox{\hyperlink{class_c_mesh}{C\+Mesh}}
+
+function for update the class. 
+
+\doxysubsection{Member Data Documentation}
+\mbox{\Hypertarget{class_c_mesh_acee2a485b67649b38e2d9192e5063fb0}\label{class_c_mesh_acee2a485b67649b38e2d9192e5063fb0}} 
+\index{CMesh@{CMesh}!m\_Children@{m\_Children}}
+\index{m\_Children@{m\_Children}!CMesh@{CMesh}}
+\doxysubsubsection{\texorpdfstring{m\_Children}{m\_Children}}
+{\footnotesize\ttfamily std\+::vector$<$\mbox{\hyperlink{class_c_mesh}{C\+Mesh}}$\ast$$>$ C\+Mesh\+::m\+\_\+\+Children}
+
+
+
+A public variable. 
+
+variable vector of \mbox{\hyperlink{class_c_mesh}{C\+Mesh}} for the m\+\_\+\+Children. \mbox{\Hypertarget{class_c_mesh_ab08e6572e2439934f4034c26b97d4a89}\label{class_c_mesh_ab08e6572e2439934f4034c26b97d4a89}} 
+\index{CMesh@{CMesh}!m\_DifuceName@{m\_DifuceName}}
+\index{m\_DifuceName@{m\_DifuceName}!CMesh@{CMesh}}
+\doxysubsubsection{\texorpdfstring{m\_DifuceName}{m\_DifuceName}}
+{\footnotesize\ttfamily std\+::string C\+Mesh\+::m\+\_\+\+Difuce\+Name}
+
+
+
+A public variable. 
+
+variable string for the difuse name. \mbox{\Hypertarget{class_c_mesh_a6f586e44a3ce13ce73cee89611950f83}\label{class_c_mesh_a6f586e44a3ce13ce73cee89611950f83}} 
+\index{CMesh@{CMesh}!m\_Index@{m\_Index}}
+\index{m\_Index@{m\_Index}!CMesh@{CMesh}}
+\doxysubsubsection{\texorpdfstring{m\_Index}{m\_Index}}
+{\footnotesize\ttfamily \mbox{\hyperlink{class_c_buffer}{C\+Buffer}}$\ast$ C\+Mesh\+::m\+\_\+\+Index = nullptr}
+
+
+
+A public variable. 
+
+variable pointer \mbox{\hyperlink{class_c_buffer}{C\+Buffer}} for the m\+\_\+\+Index. \mbox{\Hypertarget{class_c_mesh_a6575b934290b503476dfccde80407a74}\label{class_c_mesh_a6575b934290b503476dfccde80407a74}} 
+\index{CMesh@{CMesh}!m\_IndexNum@{m\_IndexNum}}
+\index{m\_IndexNum@{m\_IndexNum}!CMesh@{CMesh}}
+\doxysubsubsection{\texorpdfstring{m\_IndexNum}{m\_IndexNum}}
+{\footnotesize\ttfamily int C\+Mesh\+::m\+\_\+\+Index\+Num = 0}
+
+
+
+A public variable. 
+
+variable int for the m\+\_\+\+Index\+Num. \mbox{\Hypertarget{class_c_mesh_a758b2d67f5b1f8b1863ce5ae5ca2460b}\label{class_c_mesh_a758b2d67f5b1f8b1863ce5ae5ca2460b}} 
+\index{CMesh@{CMesh}!m\_Materials@{m\_Materials}}
+\index{m\_Materials@{m\_Materials}!CMesh@{CMesh}}
+\doxysubsubsection{\texorpdfstring{m\_Materials}{m\_Materials}}
+{\footnotesize\ttfamily \mbox{\hyperlink{class_c_material}{C\+Material}}$\ast$ C\+Mesh\+::m\+\_\+\+Materials}
+
+
+
+A public variable. 
+
+variable pointer \mbox{\hyperlink{class_c_material}{C\+Material}} for the materials. \mbox{\Hypertarget{class_c_mesh_abbe0cd44b482e6cab2c1a35481cba2ea}\label{class_c_mesh_abbe0cd44b482e6cab2c1a35481cba2ea}} 
+\index{CMesh@{CMesh}!m\_MeshData@{m\_MeshData}}
+\index{m\_MeshData@{m\_MeshData}!CMesh@{CMesh}}
+\doxysubsubsection{\texorpdfstring{m\_MeshData}{m\_MeshData}}
+{\footnotesize\ttfamily \mbox{\hyperlink{struct_c_b_changes_every_frame}{C\+B\+Changes\+Every\+Frame}} C\+Mesh\+::m\+\_\+\+Mesh\+Data}
+
+
+
+A public variable. 
+
+variable \mbox{\hyperlink{struct_c_b_changes_every_frame}{C\+B\+Changes\+Every\+Frame}} for the m\+\_\+\+Mesh\+Data. \mbox{\Hypertarget{class_c_mesh_a23711cda694c9f78b1e9c7e3cf6e9688}\label{class_c_mesh_a23711cda694c9f78b1e9c7e3cf6e9688}} 
+\index{CMesh@{CMesh}!m\_MyIndex@{m\_MyIndex}}
+\index{m\_MyIndex@{m\_MyIndex}!CMesh@{CMesh}}
+\doxysubsubsection{\texorpdfstring{m\_MyIndex}{m\_MyIndex}}
+{\footnotesize\ttfamily W\+O\+RD$\ast$ C\+Mesh\+::m\+\_\+\+My\+Index = nullptr}
+
+
+
+A public variable. 
+
+variable pointer W\+O\+RD for the m\+\_\+\+My\+Index. \mbox{\Hypertarget{class_c_mesh_a865fe9470498b0eabc38e7f8f2e1b912}\label{class_c_mesh_a865fe9470498b0eabc38e7f8f2e1b912}} 
+\index{CMesh@{CMesh}!m\_MyVertex@{m\_MyVertex}}
+\index{m\_MyVertex@{m\_MyVertex}!CMesh@{CMesh}}
+\doxysubsubsection{\texorpdfstring{m\_MyVertex}{m\_MyVertex}}
+{\footnotesize\ttfamily \mbox{\hyperlink{struct_simple_vertex}{Simple\+Vertex}}$\ast$ C\+Mesh\+::m\+\_\+\+My\+Vertex = nullptr}
+
+
+
+A public variable. 
+
+variable pointer \mbox{\hyperlink{struct_simple_vertex}{Simple\+Vertex}} for the m\+\_\+\+My\+Vertex. \mbox{\Hypertarget{class_c_mesh_aaccb1b464e3b7819b9c6ca1c102f1d9e}\label{class_c_mesh_aaccb1b464e3b7819b9c6ca1c102f1d9e}} 
+\index{CMesh@{CMesh}!m\_Parent@{m\_Parent}}
+\index{m\_Parent@{m\_Parent}!CMesh@{CMesh}}
+\doxysubsubsection{\texorpdfstring{m\_Parent}{m\_Parent}}
+{\footnotesize\ttfamily \mbox{\hyperlink{class_c_mesh}{C\+Mesh}}$\ast$ C\+Mesh\+::m\+\_\+\+Parent}
+
+
+
+A public variable. 
+
+variable pointer \mbox{\hyperlink{class_c_mesh}{C\+Mesh}} for the Parent. \mbox{\Hypertarget{class_c_mesh_a7729ecb87c623b76d73b84c06e0a5834}\label{class_c_mesh_a7729ecb87c623b76d73b84c06e0a5834}} 
+\index{CMesh@{CMesh}!m\_SceneId@{m\_SceneId}}
+\index{m\_SceneId@{m\_SceneId}!CMesh@{CMesh}}
+\doxysubsubsection{\texorpdfstring{m\_SceneId}{m\_SceneId}}
+{\footnotesize\ttfamily int C\+Mesh\+::m\+\_\+\+Scene\+Id = -\/1}
+
+
+
+A public variable. 
+
+variable int for the m\+\_\+\+Scene\+Id. \mbox{\Hypertarget{class_c_mesh_a92111ee7fc711fcd2359b4969aae611a}\label{class_c_mesh_a92111ee7fc711fcd2359b4969aae611a}} 
+\index{CMesh@{CMesh}!m\_Transform@{m\_Transform}}
+\index{m\_Transform@{m\_Transform}!CMesh@{CMesh}}
+\doxysubsubsection{\texorpdfstring{m\_Transform}{m\_Transform}}
+{\footnotesize\ttfamily glm\+::vec4 C\+Mesh\+::m\+\_\+\+Transform}
+
+
+
+A public variable. 
+
+variable vector4 for the m\+\_\+\+Transform. \mbox{\Hypertarget{class_c_mesh_ac2d5044403c251345e18f5ceab112a00}\label{class_c_mesh_ac2d5044403c251345e18f5ceab112a00}} 
+\index{CMesh@{CMesh}!m\_VertexBuffer@{m\_VertexBuffer}}
+\index{m\_VertexBuffer@{m\_VertexBuffer}!CMesh@{CMesh}}
+\doxysubsubsection{\texorpdfstring{m\_VertexBuffer}{m\_VertexBuffer}}
+{\footnotesize\ttfamily \mbox{\hyperlink{class_c_buffer}{C\+Buffer}}$\ast$ C\+Mesh\+::m\+\_\+\+Vertex\+Buffer = nullptr}
+
+
+
+A public variable. 
+
+variable pointer \mbox{\hyperlink{class_c_buffer}{C\+Buffer}} for the m\+\_\+\+Vertex\+Buffer. \mbox{\Hypertarget{class_c_mesh_af1862344125e839db9cf06f0d28bde34}\label{class_c_mesh_af1862344125e839db9cf06f0d28bde34}} 
+\index{CMesh@{CMesh}!m\_VertexNum@{m\_VertexNum}}
+\index{m\_VertexNum@{m\_VertexNum}!CMesh@{CMesh}}
+\doxysubsubsection{\texorpdfstring{m\_VertexNum}{m\_VertexNum}}
+{\footnotesize\ttfamily int C\+Mesh\+::m\+\_\+\+Vertex\+Num = 0}
+
+
+
+A public variable. 
+
+variable int for the m\+\_\+\+Vertex\+Num. 
+
+The documentation for this class was generated from the following files\+:\begin{DoxyCompactItemize}
+\item 
+C\+:/\+Users/\+Xc170/\+Desktop/\+Proyecto lei/\+Visual Studio Projects/\+Direct\+X\+Samples/\+Tutorial07/C\+Mesh.\+h\item 
+C\+:/\+Users/\+Xc170/\+Desktop/\+Proyecto lei/\+Visual Studio Projects/\+Direct\+X\+Samples/\+Tutorial07/C\+Mesh.\+cpp\end{DoxyCompactItemize}
