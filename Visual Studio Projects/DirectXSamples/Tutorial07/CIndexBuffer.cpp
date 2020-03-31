@@ -1,5 +1,11 @@
 #include "CIndexBuffer.h"
 
+
+//! An \fn.
+	/*!
+	  init for class CDeviceContext, init index buffer only in D3D11
+	  \param _C_DEVICE_DESC an C_Index_Buffer_DESC.
+	*/
 int CIndexBuffer::init(C_Index_Buffer_DESC & _C_DEVICE_DESC)
 {
 #if defined(D3D11)
@@ -14,14 +20,27 @@ int CIndexBuffer::init(C_Index_Buffer_DESC & _C_DEVICE_DESC)
 	return 0;
 }
 
+
+//! An \fn.
+	/*!
+	  update for the class CIndexBuffer
+	*/
 void CIndexBuffer::update()
 {
 }
 
+//! An \fn.
+	/*!
+	  detroy for the class CIndexBuffer
+	*/
 void CIndexBuffer::detroy()
 {
 }
 
+//! An \fn.
+	/*!
+	  render for the class CIndexBuffer
+	*/
 void CIndexBuffer::render()
 {
 }

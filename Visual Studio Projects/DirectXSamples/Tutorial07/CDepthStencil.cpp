@@ -1,5 +1,11 @@
 #include "CDepthStencil.h"
 
+
+//! An \fn.
+	/*!
+	  init for class Depth Stencil, init all members of the struc w
+	  \param _C_DEVICE_DESC an C_DepthStencil_DESC.
+	*/
 int CDepthStencil::init(C_DepthStencil_DESC & _C_DEVICE_DESC)
 {
 #if defined(D3D11)
@@ -23,18 +29,35 @@ int CDepthStencil::init(C_DepthStencil_DESC & _C_DEVICE_DESC)
 	return 0;
 }
 
+
+//! An \fn.
+	/*!
+	  update for the class Depth Stencil
+	*/
 void CDepthStencil::update()
 {
 }
 
+//! An \fn.
+	/*!
+	  destroyer for the class Depth Stencil
+	*/
 void CDepthStencil::detroy()
 {
 }
 
+//! An \fn.
+	/*!
+	  render for the class Depth Stencil
+	*/
 void CDepthStencil::render()
 {
 }
 
+//! A \fn.
+	/*!
+	  function return pointer for use g_pDepthStencil pointer.
+	*/
 void * CDepthStencil::GetDepth()
 {
 #if defined(D3D11)

@@ -1,5 +1,11 @@
 #include "CTexture2D.h"
 
+
+//! An \fn.
+	/*!
+	  init for class CTexture2D, init Tex_Des with m_TexDesc only in D3D11
+	  \param _C_DEVICE_DESC an C_Texture2D_DESC.
+	*/
 int CTexture2D::init(C_Texture2D_DESC& _C_DEVICE_DESC)
 {
 	m_TexDesc = _C_DEVICE_DESC;
@@ -21,19 +27,36 @@ int CTexture2D::init(C_Texture2D_DESC& _C_DEVICE_DESC)
 	return 0;
 }
 
+//! An \fn.
+	/*!
+	  init for class CTexture2D
+	  \param Nam an string.
+	*/
 void CTexture2D::init(std::string Nam)
 {
 	
 }
 
+//! An \fn.
+	/*!
+	  update for the class CTexture2D
+	*/
 void CTexture2D::update()
 {
 }
 
+//! An \fn.
+	/*!
+	  detroy for the class CTexture2D
+	*/
 void CTexture2D::detroy()
 {
 }
 
+//! An \fn.
+	/*!
+	  render for the class CTexture2D
+	*/
 void CTexture2D::render()
 {
 }

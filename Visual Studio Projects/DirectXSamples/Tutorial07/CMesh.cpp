@@ -1,5 +1,8 @@
 #include "CMesh.h"
-
+//! A constructor.
+	/*!
+	  function for the class.
+	*/
 CMesh::CMesh()
 {
 	m_VertexBuffer = new CBuffer;
@@ -14,23 +17,40 @@ CMesh::CMesh()
 	m_MeshData.vMeshColor = { 1,0,0,1 };
 }
 
-
-
+//! A destroyer.
+	/*!
+	  function for use the destroyer of the class CMesh.
+	*/
 CMesh::~CMesh()
 {
 	
 }
 
+// !A \fn.
+/*!
+  function for init m_VertexBuffer and m_Index.
+*/
 void CMesh::Init()
 {
 	m_VertexBuffer = new CBuffer;
 	m_Index = new CBuffer;
 }
 
+// !A \fn.
+/*!
+  function for update the class.
+*/
 void CMesh::Update()
 {
 }
 
+//! An \fn.
+	/*!
+	  Render for class CMesh.
+	  \param _devCont an CDeviceContext.
+	  \param _bufferData an CBuffer.
+	  \param _dev an CDevice.
+	*/
 void CMesh::Render(CDeviceContext * _devCont, CBuffer * _bufferData, CDevice * _dev)
 {
 #if defined(D3D11)
@@ -89,6 +109,11 @@ void CMesh::Render(CDeviceContext * _devCont, CBuffer * _bufferData, CDevice * _
 	
 }
 
+//! An \fn.
+	/*!
+	  funcion for free memory of buffer, like m_VertexBuffer and m_Index.
+	  
+	*/
 void CMesh::Delete()
 {
 	m_Materials->Shutdown();
@@ -112,22 +137,46 @@ void CMesh::Delete()
 	}
 }
 
+
+//! An \fn.
+/*!
+  AddChildren for class CMesh.
+  \param _newChild an CMesh.
+*/
 void CMesh::AddChildren(CMesh * _newChild)
 {
 	m_Children.push_back(_newChild);
 }
 
+
+//! An \fn.
+	/*!
+	  SetParent for class CMesh.
+	  \param _parent an CMesh.
+	*/
 void CMesh::SetParent(CMesh * _parent)
 {
 	m_Parent = _parent;
 }
 
+//! An \fn.
+	/*!
+	  SetVertex for class CMesh.
+	  \param MyVertex an SimpleVertex.
+	  \param numVertex an int.
+	*/
 void CMesh::SetVertex(SimpleVertex * MyVertex, int numVertex)
 {
 	m_VertexNum = numVertex;
 	m_MyVertex = MyVertex;
 }
 
+//! An \fn.
+	/*!
+	  SetIndexList for class CMesh.
+	  \param _index an WORD.
+	  \param numIndex an int.
+	*/
 void CMesh::SetIndexList(WORD * _index, int numIndex)
 {
 	m_MyIndex = _index;

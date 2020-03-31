@@ -1,5 +1,10 @@
 #include "CSampleState.h"
 
+//! An \fn.
+	/*!
+	  init for class CSampleState, init sampDesc with m_SampleSate only in D3D11
+	  \param _C_DEVICE_DESC an C_SampleState_DESC.
+	*/
 int CSampleState::init(C_SampleState_DESC & _C_DEVICE_DESC)
 {
 #if defined(D3D11)
@@ -20,14 +25,26 @@ int CSampleState::init(C_SampleState_DESC & _C_DEVICE_DESC)
 	return 0;
 }
 
+//! An \fn.
+	/*!
+	  update for the class CSampleState
+	*/
 void CSampleState::update()
 {
 }
 
+//! An \fn.
+	/*!
+	  detroy for the class CSampleState
+	*/
 void CSampleState::detroy()
 {
 }
 
+//! An \fn.
+	/*!
+	  render for the class CSampleState
+	*/
 void CSampleState::render()
 {
 }

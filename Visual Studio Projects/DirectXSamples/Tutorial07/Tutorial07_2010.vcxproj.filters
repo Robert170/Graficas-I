@@ -44,6 +44,8 @@
     <ClCompile Include="CSceneManager.cpp" />
     <ClCompile Include="CGraphicApi.cpp" />
     <ClCompile Include="glad.c" />
+    <ClCompile Include="includes\imgui\imgui_impl_glfw.cpp" />
+    <ClCompile Include="includes\imgui\imgui_impl_opengl3.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Tutorial07.cpp" />
@@ -96,6 +98,9 @@
     <ClInclude Include="stb_image.h" />
     <ClInclude Include="ModelOGL.h" />
     <ClInclude Include="MeshOGL.h" />
+    <ClInclude Include="CameraOGL.h" />
+    <ClInclude Include="includes\imgui\imgui_impl_glfw.h" />
+    <ClInclude Include="includes\imgui\imgui_impl_opengl3.h" />
   </ItemGroup>
   <ItemGroup>
   </ItemGroup>

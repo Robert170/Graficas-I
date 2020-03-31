@@ -1,5 +1,10 @@
 #include "CViewport.h"
 
+//! An \fn.
+	/*!
+	  init for class CViewport, init data with m_Viewport only in D3D11
+	  \param _C_DEVICE_DESC an C_Viewport_DESC.
+	*/
 int CViewport::init(C_Viewport_DESC & _C_DEVICE_DESC)
 {
 #if defined(D3D11)
@@ -25,14 +30,26 @@ int CViewport::init(C_Viewport_DESC & _C_DEVICE_DESC)
 	return 0;
 }
 
+//! An \fn.
+	/*!
+	  update for the class CViewport
+	*/
 void CViewport::update()
 {
 }
 
+//! An \fn.
+	/*!
+	  detroy for the class CViewport
+	*/
 void CViewport::detroy()
 {
 }
 
+//! An \fn.
+	/*!
+	  render for the class CViewport
+	*/
 void CViewport::render()
 {
 }

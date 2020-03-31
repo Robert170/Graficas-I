@@ -10,7 +10,16 @@
 class CModel
 {
 public:
+	//! A constructor.
+	/*!
+	  function for use the constructor of the class CModel.
+	*/
 	CModel();
+
+	//! A destroyer.
+	/*!
+	  function for use the destroyer of the class CModel.
+	*/
 	~CModel();
 
 

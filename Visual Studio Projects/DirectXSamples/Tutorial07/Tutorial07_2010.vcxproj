@@ -95,7 +95,7 @@
     <ExecutablePath>$(DXSDK_DIR)Utilities\bin\x86;$(ExecutablePath)</ExecutablePath>
     <IncludePath>$(DXSDK_DIR)Include;C:\Users\Xc170\Desktop\Proyecto lei\Visual Studio Projects\DirectXSamples\Tutorial07\includes\assimp-5.0.1\include\assimp;$(IncludePath)</IncludePath>
     <LibraryPath>$(DXSDK_DIR)Lib\Any;$(DXSDK_DIR)Lib\x86;$(SolutionDir)GLFWinclude\x86;$(LibraryPath)</LibraryPath>
-    <OutDir>$(SolutionDir)$(Platform)\$(Configuration)\</OutDir>
+    <OutDir>$(SolutionDir)bin\$(Configuration)\$(PlataformTarget)</OutDir>
     <IntDir>$(Platform)\$(Configuration)\</IntDir>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|X64'">
@@ -104,6 +104,7 @@
     <ExecutablePath>$(DXSDK_DIR)Utilities\bin\x64;$(DXSDK_DIR)Utilities\bin\x86;$(ExecutablePath)</ExecutablePath>
     <IncludePath>$(DXSDK_DIR)Include;$(IncludePath)</IncludePath>
     <LibraryPath>$(DXSDK_DIR)Lib\Any;$(DXSDK_DIR)Lib\x64;C:\Users\Xc170\Desktop\Proyecto lei\Visual Studio Projects\DirectXSamples\Tutorial07\includes\Assimp\x64;$(SolutionDir)GLFWinclude\x64;$(LibraryPath)</LibraryPath>
+    <OutDir>$(SolutionDir)$(Platform)\$(Configuration)\</OutDir>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
     <LinkIncremental>false</LinkIncremental>
@@ -112,7 +113,7 @@
     <IncludePath>$(DXSDK_DIR)Include;$(IncludePath)</IncludePath>
     <LibraryPath>$(DXSDK_DIR)Lib\Any;$(DXSDK_DIR)Lib\x86;$(SolutionDir)GLFWinclude\x86;$(LibraryPath)</LibraryPath>
     <IntDir>$(Platform)\$(Configuration)\</IntDir>
-    <OutDir>$(SolutionDir)$(Configuration)\rs</OutDir>
+    <OutDir>$(SolutionDir)bin\$(Configuration)\$(PlataformTarget)</OutDir>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|X64'">
     <LinkIncremental>false</LinkIncremental>
@@ -411,6 +412,8 @@
     <ClCompile Include="includes\imgui\imgui_demo.cpp" />
     <ClCompile Include="includes\imgui\imgui_draw.cpp" />
     <ClCompile Include="includes\imgui\imgui_impl_dx11.cpp" />
+    <ClCompile Include="includes\imgui\imgui_impl_glfw.cpp" />
+    <ClCompile Include="includes\imgui\imgui_impl_opengl3.cpp" />
     <ClCompile Include="includes\imgui\imgui_impl_win32.cpp" />
     <ClCompile Include="includes\imgui\imgui_widgets.cpp" />
     <ClCompile Include="Tutorial07.cpp" />
@@ -419,6 +422,7 @@
     <None Include="Tutorial07.fx" />
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="CameraOGL.h" />
     <ClInclude Include="CBuffer.h" />
     <ClInclude Include="CCamera.h" />
     <ClInclude Include="CCamFirst.h" />
@@ -446,6 +450,8 @@
     <ClInclude Include="includes\imgui\imconfig.h" />
     <ClInclude Include="includes\imgui\imgui.h" />
     <ClInclude Include="includes\imgui\imgui_impl_dx11.h" />
+    <ClInclude Include="includes\imgui\imgui_impl_glfw.h" />
+    <ClInclude Include="includes\imgui\imgui_impl_opengl3.h" />
     <ClInclude Include="includes\imgui\imgui_impl_win32.h" />
     <ClInclude Include="includes\imgui\imgui_internal.h" />
     <ClInclude Include="includes\imgui\imstb_rectpack.h" />

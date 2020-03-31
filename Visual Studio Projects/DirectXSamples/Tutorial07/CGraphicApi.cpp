@@ -1,13 +1,31 @@
 #include "CGraphicApi.h"
 
+// !A \fn.
+/*!
+  function for construc the class.
+*/
 CGraphicApi::CGraphicApi()
 {
 }
 
+// !A \fn.
+/*!
+  function for destroy the class.
+*/
 CGraphicApi::~CGraphicApi()
 {
 }
 
+//! A \fn.
+	/*!
+	  function return bool if the mesh was charge, using a model.
+	  \param _meshPath an const char.
+	  \param _sceneManager an CSceneManager.
+	  \param _model an const aiScene.
+	  \param _devCont an CDeviceContext.
+	  \param _importer an Assimp::Importer.
+	  \param _dev an void.
+	*/
 bool CGraphicApi::ChargeMesh(const char * _meshPath, CSceneManager * _sceneManager, const aiScene * _model, CDeviceContext *_devCont, Assimp::Importer * _importer, void * _dev)
 {
 
@@ -60,6 +78,14 @@ bool CGraphicApi::ChargeMesh(const char * _meshPath, CSceneManager * _sceneManag
 	return true;
 }
 
+//! A \fn.
+	/*!
+	  function for the caracteristics of mesh like indices, vertex.
+	  \param _model an const aiScene.
+	  \param _mesh an CMesh.
+	  \param _meshIndex an int.
+	  \param _dev an void.
+	*/
 void CGraphicApi::MeshRead(const aiScene * _model, CMesh * _mesh, int _meshIndex, void * _dev)
 {
 	std::vector <std::uint32_t> indis;
@@ -103,6 +129,14 @@ void CGraphicApi::MeshRead(const aiScene * _model, CMesh * _mesh, int _meshIndex
 	
 }
 
+//! A \fn.
+	/*!
+	  function for search and read texture of model.
+	  \param _model an const aiScene.
+	  \param _mesh an CMesh.
+	  \param _meshIndex an int.
+	  \param _dev an void.
+	*/
 void CGraphicApi::ReadTextureMesh(const aiScene * _model, CMesh * _mesh, int _meshIndex, void * _dev)
 {
 	const aiMaterial* pMaterial = _model->mMaterials[_model->mMeshes[_meshIndex]->mMaterialIndex];

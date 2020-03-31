@@ -1,5 +1,10 @@
 #include "CTargetView.h"
 
+//! An \fn.
+	/*!
+	  init for class CTargetView, init m_Desc with _C_DEVICE_DESC only in D3D11
+	  \param _C_DEVICE_DESC an C_TargetView_DESC.
+	*/
 int CTargetView::init(C_TargetView_DESC & _C_DEVICE_DESC)
 {
 #if defined(D3D11)
@@ -12,14 +17,26 @@ int CTargetView::init(C_TargetView_DESC & _C_DEVICE_DESC)
 
 }
 
+//! An \fn.
+	/*!
+	  update for the class CTargetView
+	*/
 void CTargetView::update()
 {
 }
 
+//! An \fn.
+	/*!
+	  detroy for the class CTargetView
+	*/
 void CTargetView::detroy()
 {
 }
 
+//! An \fn.
+	/*!
+	  render for the class CTargetView
+	*/
 void CTargetView::render()
 {
 }

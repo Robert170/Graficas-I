@@ -1,7 +1,10 @@
 #include "CSwapChain.h"
 
 
-
+// !A \fn.
+/*!
+  function to return the instance of the singelton if first is not instance before.
+*/
 CSwapChain * CSwapChain::getInstance()
 {
 	if (SwapChainInstance == NULL)
@@ -15,6 +18,11 @@ CSwapChain::CSwapChain(CSwapChain const &)
 {
 }
 
+//! An \fn.
+	/*!
+	  init for class CSwapChain, init SCD with m_SwapChain only in D3D11
+	  \param _C_DEVICE_DESC an C_DEVICE_DESC.
+	*/
 int CSwapChain::init(C_SWAP_CHAIN_DESC & _C_DEVICE_DESC)
 {
 #if defined(D3D11)
@@ -51,17 +59,34 @@ int CSwapChain::init(C_SWAP_CHAIN_DESC & _C_DEVICE_DESC)
 	return 0;
 }
 
+//! An \fn.
+	/*!
+	  update for the class CSwapChain
+	*/
 void CSwapChain::update()
 {
 }
 
+//! An \fn.
+	/*!
+	  detroy for the class CSwapChain
+	*/
 void CSwapChain::detroy()
 {
 }
 
+//! An \fn.
+	/*!
+	  v for the class CSwapChain
+	*/
 void CSwapChain::render()
 {
 }
+
+//! A \fn.
+	/*!
+	  function return pointer for use g_pd3dDevice pointer or SCD.
+	*/
 void * CSwapChain::GetSwap()
 {
 #if defined(D3D11)
