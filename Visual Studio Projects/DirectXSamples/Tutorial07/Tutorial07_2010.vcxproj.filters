@@ -46,6 +46,8 @@
     <ClCompile Include="glad.c" />
     <ClCompile Include="includes\imgui\imgui_impl_glfw.cpp" />
     <ClCompile Include="includes\imgui\imgui_impl_opengl3.cpp" />
+    <ClCompile Include="CPase.cpp" />
+    <ClCompile Include="CManager.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Tutorial07.cpp" />
@@ -101,7 +103,12 @@
     <ClInclude Include="CameraOGL.h" />
     <ClInclude Include="includes\imgui\imgui_impl_glfw.h" />
     <ClInclude Include="includes\imgui\imgui_impl_opengl3.h" />
+    <ClInclude Include="CPase.h" />
+    <ClInclude Include="CManager.h" />
   </ItemGroup>
   <ItemGroup>
+    <FxCompile Include="Lambert.fx">
+      <Filter>Shaders</Filter>
+    </FxCompile>
   </ItemGroup>
 </Project>

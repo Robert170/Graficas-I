@@ -68,6 +68,7 @@ struct Texture {
 
 class Mesh {
 public:
+#if defined(GLFW)
 	/*  Mesh Data  */
 
 	//! A public variable.
@@ -211,5 +212,6 @@ private:
 
 		glBindVertexArray(0);
 	}
+#endif
 };
 #endif

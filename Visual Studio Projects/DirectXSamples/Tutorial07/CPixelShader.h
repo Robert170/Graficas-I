@@ -30,17 +30,23 @@ struct C_PIXELSHADER_DESC
 
 #endif
 };
+
 class CPixelShader
 {
 public:
 	//abstraer
 	int init(C_PIXELSHADER_DESC& _C_DEVICE_DESC);
+
+	
+
 	void update();
 	void detroy();
 	void render();
 	C_PIXELSHADER_DESC  m_InputLayer;
+
+	
 #if defined(D3D11)
-	ID3D11PixelShader*                  g_pPixelShader = NULL;
+	ID3D11PixelShader* g_pPixelShader = NULL;
 	ID3DBlob* pPSBlob = NULL;
 #endif
 };

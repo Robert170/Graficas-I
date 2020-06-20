@@ -62,11 +62,13 @@ void CBuffer::createVertexBuffer(int _numvertex, const aiScene * _model, SimpleV
 	ID3D11Device* dev = static_cast<ID3D11Device*>(_dev);
 	D3D11_BUFFER_DESC bd;
 	D3D11_SUBRESOURCE_DATA InitData;
+
 	ZeroMemory(&bd, sizeof(bd));
 	bd.Usage = D3D11_USAGE_DEFAULT;
 	bd.ByteWidth = sizeof(SimpleVertex) * _numvertex;
 	bd.BindFlags = D3D11_BIND_VERTEX_BUFFER;
 	bd.CPUAccessFlags = 0;
+
 	ZeroMemory(&InitData, sizeof(InitData));
 	InitData.pSysMem = _vertex;
 	dev->CreateBuffer(&bd, &InitData, &_buffer);
@@ -86,6 +88,7 @@ void CBuffer::createIndexBuffer(int numindices, const aiScene * _model, WORD * _
 	ID3D11Device* dev = static_cast<ID3D11Device*>(_dev);
 	D3D11_BUFFER_DESC bd;
 	D3D11_SUBRESOURCE_DATA InitData;
+
 	ZeroMemory(&bd, sizeof(bd));
 	bd.Usage = D3D11_USAGE_DEFAULT;
 	bd.ByteWidth = sizeof(WORD) * numindices;

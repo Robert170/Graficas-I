@@ -42,6 +42,9 @@ struct C_VertexShader_DESC
 #endif
 };
 
+
+
+
 class CVertexShader
 {
 public:
@@ -77,6 +80,8 @@ public:
 	  variable C_VertexShader_DESC for use the member of struc with the variable v.
 	*/
 	C_VertexShader_DESC  m_VertexShader;
+
+	
 #if defined(D3D11)
 
 	//! A public variable.

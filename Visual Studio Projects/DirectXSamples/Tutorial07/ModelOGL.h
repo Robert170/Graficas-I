@@ -11,6 +11,7 @@ unsigned int TextureFromFile(const char *path, const string &directory, bool gam
 
 class Model
 {
+#if defined(GLFW)
 public:
 	/*  Model Data */
 	vector<Texture> textures_loaded;	// stores all the textures loaded so far, optimization to make sure textures aren't loaded more than once.
@@ -226,5 +227,6 @@ unsigned int TextureFromFile(const char *path, const string &directory, bool gam
 	}
 
 	return textureID;
-}
+#endif
+};
 #endif

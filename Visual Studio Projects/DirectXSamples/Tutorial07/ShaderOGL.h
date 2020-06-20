@@ -7,6 +7,7 @@
 
 class Shader
 {
+#if defined(GLFW)
 public:
 	unsigned int ID;
 	// constructor generates the shader on the fly
@@ -157,5 +158,6 @@ private:
 			}
 		}
 	}
+#endif
 };
 #endif

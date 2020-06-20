@@ -14,8 +14,6 @@
 
 //#include <d3d11.h>
 
-#define D3D11
-#define GLFW 
 
 /*! \file .h, .hpp and includes in general
 	\brief A Documented file.
@@ -49,9 +47,11 @@
 #include <d3dx11.h>
 #include <d3dcompiler.h>
 
+#if defined(GLFW)
 #include "glad.h"
 #include "glfw3.h"
 #include "glm.hpp"
+#endif
 
 #include <gtc/matrix_transform.hpp>
 #include <gtc/type_ptr.hpp>
@@ -896,22 +896,57 @@ struct SAMPLER_DESC
 struct SimpleVertex
 {
 	/**< struct glm::vec3 Pos. */
-	glm::vec3 Pos;
+	glm::vec3 msPos;
 	//XMFLOAT3 Pos;
 
+
+	glm::vec3 msNormal;
+
 	/**< struct glm::vec2 Tex. */
-	glm::vec2 Tex;
+	glm::vec2 texcoord;
 	//XMFLOAT2 Tex;
+
+	glm::vec3 msBinormal;
+
+	glm::vec3 msTangent;
+
+};
+
+struct CBNeverChanges
+{
+	/**< struct glm::mat4x4 mView. */
+	glm::mat4x4 mView;
+	//XMMATRIX mView;
+};
+
+// !An struct.
+/*! struc CBChangeOnResize. */
+struct CBChangeOnResize
+{
+	/**< struct glm::mat4x4 mProjection. */
+	glm::mat4x4 mProjection;
+
 };
 
 // !An struct.
 /*! struc CBChangesEveryFrame. */
 struct CBChangesEveryFrame
 {
-	/**< struct glm::mat4x4 mWorld. */
 	glm::mat4x4 mWorld;
-
-	/**< structglm::vec4 vMeshColor. */
 	glm::vec4 vMeshColor;
+	/**< struct glm::mat4x4 mWorld. */
+	/**< structglm::vec4 vMeshColor. */
+	
+	glm::vec4 vViewPos;
+
 	//XMFLOAT4 vMeshColor;
 };
+
+struct CBLight
+{
+
+	glm::vec4 lightDir;
+	glm::vec3 lightPointPos;
+	glm::vec4 lightPointAtt;
+};
+

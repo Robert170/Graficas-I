@@ -24,6 +24,7 @@ const float ZOOM = 45.0f;
 // An abstract camera class that processes input and calculates the corresponding Euler Angles, Vectors and Matrices for use in OpenGL
 class Camera
 {
+#if defined(GLFW)
 public:
 	// Camera Attributes
 	glm::vec3 Position;
@@ -125,5 +126,6 @@ private:
 		Right = glm::normalize(glm::cross(Front, WorldUp));  // Normalize the vectors, because their length gets closer to 0 the more you look up or down which results in slower movement.
 		Up = glm::normalize(glm::cross(Right, Front));
 	}
+#endif
 };
 #endif

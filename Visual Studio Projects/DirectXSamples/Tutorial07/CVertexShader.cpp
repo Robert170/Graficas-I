@@ -13,6 +13,7 @@ int CVertexShader::init(C_VertexShader_DESC & _C_DEVICE_DESC)
 	return 0;
 }
 
+
 void CVertexShader::update()
 {
 }

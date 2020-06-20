@@ -104,12 +104,28 @@ void CGraphicApi::MeshRead(const aiScene * _model, CMesh * _mesh, int _meshIndex
 
 	for (int i = 0; i < numVertex; i++)
 	{
-		meshVertex[i].Pos.x = _model->mMeshes[_meshIndex]->mVertices[i].x;
-		meshVertex[i].Pos.y = _model->mMeshes[_meshIndex]->mVertices[i].y;
-		meshVertex[i].Pos.z = _model->mMeshes[_meshIndex]->mVertices[i].z;
-		meshVertex[i].Tex.x = _model->mMeshes[_meshIndex]->mTextureCoords[0][i].x;
-		meshVertex[i].Tex.y = _model->mMeshes[_meshIndex]->mTextureCoords[0][i].y;
+		meshVertex[i].msPos.x = _model->mMeshes[_meshIndex]->mVertices[i].x;
+		meshVertex[i].msPos.y = _model->mMeshes[_meshIndex]->mVertices[i].y;
+		meshVertex[i].msPos.z = _model->mMeshes[_meshIndex]->mVertices[i].z;
+
+		meshVertex[i].msNormal.x = _model->mMeshes[_meshIndex]->mNormals[i].x;
+		meshVertex[i].msNormal.y = _model->mMeshes[_meshIndex]->mNormals[i].y;
+		meshVertex[i].msNormal.z = _model->mMeshes[_meshIndex]->mNormals[i].z;
+
+		meshVertex[i].texcoord.x = _model->mMeshes[_meshIndex]->mTextureCoords[0][i].x;
+		meshVertex[i].texcoord.y = _model->mMeshes[_meshIndex]->mTextureCoords[0][i].y;
+
+		meshVertex[i].msBinormal.x = _model->mMeshes[_meshIndex]->mBitangents[i].x;
+		meshVertex[i].msBinormal.y = _model->mMeshes[_meshIndex]->mBitangents[i].y;
+		meshVertex[i].msBinormal.z = _model->mMeshes[_meshIndex]->mBitangents[i].z;
+
+		meshVertex[i].msTangent.x = _model->mMeshes[_meshIndex]->mTangents[i].x;
+		meshVertex[i].msTangent.y = _model->mMeshes[_meshIndex]->mTangents[i].y;
+		meshVertex[i].msTangent.z = _model->mMeshes[_meshIndex]->mTangents[i].z;
+		
 	}
+
+
 	_mesh->SetVertex(meshVertex, numVertex);
 #ifdef D3D11
 	CBuffer::createVertexBuffer(numVertex, _model, meshVertex, _mesh->GetVertexBuffer()->P_Buffer, _dev);
