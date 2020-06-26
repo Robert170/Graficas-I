@@ -11,6 +11,8 @@
 #define PIXEL_LIGHT
 //#define NORMAL_MAP_LIGHT
 
+
+//Defines
 #ifdef NORMAL_MAP_LIGHT
 #undef VERTEX_LIGHT
 #undef PIXEL_LIGHT

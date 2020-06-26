@@ -183,4 +183,14 @@ void CMesh::SetIndexList(WORD * _index, int numIndex)
 	m_IndexNum = numIndex;
 }
 
-
+void VERTERX_BONE_DATA::AddBoneData(unsigned int id_Bone, float weights)
+{
+	for (int i = 0; i < NUM_BONE_PERVERTX; i++)
+	{
+		if (Weights[i] == 0.0)
+		{
+			ID_Bone[i] = id_Bone;
+			Weights[i] = weights;
+		}
+	}
+}

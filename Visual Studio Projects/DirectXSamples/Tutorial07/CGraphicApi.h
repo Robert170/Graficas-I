@@ -49,7 +49,7 @@ public:
 	*/
 	Assimp::Importer* m_Importer = new Assimp::Importer();
 
-
+	unsigned int m_NumBones;
 	//! A public function.
 	/*!
 	  function return bool if the mesh was charge.

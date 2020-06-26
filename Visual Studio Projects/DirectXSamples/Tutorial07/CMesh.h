@@ -18,6 +18,15 @@
 #include "CMaterial.h"
 #include <vector>
 
+
+struct VERTERX_BONE_DATA
+{
+	unsigned int ID_Bone[NUM_BONE_PERVERTX] = { 0 };
+	float Weights[NUM_BONE_PERVERTX] = { 0 };
+
+	void AddBoneData(unsigned int ID_Bone, float Weights);
+};
+
 class CMesh
 {
 
@@ -126,6 +135,9 @@ public:
 	  GetVertexBuffer for class CMesh, return m_VertexBuffer.
 	*/
 	CBuffer*& GetVertexBuffer() { return m_VertexBuffer; };
+
+	std::vector<VERTERX_BONE_DATA> BoneData;
+
 #ifdef D3D11
 
 	//! An SetVertexBuffer.

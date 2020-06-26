@@ -63,7 +63,8 @@
 #include <filesystem>
 
 
-
+#define NUM_BONE_PERVERTX 4
+#define MAXBONES 100
 
 #ifdef D3D11
 //Enum
@@ -949,4 +950,5 @@ struct CBLight
 	glm::vec3 lightPointPos;
 	glm::vec4 lightPointAtt;
 };
+
 

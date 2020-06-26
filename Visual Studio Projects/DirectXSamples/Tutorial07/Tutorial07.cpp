@@ -1719,7 +1719,7 @@ HRESULT InitDevice()
 	ImGui::StyleColorsDark();
 
 
-	GraphicApi.ChargeMesh("Modelo/Scene.fbx", &ScMana, GraphicApi.m_Model, DeviceContextChido, GraphicApi.m_Importer, DeviceChido->g_pd3dDevice);
+	GraphicApi.ChargeMesh("Modelo/Animacion/Knuckles.fbx", &ScMana, GraphicApi.m_Model, DeviceContextChido, GraphicApi.m_Importer, DeviceChido->g_pd3dDevice);
 	
 	PassD.IntLay = G_PInputLayer;
 	PassD.PixShader = &G_PPixelShader;

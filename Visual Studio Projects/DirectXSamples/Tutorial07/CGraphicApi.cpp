@@ -92,6 +92,16 @@ void CGraphicApi::MeshRead(const aiScene * _model, CMesh * _mesh, int _meshIndex
 	indis.reserve(_model->mMeshes[_meshIndex]->mNumFaces * 3);
 	int numVertex = _model->mMeshes[_meshIndex]->mNumVertices;
 	int numVIndex = (_model->mMeshes[_meshIndex]->mNumFaces * 3);
+	m_NumBones= (_model->mMeshes[_meshIndex]->mNumBones);
+
+
+	for (int i = 0; i < m_NumBones; i++)
+	{
+		VERTERX_BONE_DATA Temp;
+		Temp.AddBoneData(_model->mMeshes[_meshIndex]->mBones[i]->mWeights->mVertexId, _model->mMeshes[_meshIndex]->mBones[i]->mWeights->mWeight);
+		_mesh->BoneData.push_back(Temp);
+	}
+
 	for (std::uint32_t faceIdx = 0u; faceIdx < _model->mMeshes[_meshIndex]->mNumFaces; faceIdx++)
 	{
 		indis.push_back(_model->mMeshes[_meshIndex]->mFaces[faceIdx].mIndices[0u]);
