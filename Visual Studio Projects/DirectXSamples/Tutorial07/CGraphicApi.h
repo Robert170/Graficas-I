@@ -21,6 +21,14 @@
 #include <string>
 #include "CMesh.h"
 #include "CSceneManager.h"
+#include <map>
+
+struct MatrixForBone
+{
+	aiMatrix4x4 m_BoneOfften;
+	aiMatrix4x4 m_FinalBoneMatrix;
+};
+
 
 class CGraphicApi
 {
@@ -63,6 +71,7 @@ public:
 	bool
 		ChargeMesh(const char* _meshPath, CSceneManager* _sceneManager, const aiScene* _model, CDeviceContext* _devCont, Assimp::Importer* _importer, void* _dev);
 
+	std::vector<MatrixForBone> MatrixBone;
 private:
 
 	//! A private function.
@@ -86,5 +95,9 @@ private:
 	*/
 	void
 		ReadTextureMesh(const aiScene* _model, CMesh* _mesh, int _meshIndex, void* _dev);
+
+	const aiNodeAnim * AnimatinFindNode(const std::string NameNod, const aiAnimation * Anim);
+
+	void JerarquiaDeNodo(float TimeAnim, const aiNode * Node, const aiMatrix4x4 Transform, const aiScene* Model);
 };
 

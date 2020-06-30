@@ -911,6 +911,10 @@ struct SimpleVertex
 
 	glm::vec3 msTangent;
 
+
+	//unsigned int Index[4];
+	//glm::vec4 BoneWeight[4];
+
 };
 
 struct CBNeverChanges

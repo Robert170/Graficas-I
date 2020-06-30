@@ -135,6 +135,11 @@ void CGraphicApi::MeshRead(const aiScene * _model, CMesh * _mesh, int _meshIndex
 		
 	}
 
+	aiMatrix4x4 identity_matrix; // = mat4(1.0f);
+	const aiAnimation* Temp = _model[_meshIndex].mAnimations[_meshIndex];
+	std::string NodeName = _model[_meshIndex].mAnimations[_meshIndex]->mChannels[_meshIndex]->mNodeName.C_Str();
+	const aiNodeAnim* Tempanim = AnimatinFindNode(NodeName , Temp);
+	JerarquiaDeNodo(1, _model->mRootNode, identity_matrix, _model);
 
 	_mesh->SetVertex(meshVertex, numVertex);
 #ifdef D3D11
@@ -199,4 +204,37 @@ void CGraphicApi::ReadTextureMesh(const aiScene * _model, CMesh * _mesh, int _me
 			
 		}
 	}
+}
+
+const aiNodeAnim * CGraphicApi::AnimatinFindNode(const std::string NameNod, const aiAnimation * Anim)
+{
+	for (int i = 0; i < Anim->mNumChannels; i++)
+	{
+		const aiNodeAnim * Temp = Anim->mChannels[i];
+		if (std::string(Temp->mNodeName.data) == NameNod)
+		{
+			return Temp;
+		}
+	}
+
+	return nullptr;
+}
+
+void CGraphicApi::JerarquiaDeNodo(float TimeAnim, const aiNode * Node, const aiMatrix4x4 Transform, const aiScene * Model)
+{
+	std::string NameNod(Node->mName.data);
+	const aiAnimation * Animation = Model->mAnimations[0];
+	aiMatrix4x4 _Transform = Node->mTransformation;
+	const aiNodeAnim * NodeAnim = AnimatinFindNode(NameNod, Animation);
+	aiMatrix4x4 TransNod = Node->mTransformation;
+	aiMatrix4x4 TransGlobal = Transform * TransNod;
+
+	for (int i = 0; i < Node->mNumChildren; i++)
+	{
+		MatrixForBone Temp;
+		Temp.m_BoneOfften = Node->mChildren[i]->mTransformation;
+		MatrixBone.push_back(Temp);
+		JerarquiaDeNodo(TimeAnim, Node->mChildren[i], TransGlobal, Model);
+	}
+		
 }
