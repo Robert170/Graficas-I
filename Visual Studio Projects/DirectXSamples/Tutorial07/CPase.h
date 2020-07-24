@@ -30,6 +30,8 @@ struct PASSE_DIRECTX_STRUCT
 
 	CViewport* ViewPort;
 
+	CBuffer * p_BoneBuffer;
+
 };
 
 
@@ -40,6 +42,7 @@ public:
 	PASSE_DIRECTX_STRUCT m_PaseDirectx;
 	//PASSE_OPENGL_STRUCT m_PaseOpenGL;
 
+	//CBuffer * m_pCBB;
 
 	int initDX(PASSE_DIRECTX_STRUCT& _C_Pase_DESC);
 

@@ -901,15 +901,22 @@ struct SimpleVertex
 	//XMFLOAT3 Pos;
 
 
-	glm::vec3 msNormal;
-
 	/**< struct glm::vec2 Tex. */
 	glm::vec2 texcoord;
-	//XMFLOAT2 Tex;
 
-	glm::vec3 msBinormal;
 
-	glm::vec3 msTangent;
+	int IDBone[4];
+
+	float  Weights[4] = { 0.0f };
+
+	//glm::vec3 msNormal;
+
+	//
+	////XMFLOAT2 Tex;
+
+	//glm::vec3 msBinormal;
+
+	//glm::vec3 msTangent;
 
 
 	//unsigned int Index[4];
@@ -955,4 +962,8 @@ struct CBLight
 	glm::vec4 lightPointAtt;
 };
 
+struct CBBones
+{
+	glm::mat4 Bones_CB[100];
+};
 

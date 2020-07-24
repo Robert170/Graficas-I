@@ -23,11 +23,15 @@
 #include "CSceneManager.h"
 #include <map>
 
-struct MatrixForBone
-{
-	aiMatrix4x4 m_BoneOfften;
-	aiMatrix4x4 m_FinalBoneMatrix;
-};
+#include "gtc/quaternion.hpp"
+#include "gtc/type_ptr.hpp"
+#include "gtx/quaternion.hpp"
+
+//struct MatrixForBone
+//{
+//	aiMatrix4x4 m_BoneOfften;
+//	aiMatrix4x4 m_FinalBoneMatrix;
+//};
 
 
 class CGraphicApi
@@ -55,9 +59,9 @@ public:
 	/*!
 	  variable pointer Importer for assimp.
 	*/
-	Assimp::Importer* m_Importer = new Assimp::Importer();
+	//Assimp::Importer* m_Importer = new Assimp::Importer();
 
-	unsigned int m_NumBones;
+	//unsigned int m_NumBones;
 	//! A public function.
 	/*!
 	  function return bool if the mesh was charge.
@@ -68,10 +72,14 @@ public:
 	  \param _importer an Assimp::Importer.
 	  \param _dev an void.
 	*/
-	bool
-		ChargeMesh(const char* _meshPath, CSceneManager* _sceneManager, const aiScene* _model, CDeviceContext* _devCont, Assimp::Importer* _importer, void* _dev);
+	const aiScene*
+		ChargeMesh(const char* _meshPath, CSceneManager* _sceneManager, const aiScene* _model, CDeviceContext* _devCont, void* _dev, Assimp::Importer* Imp);
 
-	std::vector<MatrixForBone> MatrixBone;
+	//std::vector<MatrixForBone> MatrixBone;
+
+
+	void BonesTrasnformation(float Time, std::vector<glm::mat4>& Transform, const aiScene * _model, CSceneManager * _sceneManager);
+
 private:
 
 	//! A private function.
@@ -98,6 +106,14 @@ private:
 
 	const aiNodeAnim * AnimatinFindNode(const std::string NameNod, const aiAnimation * Anim);
 
-	void JerarquiaDeNodo(float TimeAnim, const aiNode * Node, const aiMatrix4x4 Transform, const aiScene* Model);
+	void JerarquiaDeNodo(float TimeAnim, const aiNode * Node, const glm::mat4 Transform, const aiScene* Model, CMesh * _mesh);
+
+	int FindPosition(float AnimationTime, const aiNodeAnim* pNodeAnim);
+	int FindRotation(float AnimationTime, const aiNodeAnim* pNodeAnim);
+	int FindScaling(float AnimationTime, const aiNodeAnim* pNodeAnim);
+
+	void CalcInterpolatedPosition(aiVector3D& Out, float AnimationTime, const aiNodeAnim* pNodeAnim);
+	void CalcInterpolatedRotation(aiQuaternion& Out, float AnimationTime, const aiNodeAnim* pNodeAnim);
+	void CalcInterpolatedScaling(aiVector3D& Out, float AnimationTime, const aiNodeAnim* pNodeAnim);
 };
 

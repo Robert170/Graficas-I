@@ -15,6 +15,8 @@ CMesh::CMesh()
 		0,0,0,1
 	};
 	m_MeshData.vMeshColor = { 1,0,0,1 };
+
+	m_NumBones = 0;
 }
 
 //! A destroyer.
@@ -183,6 +185,7 @@ void CMesh::SetIndexList(WORD * _index, int numIndex)
 	m_IndexNum = numIndex;
 }
 
+//llenar informacion de los huesos
 void VERTERX_BONE_DATA::AddBoneData(unsigned int id_Bone, float weights)
 {
 	for (int i = 0; i < NUM_BONE_PERVERTX; i++)
@@ -191,6 +194,7 @@ void VERTERX_BONE_DATA::AddBoneData(unsigned int id_Bone, float weights)
 		{
 			ID_Bone[i] = id_Bone;
 			Weights[i] = weights;
+			return;
 		}
 	}
 }

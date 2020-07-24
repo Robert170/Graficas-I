@@ -17,6 +17,7 @@
 #include "CDeviceContext.h"
 #include "CMaterial.h"
 #include <vector>
+#include <map>
 
 
 struct VERTERX_BONE_DATA
@@ -25,6 +26,19 @@ struct VERTERX_BONE_DATA
 	float Weights[NUM_BONE_PERVERTX] = { 0 };
 
 	void AddBoneData(unsigned int ID_Bone, float Weights);
+};
+
+
+struct BONES_INFO
+{
+	glm::mat4 Bone_Offset; 
+	glm::mat4 Final_Transformation;
+
+	BONES_INFO()
+	{
+		Bone_Offset = glm::mat4(0.0f);
+		Final_Transformation = glm::mat4(0.0f);
+	}
 };
 
 class CMesh
@@ -256,5 +270,10 @@ public:
 	  variable CBChangesEveryFrame for the m_MeshData.
 	*/
 	CBChangesEveryFrame m_MeshData;
+
+	std::vector<VERTERX_BONE_DATA> m_vBonesPerVertx;
+	std::map<std::string, unsigned int> m_BoneMapping;
+	std::vector<BONES_INFO> m_BoneInfo;
+	unsigned int m_NumBones;
 };
 

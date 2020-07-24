@@ -26,10 +26,10 @@ CGraphicApi::~CGraphicApi()
 	  \param _importer an Assimp::Importer.
 	  \param _dev an void.
 	*/
-bool CGraphicApi::ChargeMesh(const char * _meshPath, CSceneManager * _sceneManager, const aiScene * _model, CDeviceContext *_devCont, Assimp::Importer * _importer, void * _dev)
+const aiScene* CGraphicApi::ChargeMesh(const char* _meshPath, CSceneManager* _sceneManager, const aiScene* _model, CDeviceContext* _devCont, void* _dev, Assimp::Importer* Imp)
 {
 
-	_model = _importer->ReadFile
+	_model = Imp->ReadFile
 	(_meshPath,
 		aiProcessPreset_TargetRealtime_MaxQuality | aiProcess_ConvertToLeftHanded |
 		aiProcess_FindInstances |
@@ -75,7 +75,44 @@ bool CGraphicApi::ChargeMesh(const char * _meshPath, CSceneManager * _sceneManag
 			_sceneManager->AddMesh(childmesh);
 		}
 	}
-	return true;
+	return _model;
+}
+
+void CGraphicApi::BonesTrasnformation(float Time, std::vector<glm::mat4>& Transform, const aiScene * _model, CSceneManager * _sceneManager)
+{
+	glm::mat4 Ident = glm::mat4(1.0f);
+
+	unsigned int  AllBones = 0;
+
+	for (int i = 0; i < _sceneManager->m_MeshInScene.size(); i++)
+	{
+		AllBones = AllBones + _sceneManager->m_MeshInScene.at(i)->m_NumBones;
+	}
+
+	float TicksPerSecond = _model->mAnimations[0]->mTicksPerSecond != 0 ? _model->mAnimations[0]->mTicksPerSecond : 25.0f;
+
+	float TimeInTicks = Time * TicksPerSecond;
+	float AnimationTime = fmod(TimeInTicks, _model->mAnimations[0]->mDuration);
+
+	for (int i = 0; i < _sceneManager->m_MeshInScene.size(); i++)
+	{
+		JerarquiaDeNodo(AnimationTime, _model->mRootNode, glm::mat4(1.0f), _model, _sceneManager->m_MeshInScene[i]);
+	}
+
+	Transform.resize(AllBones);
+
+	for (int i = 0; i < AllBones; i++)
+	{
+		for (int j = 0; j < _sceneManager->m_MeshInScene.size(); j++)
+		{
+			for (int k = 0; k < _sceneManager->m_MeshInScene[j]->m_BoneInfo.size(); k++)
+			{
+				Transform[i] = _sceneManager->m_MeshInScene[j]->m_BoneInfo[k].Final_Transformation;
+				i++;
+			}
+		}
+	}
+
 }
 
 //! A \fn.
@@ -92,16 +129,46 @@ void CGraphicApi::MeshRead(const aiScene * _model, CMesh * _mesh, int _meshIndex
 	indis.reserve(_model->mMeshes[_meshIndex]->mNumFaces * 3);
 	int numVertex = _model->mMeshes[_meshIndex]->mNumVertices;
 	int numVIndex = (_model->mMeshes[_meshIndex]->mNumFaces * 3);
-	m_NumBones= (_model->mMeshes[_meshIndex]->mNumBones);
+	int NumBones = (_model->mMeshes[_meshIndex]->mNumBones);
+	_mesh->m_vBonesPerVertx.resize(numVertex);
 
+	SimpleVertex* meshVertex = new SimpleVertex[numVertex];
+	WORD* meshIndex = new WORD[numVIndex];
 
-	for (int i = 0; i < m_NumBones; i++)
+	for (int i = 0; i < NumBones; i++)
 	{
-		VERTERX_BONE_DATA Temp;
-		Temp.AddBoneData(_model->mMeshes[_meshIndex]->mBones[i]->mWeights->mVertexId, _model->mMeshes[_meshIndex]->mBones[i]->mWeights->mWeight);
-		_mesh->BoneData.push_back(Temp);
+		//obtener nombre del hueso en base al mesh
+		int BoneIndex = 0;
+		std::string BoneName(_model->mMeshes[_meshIndex]->mBones[i]->mName.data);
+
+		//revisar si el mesh tiene el hueso, si esta indice
+		if (_mesh->m_BoneMapping.find(BoneName) == _mesh->m_BoneMapping.end())
+		{
+			BoneIndex = _mesh->m_NumBones;
+			_mesh->m_NumBones++;
+			BONES_INFO bi;
+			_mesh->m_BoneInfo.push_back(bi);
+		}
+		//si no tine lo agrega
+		else
+		{
+			BoneIndex = _mesh->m_BoneMapping[BoneName];
+		}
+
+		_mesh->m_BoneMapping[BoneName] = BoneIndex;
+		_mesh->m_BoneInfo[BoneIndex].Bone_Offset = glm::transpose(glm::make_mat4(&_model->mMeshes[_meshIndex]->mBones[i]->mOffsetMatrix.a1));
+
+		for (int j = 0; j < _model->mMeshes[_meshIndex]->mBones[i]->mNumWeights; j++)
+		{
+			for (int k = 0; k < 4; k++)
+			{
+				meshVertex[_model->mMeshes[_meshIndex]->mBones[i]->mWeights[j].mVertexId].IDBone[k] = BoneIndex;
+				meshVertex[_model->mMeshes[_meshIndex]->mBones[i]->mWeights[j].mVertexId].Weights[k] = _model->mMeshes[_meshIndex]->mBones[i]->mWeights[j].mWeight;
+			}
+		}
 	}
 
+	
 	for (std::uint32_t faceIdx = 0u; faceIdx < _model->mMeshes[_meshIndex]->mNumFaces; faceIdx++)
 	{
 		indis.push_back(_model->mMeshes[_meshIndex]->mFaces[faceIdx].mIndices[0u]);
@@ -109,8 +176,7 @@ void CGraphicApi::MeshRead(const aiScene * _model, CMesh * _mesh, int _meshIndex
 		indis.push_back(_model->mMeshes[_meshIndex]->mFaces[faceIdx].mIndices[2u]);
 	}
 
-	SimpleVertex* meshVertex = new SimpleVertex[numVertex];
-	WORD* meshIndex = new WORD[numVIndex];
+	
 
 	for (int i = 0; i < numVertex; i++)
 	{
@@ -118,28 +184,23 @@ void CGraphicApi::MeshRead(const aiScene * _model, CMesh * _mesh, int _meshIndex
 		meshVertex[i].msPos.y = _model->mMeshes[_meshIndex]->mVertices[i].y;
 		meshVertex[i].msPos.z = _model->mMeshes[_meshIndex]->mVertices[i].z;
 
-		meshVertex[i].msNormal.x = _model->mMeshes[_meshIndex]->mNormals[i].x;
+	/*	meshVertex[i].msNormal.x = _model->mMeshes[_meshIndex]->mNormals[i].x;
 		meshVertex[i].msNormal.y = _model->mMeshes[_meshIndex]->mNormals[i].y;
-		meshVertex[i].msNormal.z = _model->mMeshes[_meshIndex]->mNormals[i].z;
+		meshVertex[i].msNormal.z = _model->mMeshes[_meshIndex]->mNormals[i].z;*/
 
 		meshVertex[i].texcoord.x = _model->mMeshes[_meshIndex]->mTextureCoords[0][i].x;
 		meshVertex[i].texcoord.y = _model->mMeshes[_meshIndex]->mTextureCoords[0][i].y;
 
-		meshVertex[i].msBinormal.x = _model->mMeshes[_meshIndex]->mBitangents[i].x;
+		/*meshVertex[i].msBinormal.x = _model->mMeshes[_meshIndex]->mBitangents[i].x;
 		meshVertex[i].msBinormal.y = _model->mMeshes[_meshIndex]->mBitangents[i].y;
 		meshVertex[i].msBinormal.z = _model->mMeshes[_meshIndex]->mBitangents[i].z;
 
 		meshVertex[i].msTangent.x = _model->mMeshes[_meshIndex]->mTangents[i].x;
 		meshVertex[i].msTangent.y = _model->mMeshes[_meshIndex]->mTangents[i].y;
-		meshVertex[i].msTangent.z = _model->mMeshes[_meshIndex]->mTangents[i].z;
+		meshVertex[i].msTangent.z = _model->mMeshes[_meshIndex]->mTangents[i].z;*/
 		
 	}
 
-	aiMatrix4x4 identity_matrix; // = mat4(1.0f);
-	const aiAnimation* Temp = _model[_meshIndex].mAnimations[_meshIndex];
-	std::string NodeName = _model[_meshIndex].mAnimations[_meshIndex]->mChannels[_meshIndex]->mNodeName.C_Str();
-	const aiNodeAnim* Tempanim = AnimatinFindNode(NodeName , Temp);
-	JerarquiaDeNodo(1, _model->mRootNode, identity_matrix, _model);
 
 	_mesh->SetVertex(meshVertex, numVertex);
 #ifdef D3D11
@@ -220,21 +281,160 @@ const aiNodeAnim * CGraphicApi::AnimatinFindNode(const std::string NameNod, cons
 	return nullptr;
 }
 
-void CGraphicApi::JerarquiaDeNodo(float TimeAnim, const aiNode * Node, const aiMatrix4x4 Transform, const aiScene * Model)
+void CGraphicApi::JerarquiaDeNodo(float TimeAnim, const aiNode * Node, const glm::mat4 Transform, const aiScene* Model, CMesh * _mesh)
 {
 	std::string NameNod(Node->mName.data);
 	const aiAnimation * Animation = Model->mAnimations[0];
-	aiMatrix4x4 _Transform = Node->mTransformation;
-	const aiNodeAnim * NodeAnim = AnimatinFindNode(NameNod, Animation);
-	aiMatrix4x4 TransNod = Node->mTransformation;
-	aiMatrix4x4 TransGlobal = Transform * TransNod;
+
+
+	glm::mat4 glmTransform = glm::transpose(glm::make_mat4(&Node->mTransformation.a1));
+
+	const aiNodeAnim *animNode = AnimatinFindNode(NameNod, Animation);
+
+	//aiMatrix4x4 _Transform = Node->mTransformation;
+	//const aiNodeAnim * NodeAnim = AnimatinFindNode(NameNod, Animation);
+	//aiMatrix4x4 TransNod = Node->mTransformation;
+	//aiMatrix4x4 TransGlobal = Transform * TransNod;
+
+	if (animNode)
+	{
+		//scale
+		aiVector3D Scaling;
+		CalcInterpolatedScaling(Scaling, TimeAnim, animNode);
+		glm::mat4 ScalingM = glm::mat4(1.0f);
+
+		glm::vec3 ScalingGLM(Scaling.x, Scaling.y, Scaling.z);
+		glm::scale(ScalingM, ScalingGLM);
+
+		//rotation
+		aiQuaternion RotationQ;
+		CalcInterpolatedRotation(RotationQ, TimeAnim, animNode);
+		glm::quat RotationQGLM(RotationQ.w, RotationQ.x, RotationQ.y, RotationQ.z);
+		glm::mat4 RotationM = glm::toMat4(RotationQGLM);
+
+		//traslation
+		aiVector3D Traslation;
+		CalcInterpolatedPosition(Traslation, TimeAnim, animNode);
+		glm::mat4 TraslationM = glm::mat4(1.f);
+		TraslationM[3][0] = Traslation.x;
+		TraslationM[3][1] = Traslation.y;
+		TraslationM[3][2] = Traslation.z;
+
+		//make final transform
+		glmTransform = TraslationM * RotationM * ScalingM;
+	}
+
+	glm::mat4 GlobalTransform = Transform * glmTransform;
+
+	if (_mesh->m_BoneMapping.find(NameNod) != _mesh->m_BoneMapping.end())
+	{
+		unsigned int BoneIndex = _mesh->m_BoneMapping[NameNod];
+		_mesh->m_BoneInfo[BoneIndex].Final_Transformation = GlobalTransform * _mesh->m_BoneInfo[BoneIndex].Bone_Offset;
+	}
 
 	for (int i = 0; i < Node->mNumChildren; i++)
 	{
-		MatrixForBone Temp;
-		Temp.m_BoneOfften = Node->mChildren[i]->mTransformation;
-		MatrixBone.push_back(Temp);
-		JerarquiaDeNodo(TimeAnim, Node->mChildren[i], TransGlobal, Model);
+		JerarquiaDeNodo(TimeAnim, Node->mChildren[i], GlobalTransform, Model, _mesh);
 	}
-		
+}
+
+int CGraphicApi::FindPosition(float AnimationTime, const aiNodeAnim * pNodeAnim)
+{
+	for (int i = 0; i < pNodeAnim->mNumPositionKeys-1; i++)
+	{
+		if (AnimationTime < (float)pNodeAnim->mPositionKeys[i+1].mTime)
+		{
+			return i;
+		}
+
+	}
+	assert(0);
+	return 0;
+}
+
+int CGraphicApi::FindRotation(float AnimationTime, const aiNodeAnim * pNodeAnim)
+{
+	assert(pNodeAnim->mNumRotationKeys > 0);
+
+	for (int i = 0; i < pNodeAnim->mNumRotationKeys - 1; i++)
+	{
+		if (AnimationTime < (float)pNodeAnim->mRotationKeys[i+1].mTime)
+		{
+			return i;
+		}
+	}
+	assert(0);
+	return 0;
+}
+
+int CGraphicApi::FindScaling(float AnimationTime, const aiNodeAnim * pNodeAnim)
+{
+	assert(pNodeAnim->mNumScalingKeys > 0);
+
+	for (int i = 0; i < pNodeAnim->mNumScalingKeys - 1; i++)
+	{
+		if (AnimationTime < (float)pNodeAnim->mScalingKeys[i + 1].mTime)
+		{
+			return i;
+		}
+	}
+	assert(0);
+	return 0;
+}
+
+void CGraphicApi::CalcInterpolatedPosition(aiVector3D & Out, float AnimationTime, const aiNodeAnim * pNodeAnim)
+{
+	if (pNodeAnim->mNumPositionKeys == 1) {
+		Out = pNodeAnim->mPositionKeys[0].mValue;
+		return;
+	}
+
+	unsigned int PositionIndex = FindPosition(AnimationTime, pNodeAnim);
+	unsigned int NextPositionIndex = (PositionIndex + 1);
+	assert(NextPositionIndex < pNodeAnim->mNumPositionKeys);
+	float DeltaTime = (float)(pNodeAnim->mPositionKeys[NextPositionIndex].mTime - pNodeAnim->mPositionKeys[PositionIndex].mTime);
+	float Factor = (AnimationTime - (float)pNodeAnim->mPositionKeys[PositionIndex].mTime) / DeltaTime;
+	assert(Factor >= 0.0f && Factor <= 1.0f);
+	const aiVector3D& Start = pNodeAnim->mPositionKeys[PositionIndex].mValue;
+	const aiVector3D& End = pNodeAnim->mPositionKeys[NextPositionIndex].mValue;
+	aiVector3D Delta = End - Start;
+	Out = Start + Factor * Delta;
+}
+
+void CGraphicApi::CalcInterpolatedRotation(aiQuaternion & Out, float AnimationTime, const aiNodeAnim * pNodeAnim)
+{
+	if (pNodeAnim->mNumRotationKeys == 1) {
+		Out = pNodeAnim->mRotationKeys[0].mValue;
+		return;
+	}
+
+	unsigned int RotationIndex = FindRotation(AnimationTime, pNodeAnim);
+	unsigned int NextRotationIndex = (RotationIndex + 1);
+	assert(NextRotationIndex < pNodeAnim->mNumRotationKeys);
+	float DeltaTime = (float)(pNodeAnim->mRotationKeys[NextRotationIndex].mTime - pNodeAnim->mRotationKeys[RotationIndex].mTime);
+	float Factor = (AnimationTime - (float)pNodeAnim->mRotationKeys[RotationIndex].mTime) / DeltaTime;
+	assert(Factor >= 0.0f && Factor <= 1.0f);
+	const aiQuaternion& StartRotationQ = pNodeAnim->mRotationKeys[RotationIndex].mValue;
+	const aiQuaternion& EndRotationQ = pNodeAnim->mRotationKeys[NextRotationIndex].mValue;
+	aiQuaternion::Interpolate(Out, StartRotationQ, EndRotationQ, Factor);
+	Out = Out.Normalize();
+}
+
+void CGraphicApi::CalcInterpolatedScaling(aiVector3D & Out, float AnimationTime, const aiNodeAnim * pNodeAnim)
+{
+	if (pNodeAnim->mNumScalingKeys == 1) {
+		Out = pNodeAnim->mScalingKeys[0].mValue;
+		return;
+	}
+
+	unsigned int ScalingIndex = FindScaling(AnimationTime, pNodeAnim);
+	unsigned int NextScalingIndex = (ScalingIndex + 1);
+	assert(NextScalingIndex < pNodeAnim->mNumScalingKeys);
+	float DeltaTime = (float)(pNodeAnim->mScalingKeys[NextScalingIndex].mTime - pNodeAnim->mScalingKeys[ScalingIndex].mTime);
+	float Factor = (AnimationTime - (float)pNodeAnim->mScalingKeys[ScalingIndex].mTime) / DeltaTime;
+	assert(Factor >= 0.0f && Factor <= 1.0f);
+	const aiVector3D& Start = pNodeAnim->mScalingKeys[ScalingIndex].mValue;
+	const aiVector3D& End = pNodeAnim->mScalingKeys[NextScalingIndex].mValue;
+	aiVector3D Delta = End - Start;
+	Out = Start + Factor * Delta;
 }

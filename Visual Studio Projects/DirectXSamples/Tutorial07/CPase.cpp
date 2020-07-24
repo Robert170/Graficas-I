@@ -8,7 +8,7 @@ int CPase::initDX(PASSE_DIRECTX_STRUCT & _C_Pase_DESC)
 	m_PaseDirectx.VertShader= _C_Pase_DESC.VertShader;
 	m_PaseDirectx.PixShader= _C_Pase_DESC.PixShader;
 	m_PaseDirectx.ViewPort = _C_Pase_DESC.ViewPort;
-
+	m_PaseDirectx.p_BoneBuffer = _C_Pase_DESC.p_BoneBuffer;
 	
 #else 
 
@@ -150,6 +150,8 @@ void CPase::Render(CTargetView& _pRenderTargetView, CDepthStencilView& _pDepthSt
 
 	DevCont->g_pImmediateContext->VSSetConstantBuffers(0, 1, &CAM->g_pCBNeverChanges.P_Buffer);
 	DevCont->g_pImmediateContext->VSSetConstantBuffers(1, 1, &CAM->g_pCBChangeOnResize.P_Buffer);
+	DevCont->g_pImmediateContext->VSSetConstantBuffers(4, 1, &m_PaseDirectx.p_BoneBuffer->P_Buffer);
+
 
 	// al final de render en el pase!!!!!
 	for (int i = 0; i < ScMana.m_MeshInScene.size(); i++)
@@ -162,6 +164,8 @@ void CPase::Render(CTargetView& _pRenderTargetView, CDepthStencilView& _pDepthSt
 			DevCont->g_pImmediateContext->PSSetConstantBuffers(2, 1, &CAM->g_pCBChangesEveryFrame.P_Buffer);
 
 			DevCont->g_pImmediateContext->PSSetConstantBuffers(3, 1, &Light->P_Buffer);
+
+			
 		}
 
 		// mesh

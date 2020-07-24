@@ -147,6 +147,8 @@ float Y = 0.7f;
 float Z = 0.7f;
 float W = 1.0f;
 glm::vec4                            g_vMeshColor( X, Y, Z, W );
+CBuffer                              BufferOfBones;
+
 
 CCamera CAM;
 CCamera * other = new CCamFirst();
@@ -166,6 +168,14 @@ CGraphicApi GraphicApi;
 CSceneManager ScMana;
 
 CPase Pase;
+
+long long GetCurrentTimeMillis()
+{
+#ifdef D3D11
+	return GetTickCount();
+#endif // D3D11
+
+}
 
 
 //#if defined(D3D11)
@@ -224,6 +234,25 @@ glm::vec3 lightPos(1.0f, 1.0f, 1.0f);
 int WholeLevel[10][10] = { 0 };
 int Rows = 0;
 int Columns = 0;
+
+
+long long m_StartTime;
+
+float  GetRunnigTime()
+{
+	float RunningTime = (float)((double)GetCurrentTimeMillis() - (double)m_StartTime) / 1000.0f;
+	return RunningTime;
+}
+
+
+#ifdef D3D11
+	
+Assimp::Importer*  RefImporter = new Assimp::Importer();
+const aiScene*    RefScene;
+	
+#endif // D3D11
+
+
 
 //--------------------------------------------------------------------------------------
 // Forward declarations
@@ -1375,35 +1404,35 @@ HRESULT InitDevice()
 	// Create vertex buffer
 	SimpleVertex vertices[] =
 	{
-		{ glm::vec3(-1.0f, 1.0f, -1.0f), glm::vec3(-1.0f, 1.0f, -1.0f), glm::vec2(0.0f, 0.0f) },
-		{ glm::vec3(1.0f, 1.0f, -1.0f), glm::vec3(1.0f, 1.0f, -1.0f), glm::vec2(1.0f, 0.0f) },
-		{ glm::vec3(1.0f, 1.0f, 1.0f), glm::vec3(1.0f, 1.0f, 1.0f), glm::vec2(1.0f, 1.0f) },
-		{ glm::vec3(-1.0f, 1.0f, 1.0f), glm::vec3(-1.0f, 1.0f, -1.0f), glm::vec2(0.0f, 1.0f) },
+		{ glm::vec3(-1.0f, 1.0f, -1.0f), glm::vec2(0.0f, 0.0f) },
+		{ glm::vec3(1.0f, 1.0f, -1.0f), glm::vec2(1.0f, 0.0f) },
+		{ glm::vec3(1.0f, 1.0f, 1.0f), glm::vec2(1.0f, 1.0f) },
+		{ glm::vec3(-1.0f, 1.0f, 1.0f), glm::vec2(0.0f, 1.0f) },
 
-		{ glm::vec3(-1.0f, -1.0f, -1.0f), glm::vec3(-1.0f, -1.0f, -1.0f), glm::vec2(0.0f, 0.0f) },
-		{ glm::vec3(1.0f, -1.0f, -1.0f), glm::vec3(1.0f, -1.0f, -1.0f), glm::vec2(1.0f, 0.0f) },
-		{ glm::vec3(1.0f, -1.0f, 1.0f), glm::vec3(1.0f, -1.0f, 1.0f), glm::vec2(1.0f, 1.0f) },
-		{ glm::vec3(-1.0f, -1.0f, 1.0f), glm::vec3(-1.0f, -1.0f, 1.0f), glm::vec2(0.0f, 1.0f) },
+		{ glm::vec3(-1.0f, -1.0f, -1.0f), glm::vec2(0.0f, 0.0f) },
+		{ glm::vec3(1.0f, -1.0f, -1.0f), glm::vec2(1.0f, 0.0f) },
+		{ glm::vec3(1.0f, -1.0f, 1.0f), glm::vec2(1.0f, 1.0f) },
+		{ glm::vec3(-1.0f, -1.0f, 1.0f), glm::vec2(0.0f, 1.0f) },
 
-		{ glm::vec3(-1.0f, -1.0f, 1.0f), glm::vec3(-1.0f, -1.0f, 1.0f), glm::vec2(0.0f, 0.0f) },
-		{ glm::vec3(-1.0f, -1.0f, -1.0f), glm::vec3(-1.0f, -1.0f, -1.0f), glm::vec2(1.0f, 0.0f) },
-		{ glm::vec3(-1.0f, 1.0f, -1.0f), glm::vec3(-1.0f, 1.0f, -1.0f), glm::vec2(1.0f, 1.0f) },
-		{ glm::vec3(-1.0f, 1.0f, 1.0f), glm::vec3(-1.0f, 1.0f, 1.0f), glm::vec2(0.0f, 1.0f) },
+		{ glm::vec3(-1.0f, -1.0f, 1.0f), glm::vec2(0.0f, 0.0f) },
+		{ glm::vec3(-1.0f, -1.0f, -1.0f), glm::vec2(1.0f, 0.0f) },
+		{ glm::vec3(-1.0f, 1.0f, -1.0f), glm::vec2(1.0f, 1.0f) },
+		{ glm::vec3(-1.0f, 1.0f, 1.0f), glm::vec2(0.0f, 1.0f) },
 
-		{ glm::vec3(1.0f, -1.0f, 1.0f), glm::vec3(1.0f, -1.0f, 1.0f), glm::vec2(0.0f, 0.0f) },
-		{ glm::vec3(1.0f, -1.0f, -1.0f), glm::vec3(1.0f, -1.0f, -1.0f), glm::vec2(1.0f, 0.0f) },
-		{ glm::vec3(1.0f, 1.0f, -1.0f), glm::vec3(1.0f, 1.0f, -1.0f), glm::vec2(1.0f, 1.0f) },
-		{ glm::vec3(1.0f, 1.0f, 1.0f), glm::vec3(1.0f, 1.0f, 1.0f), glm::vec2(0.0f, 1.0f) },
+		{ glm::vec3(1.0f, -1.0f, 1.0f), glm::vec2(0.0f, 0.0f) },
+		{ glm::vec3(1.0f, -1.0f, -1.0f), glm::vec2(1.0f, 0.0f) },
+		{ glm::vec3(1.0f, 1.0f, -1.0f), glm::vec2(1.0f, 1.0f) },
+		{ glm::vec3(1.0f, 1.0f, 1.0f), glm::vec2(0.0f, 1.0f) },
 
-		{ glm::vec3(-1.0f, -1.0f, -1.0f), glm::vec3(-1.0f, -1.0f, -1.0f), glm::vec2(0.0f, 0.0f) },
-		{ glm::vec3(1.0f, -1.0f, -1.0f), glm::vec3(1.0f, -1.0f, -1.0f), glm::vec2(1.0f, 0.0f) },
-		{ glm::vec3(1.0f, 1.0f, -1.0f), glm::vec3(1.0f, 1.0f, -1.0f), glm::vec2(1.0f, 1.0f) },
-		{ glm::vec3(-1.0f, 1.0f, -1.0f), glm::vec3(-1.0f, 1.0f, -1.0f), glm::vec2(0.0f, 1.0f) },
+		{ glm::vec3(-1.0f, -1.0f, -1.0f), glm::vec2(0.0f, 0.0f) },
+		{ glm::vec3(1.0f, -1.0f, -1.0f), glm::vec2(1.0f, 0.0f) },
+		{ glm::vec3(1.0f, 1.0f, -1.0f), glm::vec2(1.0f, 1.0f) },
+		{ glm::vec3(-1.0f, 1.0f, -1.0f), glm::vec2(0.0f, 1.0f) },
 
-		{ glm::vec3(-1.0f, -1.0f, 1.0f), glm::vec3(-1.0f, -1.0f, 1.0f), glm::vec2(0.0f, 0.0f) },
-		{ glm::vec3(1.0f, -1.0f, 1.0f), glm::vec3(1.0f, -1.0f, 1.0f), glm::vec2(1.0f, 0.0f) },
-		{ glm::vec3(1.0f, 1.0f, 1.0f), glm::vec3(1.0f, 1.0f, 1.0f), glm::vec2(1.0f, 1.0f) },
-		{ glm::vec3(-1.0f, 1.0f, 1.0f), glm::vec3(-1.0f, 1.0f, 1.0f), glm::vec2(0.0f, 1.0f) },
+		{ glm::vec3(-1.0f, -1.0f, 1.0f), glm::vec2(0.0f, 0.0f) },
+		{ glm::vec3(1.0f, -1.0f, 1.0f), glm::vec2(1.0f, 0.0f) },
+		{ glm::vec3(1.0f, 1.0f, 1.0f), glm::vec2(1.0f, 1.0f) },
+		{ glm::vec3(-1.0f, 1.0f, 1.0f), glm::vec2(0.0f, 1.0f) },
 	};
 
 	CBuffer Buf;
@@ -1551,6 +1580,13 @@ HRESULT InitDevice()
 	LightDir.init(BD);
 
 	hr = DeviceChido->g_pd3dDevice->CreateBuffer(&LightDir.bd, NULL, &LightDir.P_Buffer);
+	if (FAILED(hr))
+		return hr;
+
+
+	BD.ByteWidth = sizeof(CBBones);
+	BufferOfBones.init(BD);
+	hr = DeviceChido->g_pd3dDevice->CreateBuffer(&BufferOfBones.bd, NULL, &BufferOfBones.P_Buffer);
 	if (FAILED(hr))
 		return hr;
 
@@ -1719,12 +1755,13 @@ HRESULT InitDevice()
 	ImGui::StyleColorsDark();
 
 
-	GraphicApi.ChargeMesh("Modelo/Animacion/Knuckles.fbx", &ScMana, GraphicApi.m_Model, DeviceContextChido, GraphicApi.m_Importer, DeviceChido->g_pd3dDevice);
-	
+	RefScene = GraphicApi.ChargeMesh("Modelo/ENANO/dwarf.x", &ScMana, GraphicApi.m_Model, DeviceContextChido, DeviceChido->g_pd3dDevice, RefImporter);
+		
 	PassD.IntLay = G_PInputLayer;
 	PassD.PixShader = &G_PPixelShader;
 	PassD.VertShader = &G_PVertexShader;
 	PassD.ViewPort = &ViewPort;
+	PassD.p_BoneBuffer = &BufferOfBones;
 
 	Pase.initDX(PassD);
 #endif
@@ -2368,6 +2405,26 @@ void Render()
  //   // Present our back buffer to our front buffer
  //   //
 	
+
+	std::vector<glm::mat4> Transform;
+
+	float RunTime = GetRunnigTime();
+
+	GraphicApi.BonesTrasnformation(RunTime, Transform, RefScene, &ScMana);
+
+	CBBones CbBones;
+
+	for (int i = 0; i < Transform.size(); i++)
+	{
+		if (i < 100)
+		{
+			CbBones.Bones_CB[i] = Transform[i];
+		}
+	}
+
+	DeviceContextChido->g_pImmediateContext->UpdateSubresource(BufferOfBones.P_Buffer, 0, NULL, &CbBones, 0, 0);
+
+
 	CBLight LDR;
 	LDR.lightDir = lightDir;
 	LDR.lightPointAtt = lightAtt;
